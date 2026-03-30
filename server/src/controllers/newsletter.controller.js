@@ -1,7 +1,6 @@
 import NewsletterSubscriber from '../models/NewsletterSubscriber.model.js'
 import { AppError }         from '../middleware/errorHandler.js'
 
-// POST /api/newsletter/subscribe
 export async function subscribe(req, res, next) {
   try {
     const { email } = req.body
@@ -24,7 +23,6 @@ export async function subscribe(req, res, next) {
   }
 }
 
-// POST /api/newsletter/unsubscribe
 export async function unsubscribe(req, res, next) {
   try {
     const { email } = req.body
@@ -39,7 +37,6 @@ export async function unsubscribe(req, res, next) {
   }
 }
 
-// GET /api/newsletter/subscribers  (admin only)
 export async function getSubscribers(req, res, next) {
   try {
     const subscribers = await NewsletterSubscriber.find({ isActive: true }).sort({ subscribedAt: -1 })

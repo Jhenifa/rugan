@@ -1,4 +1,3 @@
-// donation.routes.js
 import { Router }                                              from 'express'
 import { recordDonation, handleWebhook, getDonations }        from '../controllers/donation.controller.js'
 import { protect, adminOnly }                                 from '../middleware/auth.js'

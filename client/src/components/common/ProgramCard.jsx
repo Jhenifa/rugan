@@ -36,7 +36,6 @@ export default function ProgramCard({ image, title, description, to, variant = '
     )
   }
 
-  // Plain variant
   return (
     <div className={cn('card-hover flex flex-col', className)}>
       <div className="aspect-[16/10] overflow-hidden">

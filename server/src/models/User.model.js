@@ -13,14 +13,12 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
-// Hash password before save
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next()
   this.password = await bcrypt.hash(this.password, 12)
   next()
 })
 
-// Compare password
 userSchema.methods.matchPassword = async function (plainText) {
   return bcrypt.compare(plainText, this.password)
 }

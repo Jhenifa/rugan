@@ -2,7 +2,6 @@ import PartnershipInquiry from '../models/PartnershipInquiry.model.js'
 import { AppError }       from '../middleware/errorHandler.js'
 import { sendEmail }      from '../utils/email.js'
 
-// POST /api/partnerships/inquiry
 export async function submitInquiry(req, res, next) {
   try {
     const inquiry = await PartnershipInquiry.create(req.body)
@@ -27,7 +26,6 @@ export async function submitInquiry(req, res, next) {
   }
 }
 
-// GET /api/partnerships  (admin only)
 export async function getInquiries(req, res, next) {
   try {
     const { status, page = 1, limit = 20 } = req.query
@@ -45,7 +43,6 @@ export async function getInquiries(req, res, next) {
   }
 }
 
-// PATCH /api/partnerships/:id/status  (admin only)
 export async function updateStatus(req, res, next) {
   try {
     const inquiry = await PartnershipInquiry.findByIdAndUpdate(

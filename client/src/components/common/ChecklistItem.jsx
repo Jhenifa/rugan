@@ -19,7 +19,6 @@ export default function ChecklistItem({ text, variant = 'card', className }) {
     )
   }
 
-  // Card variant — bordered box
   return (
     <div className={cn('flex items-start gap-3 p-4 rounded-xl border border-neutral-200 bg-white', className)}>
       <CheckCircle2 size={18} className="text-primary-500 mt-0.5 shrink-0" />

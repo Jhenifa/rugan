@@ -19,7 +19,7 @@ const blogPostSchema = new mongoose.Schema(
       maxlength: 300,
     },
     content: {
-      type:     String,  // Rich HTML / Markdown content
+      type:     String,
       required: true,
     },
     coverImage: {
@@ -46,7 +46,6 @@ const blogPostSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
-// Auto-generate slug from title
 blogPostSchema.pre('validate', function (next) {
   if (this.title && !this.slug) {
     this.slug = slugify(this.title, { lower: true, strict: true })
@@ -54,7 +53,6 @@ blogPostSchema.pre('validate', function (next) {
   next()
 })
 
-// Set publishedAt when status changes to published
 blogPostSchema.pre('save', function (next) {
   if (this.isModified('status') && this.status === 'published' && !this.publishedAt) {
     this.publishedAt = new Date()

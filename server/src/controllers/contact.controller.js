@@ -1,7 +1,6 @@
 import { sendEmail } from '../utils/email.js'
 import { AppError }  from '../middleware/errorHandler.js'
 
-// POST /api/contact
 export async function sendContactMessage(req, res, next) {
   try {
     const { name, email, subject, message } = req.body

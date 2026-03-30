@@ -2,7 +2,6 @@ import Donation    from '../models/Donation.model.js'
 import { AppError } from '../middleware/errorHandler.js'
 import { sendEmail } from '../utils/email.js'
 
-// POST /api/donations  — record a donation (manual bank transfer)
 export async function recordDonation(req, res, next) {
   try {
     const donation = await Donation.create(req.body)
@@ -26,7 +25,6 @@ export async function recordDonation(req, res, next) {
   }
 }
 
-// POST /api/donations/webhook — payment gateway webhook (Paystack/Flutterwave)
 export async function handleWebhook(req, res, next) {
   try {
     const { reference, status, amount } = req.body
@@ -44,7 +42,6 @@ export async function handleWebhook(req, res, next) {
   }
 }
 
-// GET /api/donations  (admin only)
 export async function getDonations(req, res, next) {
   try {
     const { status, page = 1, limit = 20 } = req.query
@@ -56,7 +53,6 @@ export async function getDonations(req, res, next) {
       Donation.countDocuments(filter),
     ])
 
-    // Aggregate total successful donations
     const totals = await Donation.aggregate([
       { $match: { status: 'successful' } },
       { $group: { _id: null, total: { $sum: '$amount' } } },

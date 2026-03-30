@@ -2,12 +2,10 @@ import VolunteerApplication from '../models/VolunteerApplication.model.js'
 import { AppError }         from '../middleware/errorHandler.js'
 import { sendEmail }        from '../utils/email.js'
 
-// POST /api/volunteers/apply
 export async function submitApplication(req, res, next) {
   try {
     const application = await VolunteerApplication.create(req.body)
 
-    // Notify admin
     await sendEmail({
       to:      process.env.ADMIN_EMAIL,
       subject: 'New Volunteer Application',
@@ -27,7 +25,6 @@ export async function submitApplication(req, res, next) {
   }
 }
 
-// GET /api/volunteers  (admin only)
 export async function getApplications(req, res, next) {
   try {
     const { status, page = 1, limit = 20 } = req.query
@@ -45,7 +42,6 @@ export async function getApplications(req, res, next) {
   }
 }
 
-// PATCH /api/volunteers/:id/status  (admin only)
 export async function updateStatus(req, res, next) {
   try {
     const { status, notes } = req.body

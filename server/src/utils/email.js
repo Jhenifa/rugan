@@ -23,7 +23,7 @@ function getTransporter() {
  * @param {{ to, subject, html, replyTo? }} options
  */
 export async function sendEmail({ to, subject, html, replyTo }) {
-  if (process.env.NODE_ENV === 'test') return  // Skip in test env
+  if (process.env.NODE_ENV === 'test') return
 
   const transport = getTransporter()
 

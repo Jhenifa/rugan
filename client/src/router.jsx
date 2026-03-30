@@ -27,7 +27,6 @@ const router = createBrowserRouter([
       { path:   'partnership',             element: <PartnershipPage /> },
       { path:   'blog',                    element: <BlogPage /> },
       { path:   'donate',                  element: <DonationPage /> },
-      // Fallback 404
       { path:   '*',                       element: <div className="container-rugan section-padding text-center"><h1 className="text-display-md font-bold text-neutral-900">404 — Page Not Found</h1></div> },
     ],
   },

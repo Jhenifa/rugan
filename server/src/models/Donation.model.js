@@ -10,11 +10,9 @@ const donationSchema = new mongoose.Schema(
       enum: ['card', 'transfer'],
       required: true,
     },
-    // Donor info (optional — guest donations allowed)
     donorName:  { type: String, trim: true },
     donorEmail: { type: String, trim: true, lowercase: true },
 
-    // Payment gateway reference
     reference:  { type: String, unique: true, sparse: true },
     gateway:    { type: String, enum: ['paystack', 'flutterwave', 'manual'], default: 'manual' },
     status: {

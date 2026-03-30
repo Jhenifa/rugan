@@ -6,6 +6,6 @@ const router = Router()
 
 router.post('/login',    login)
 router.get('/me',        protect, getMe)
-router.post('/register', protect, adminOnly, register)  // Only admins can create new users
+router.post('/register', protect, adminOnly, register)
 
 export default router

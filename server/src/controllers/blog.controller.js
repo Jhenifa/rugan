@@ -1,7 +1,6 @@
 import BlogPost   from '../models/BlogPost.model.js'
 import { AppError } from '../middleware/errorHandler.js'
 
-// GET /api/blog/posts
 export async function getPosts(req, res, next) {
   try {
     const { page = 1, limit = 10, status = 'published' } = req.query
@@ -28,14 +27,12 @@ export async function getPosts(req, res, next) {
   }
 }
 
-// GET /api/blog/posts/:slug
 export async function getPost(req, res, next) {
   try {
     const post = await BlogPost.findOne({ slug: req.params.slug }).populate('author', 'name')
     if (!post) throw new AppError('Post not found', 404)
     if (post.status !== 'published' && !req.user) throw new AppError('Post not found', 404)
 
-    // Increment view count
     post.views += 1
     await post.save({ validateBeforeSave: false })
 
@@ -45,7 +42,6 @@ export async function getPost(req, res, next) {
   }
 }
 
-// POST /api/blog/posts  (protected)
 export async function createPost(req, res, next) {
   try {
     const post = await BlogPost.create({ ...req.body, author: req.user._id, authorName: req.user.name })
@@ -55,7 +51,6 @@ export async function createPost(req, res, next) {
   }
 }
 
-// PUT /api/blog/posts/:id  (protected)
 export async function updatePost(req, res, next) {
   try {
     const post = await BlogPost.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
@@ -66,7 +61,6 @@ export async function updatePost(req, res, next) {
   }
 }
 
-// DELETE /api/blog/posts/:id  (protected)
 export async function deletePost(req, res, next) {
   try {
     const post = await BlogPost.findByIdAndDelete(req.params.id)

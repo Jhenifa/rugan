@@ -21,7 +21,6 @@ export default function DonationForm() {
 
   const handleSubmit = () => {
     if (!canProceed) return
-    // TODO: integrate payment gateway (Paystack / Flutterwave)
     alert(`Processing ₦${Number(finalAmount).toLocaleString()} via ${paymentMethod}`)
   }
 

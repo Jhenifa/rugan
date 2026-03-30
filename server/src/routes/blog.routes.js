@@ -4,11 +4,9 @@ import { protect, adminOnly }                                     from '../middl
 
 const router = Router()
 
-// Public
 router.get('/posts',       getPosts)
 router.get('/posts/:slug', getPost)
 
-// Protected
 router.post('/posts',         protect, createPost)
 router.put('/posts/:id',      protect, updatePost)
 router.delete('/posts/:id',   protect, adminOnly, deletePost)
