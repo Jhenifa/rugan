@@ -1,22 +1,93 @@
-import { useState } from 'react'
-import api from '../../services/api'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import toast from 'react-hot-toast'
+import Button from '@/components/ui/Button'
+import api from '@/lib/api'
+
+const schema = z.object({
+  firstName:    z.string().min(2, 'First name is required'),
+  lastName:     z.string().min(2, 'Last name is required'),
+  whatsapp:     z.string().min(10, 'Valid WhatsApp number required'),
+  skills:       z.string().min(3, 'Please describe your skills'),
+  availability: z.string().min(1, 'Please select your availability'),
+  motivation:   z.string().min(20, 'Please tell us why you want to volunteer (min 20 chars)'),
+})
+
+const AVAILABILITY_OPTIONS = ['Weekdays', 'Weekends', 'Both', 'Flexible']
 
 export default function VolunteerForm() {
-  const [form, setForm] = useState({ name: '', email: '', message: '' })
+  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm({
+    resolver: zodResolver(schema),
+  })
 
-  const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value })
-
-  const handleSubmit = async e => {
-    e.preventDefault()
-    await api.post('/volunteers', form)
+  const onSubmit = async (data) => {
+    try {
+      await api.post('/volunteers/apply', data)
+      toast.success("Application submitted! We'll be in touch soon.")
+      reset()
+    } catch {
+      toast.error('Something went wrong. Please try again.')
+    }
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="name" placeholder="Full name" value={form.name} onChange={handleChange} />
-      <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} />
-      <textarea name="message" placeholder="Why do you want to volunteer?" value={form.message} onChange={handleChange} />
-      <button type="submit">Apply</button>
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5" noValidate>
+      {/* Name row */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="form-label text-white">First Name</label>
+          <input {...register('firstName')} className="form-input" placeholder="Your first name" />
+          {errors.firstName && <p className="form-error">{errors.firstName.message}</p>}
+        </div>
+        <div>
+          <label className="form-label text-white">Last Name</label>
+          <input {...register('lastName')} className="form-input" placeholder="Your last name" />
+          {errors.lastName && <p className="form-error">{errors.lastName.message}</p>}
+        </div>
+      </div>
+
+      {/* WhatsApp */}
+      <div>
+        <label className="form-label text-white">WhatsApp Number</label>
+        <input {...register('whatsapp')} type="tel" className="form-input" placeholder="+234 800 000 0000" />
+        {errors.whatsapp && <p className="form-error">{errors.whatsapp.message}</p>}
+      </div>
+
+      {/* Skills */}
+      <div>
+        <label className="form-label text-white">Skills &amp; Experience</label>
+        <input {...register('skills')} className="form-input" placeholder="e.g. Teaching, Social work, Photography..." />
+        {errors.skills && <p className="form-error">{errors.skills.message}</p>}
+      </div>
+
+      {/* Availability */}
+      <div>
+        <label className="form-label text-white">Availability</label>
+        <select {...register('availability')} className="form-input">
+          <option value="">Select availability</option>
+          {AVAILABILITY_OPTIONS.map((opt) => (
+            <option key={opt} value={opt}>{opt}</option>
+          ))}
+        </select>
+        {errors.availability && <p className="form-error">{errors.availability.message}</p>}
+      </div>
+
+      {/* Motivation */}
+      <div>
+        <label className="form-label text-white">Why do you want to volunteer with RUGAN?</label>
+        <textarea
+          {...register('motivation')}
+          rows={4}
+          className="form-input resize-none"
+          placeholder="Tell us about your motivation..."
+        />
+        {errors.motivation && <p className="form-error">{errors.motivation.message}</p>}
+      </div>
+
+      <Button type="submit" variant="primary" size="lg" disabled={isSubmitting} className="w-full">
+        {isSubmitting ? 'Submitting...' : 'Submit Application'}
+      </Button>
     </form>
   )
 }

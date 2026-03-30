@@ -1,0 +1,16 @@
+{
+  "recommendations": [
+    // Tailwind CSS IntelliSense — autocomplete, hover previews, linting
+    "bradlc.vscode-tailwindcss",
+    // Prettier — code formatting
+    "esbenp.prettier-vscode",
+    // ESLint — JS/JSX linting
+    "dbaeumer.vscode-eslint",
+    // Auto rename paired JSX tags
+    "formulahendry.auto-rename-tag",
+    // Path IntelliSense — autocomplete for @ alias imports
+    "christian-kohler.path-intellisense",
+    // GitLens — Git history and blame inline
+    "eamodio.gitlens"
+  ]
+}

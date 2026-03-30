@@ -1,19 +1,464 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   RUGAN DESIGN SYSTEM — globals.css
+   Brand colors and shared styles live here as CSS custom
+   properties and plain CSS classes.
+   Tailwind is used only for component-specific inline styles.
+   ============================================================ */
+
+/* ─── 1. CSS Custom Properties (Design Tokens) ─────────────────────────── */
 :root {
-  --color-primary: #1a6b4a;
-  --color-accent: #f5a623;
+  /* Brand Colors */
+  --color-primary:        #4F7B44;   /* hero / main green */
+  --color-primary-dark:   #3d6235;   /* hover state for primary */
+  --color-primary-light:  #e8f2e6;   /* tinted backgrounds */
+
+  --color-btn-orange:     #D6670F;   /* "Make a Donation" CTA button */
+  --color-btn-orange-dark:#b8550c;   /* hover state */
+
+  --color-cta-banner:     #548349;   /* mid-page CTA banner bg */
+  --color-cta-banner-dark:#456e3c;   /* hover/border accent */
+
+  --color-footer:         #101828;   /* footer background */
+
+  --color-teal:           #5B8A8C;   /* partner logo section + newsletter bg */
+  --color-teal-dark:      #4a7375;   /* hover accent */
+
+  /* Neutrals */
+  --color-white:          #ffffff;
+  --color-body-text:      #374151;   /* gray-700 equivalent */
+  --color-muted:          #6B7280;   /* gray-500 equivalent */
+  --color-border:         #E5E7EB;   /* gray-200 equivalent */
+  --color-bg-light:       #F9FAFB;   /* subtle section background */
+  --color-bg-green-tint:  #f0f7ee;   /* very light green section bg */
+
+  /* Typography */
+  --font-sans:   'Inter', system-ui, sans-serif;
+
+  /* Spacing */
+  --section-py:       6rem;          /* section vertical padding desktop */
+  --section-py-sm:    4rem;          /* section vertical padding tablet */
+  --section-py-xs:    2.5rem;        /* section vertical padding mobile */
+  --container-max:    1200px;
+  --container-px:     2rem;
+  --container-px-sm:  1.5rem;
+  --container-px-xs:  1rem;
+
+  /* Shadows */
+  --shadow-card:      0 2px 12px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover:0 8px 30px rgba(0, 0, 0, 0.14);
+  --shadow-btn:       0 2px 8px rgba(79, 123, 68, 0.30);
+  --shadow-btn-orange:0 2px 8px rgba(214, 103, 15, 0.35);
+
+  /* Border Radius */
+  --radius-sm:  0.5rem;
+  --radius-md:  0.75rem;
+  --radius-lg:  1rem;
+  --radius-xl:  1.5rem;
+  --radius-full:9999px;
+
+  /* Transitions */
+  --transition: 200ms ease;
 }
 
-* {
+
+/* ─── 2. Base / Reset ───────────────────────────────────────────────────── */
+*, *::before, *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  font-family: sans-serif;
-  line-height: 1.6;
+  font-family: var(--font-sans);
+  color: var(--color-body-text);
+  background-color: var(--color-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
 }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  line-height: 1.25;
+  color: #111827;
+}
+
+p {
+  line-height: 1.65;
+  color: var(--color-muted);
+}
+
+a {
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+input, textarea, select, button {
+  font-family: var(--font-sans);
+}
+
+
+/* ─── 3. Layout ─────────────────────────────────────────────────────────── */
+.container-rugan {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-px);
+  padding-right: var(--container-px);
+}
+
+@media (max-width: 1024px) {
+  .container-rugan {
+    padding-left: var(--container-px-sm);
+    padding-right: var(--container-px-sm);
+  }
+}
+
+@media (max-width: 640px) {
+  .container-rugan {
+    padding-left: var(--container-px-xs);
+    padding-right: var(--container-px-xs);
+  }
+}
+
+.section-padding {
+  padding-top: var(--section-py);
+  padding-bottom: var(--section-py);
+}
+
+.section-padding-sm {
+  padding-top: var(--section-py-sm);
+  padding-bottom: var(--section-py-sm);
+}
+
+@media (max-width: 1024px) {
+  .section-padding    { padding-top: var(--section-py-sm);  padding-bottom: var(--section-py-sm); }
+  .section-padding-sm { padding-top: var(--section-py-xs);  padding-bottom: var(--section-py-xs); }
+}
+
+@media (max-width: 640px) {
+  .section-padding    { padding-top: var(--section-py-xs); padding-bottom: var(--section-py-xs); }
+}
+
+
+/* ─── 4. Typography Helpers ─────────────────────────────────────────────── */
+.section-title {
+  font-size: clamp(1.625rem, 3vw, 2.25rem);
+  font-weight: 700;
+  color: #111827;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: var(--color-muted);
+  text-align: center;
+  margin-top: 0.75rem;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.65;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+
+/* ─── 5. Buttons ────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: background-color var(--transition), color var(--transition),
+              border-color var(--transition), box-shadow var(--transition);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Orange — "Make a Donation" primary CTA */
+.btn-primary {
+  background-color: var(--color-btn-orange);
+  color: var(--color-white);
+  border-color: var(--color-btn-orange);
+  box-shadow: var(--shadow-btn-orange);
+}
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--color-btn-orange-dark);
+  border-color: var(--color-btn-orange-dark);
+}
+
+/* Solid green */
+.btn-green {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-btn);
+}
+.btn-green:hover:not(:disabled) {
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+}
+
+/* Outlined green */
+.btn-outline-green {
+  background-color: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.btn-outline-green:hover:not(:disabled) {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+/* White with primary text — "Volunteer With Us" */
+.btn-volunteer {
+  background-color: var(--color-white);
+  color: var(--color-primary);
+  border-color: var(--color-white);
+}
+.btn-volunteer:hover:not(:disabled) {
+  background-color: transparent;
+  color: var(--color-white);
+  border-color: var(--color-white);
+}
+
+/* Outlined white — used on dark/green backgrounds */
+.btn-outline-white {
+  background-color: transparent;
+  color: var(--color-white);
+  border-color: var(--color-white);
+}
+.btn-outline-white:hover:not(:disabled) {
+  background-color: var(--color-white);
+  color: var(--color-primary);
+}
+
+/* Size modifiers */
+.btn-lg {
+  padding: 0.9rem 2rem;
+  font-size: 1rem;
+}
+
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+}
+
+
+/* ─── 6. Cards ──────────────────────────────────────────────────────────── */
+.card {
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.card-hover {
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: box-shadow var(--transition);
+}
+
+.card-hover:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+
+/* ─── 7. Form Elements ──────────────────────────────────────────────────── */
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-white);
+  color: #111827;
+  font-size: 0.875rem;
+  font-family: var(--font-sans);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.form-input::placeholder {
+  color: #9CA3AF;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(79, 123, 68, 0.15);
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.375rem;
+}
+
+.form-error {
+  font-size: 0.75rem;
+  color: #EF4444;
+  margin-top: 0.25rem;
+}
+
+
+/* ─── 8. Badge / Tag ────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.badge-green {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+}
+
+.badge-orange {
+  background-color: #fde8d6;
+  color: #b8550c;
+}
+
+
+/* ─── 9. Icon Box ───────────────────────────────────────────────────────── */
+.icon-box {
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.icon-box-sm {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+
+/* ─── 10. Page Hero Banner ──────────────────────────────────────────────── */
+.page-hero {
+  position: relative;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  overflow: hidden;
+  min-height: 260px;
+}
+
+.page-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(24, 48, 20, 0.62);
+}
+
+.page-hero-content {
+  position: relative;
+  z-index: 10;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+@media (min-width: 1024px) {
+  .page-hero-content {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+}
+
+
+/* ─── 11. Section Background Variants ──────────────────────────────────── */
+
+/* Mid-page CTA banner */
+.section-cta {
+  background-color: var(--color-cta-banner);
+  color: var(--color-white);
+}
+
+/* Footer */
+.section-footer {
+  background-color: var(--color-footer);
+  color: var(--color-white);
+}
+
+/* Teal — partner logos + newsletter */
+.section-teal {
+  background-color: var(--color-teal);
+  color: var(--color-white);
+}
+
+/* Light green tint — alternating section bg */
+.section-light-green {
+  background-color: var(--color-bg-green-tint);
+}
+
+/* Subtle gray — alternating section bg */
+.section-muted {
+  background-color: var(--color-bg-light);
+}
+
+
+/* ─── 12. Divider ───────────────────────────────────────────────────────── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+}
+
+
+/* ─── 13. Animation Delays ──────────────────────────────────────────────── */
+.animate-delay-100 { animation-delay: 100ms; }
+.animate-delay-200 { animation-delay: 200ms; }
+.animate-delay-300 { animation-delay: 300ms; }
+.animate-delay-400 { animation-delay: 400ms; }
+.animate-delay-500 { animation-delay: 500ms; }

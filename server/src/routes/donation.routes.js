@@ -1,9 +1,11 @@
-const express = require('express')
-const router = express.Router()
-const controller = require('../controllers/donation.controller')
+// donation.routes.js
+import { Router }                                              from 'express'
+import { recordDonation, handleWebhook, getDonations }        from '../controllers/donation.controller.js'
+import { protect, adminOnly }                                 from '../middleware/auth.js'
 
-router.get('/', controller.getAll)
-router.get('/:id', controller.getOne)
-router.post('/', controller.create)
+const donationRouter = Router()
+donationRouter.post('/',          recordDonation)
+donationRouter.post('/webhook',   handleWebhook)
+donationRouter.get('/',           protect, adminOnly, getDonations)
 
-module.exports = router
+export default donationRouter

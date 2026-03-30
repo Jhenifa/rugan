@@ -1,9 +1,11 @@
-const express = require('express')
-const router = express.Router()
-const controller = require('../controllers/volunteer.controller')
+import { Router }                                              from 'express'
+import { submitApplication, getApplications, updateStatus }  from '../controllers/volunteer.controller.js'
+import { protect, adminOnly }                                from '../middleware/auth.js'
 
-router.get('/', controller.getAll)
-router.get('/:id', controller.getOne)
-router.post('/', controller.create)
+const router = Router()
 
-module.exports = router
+router.post('/apply',              submitApplication)
+router.get('/',                    protect, adminOnly, getApplications)
+router.patch('/:id/status',        protect, adminOnly, updateStatus)
+
+export default router

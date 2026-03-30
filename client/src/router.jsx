@@ -1,43 +1,36 @@
-import { Routes, Route } from 'react-router-dom'
-import PageWrapper from './components/layout/PageWrapper'
+import { createBrowserRouter } from 'react-router'
 
-import HomePage from './pages/HomePage'
-import AboutPage from './pages/AboutPage'
-import TeamPage from './pages/TeamPage'
-import ProgramsPage from './pages/ProgramsPage'
-import ImpactPage from './pages/ImpactPage'
-import VolunteerPage from './pages/VolunteerPage'
-import PartnerPage from './pages/PartnerPage'
-import BlogPage from './pages/BlogPage'
-import BlogPostPage from './pages/BlogPostPage'
-import DonatePage from './pages/DonatePage'
+import RootLayout          from '@/components/layout/RootLayout'
+import HomePage            from '@/pages/HomePage'
+import AboutPage           from '@/pages/AboutPage'
+import TeamPage            from '@/pages/TeamPage'
+import ProgramsPage        from '@/pages/ProgramsPage'
+import ProgramDetailPage   from '@/pages/programs/ProgramDetailPage'
+import ImpactPage          from '@/pages/ImpactPage'
+import VolunteerPage       from '@/pages/VolunteerPage'
+import PartnershipPage     from '@/pages/PartnershipPage'
+import BlogPage            from '@/pages/BlogPage'
+import DonationPage        from '@/pages/DonationPage'
 
-import IdgcProjectPage from './pages/programs/IdgcProjectPage'
-import HealthyPeriodPage from './pages/programs/HealthyPeriodPage'
-import RiseProjectPage from './pages/programs/RiseProjectPage'
-import ExcellenceAwardPage from './pages/programs/ExcellenceAwardPage'
-import RuralToGlobalPage from './pages/programs/RuralToGlobalPage'
+const router = createBrowserRouter([
+  {
+    path:      '/',
+    element:   <RootLayout />,
+    children:  [
+      { index:  true,                      element: <HomePage /> },
+      { path:   'about',                   element: <AboutPage /> },
+      { path:   'team',                    element: <TeamPage /> },
+      { path:   'programs',                element: <ProgramsPage /> },
+      { path:   'programs/:slug',          element: <ProgramDetailPage /> },
+      { path:   'impact',                  element: <ImpactPage /> },
+      { path:   'volunteers',              element: <VolunteerPage /> },
+      { path:   'partnership',             element: <PartnershipPage /> },
+      { path:   'blog',                    element: <BlogPage /> },
+      { path:   'donate',                  element: <DonationPage /> },
+      // Fallback 404
+      { path:   '*',                       element: <div className="container-rugan section-padding text-center"><h1 className="text-display-md font-bold text-neutral-900">404 — Page Not Found</h1></div> },
+    ],
+  },
+])
 
-export default function AppRouter() {
-  return (
-    <Routes>
-      <Route element={<PageWrapper />}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/team" element={<TeamPage />} />
-        <Route path="/programs" element={<ProgramsPage />} />
-        <Route path="/programs/idgc" element={<IdgcProjectPage />} />
-        <Route path="/programs/healthy-period" element={<HealthyPeriodPage />} />
-        <Route path="/programs/rise" element={<RiseProjectPage />} />
-        <Route path="/programs/excellence-award" element={<ExcellenceAwardPage />} />
-        <Route path="/programs/rural-to-global" element={<RuralToGlobalPage />} />
-        <Route path="/impact" element={<ImpactPage />} />
-        <Route path="/volunteer" element={<VolunteerPage />} />
-        <Route path="/partner" element={<PartnerPage />} />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/blog/:slug" element={<BlogPostPage />} />
-        <Route path="/donate" element={<DonatePage />} />
-      </Route>
-    </Routes>
-  )
-}
+export default router

@@ -1,0 +1,29 @@
+{
+  // ── Suppress "Unknown at rule" warnings for Tailwind directives ──────────
+  "css.validate": false,
+  "scss.validate": false,
+
+  // ── Tailwind CSS IntelliSense (install the extension for autocomplete) ───
+  "tailwindCSS.includeLanguages": {
+    "javascript": "javascript",
+    "javascriptreact": "javascript"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+
+  // ── File associations ─────────────────────────────────────────────────────
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+
+  // ── Format on save ────────────────────────────────────────────────────────
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
