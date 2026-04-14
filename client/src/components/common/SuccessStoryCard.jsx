@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion'
+import { scaleIn, viewportOnce } from '@/lib/motion'
 import Badge from '@/components/ui/Badge'
 import { cn } from '@/lib/cn'
 
@@ -10,11 +12,11 @@ import { cn } from '@/lib/cn'
  *   name        — person's name
  *   description — e.g. "SS3 Student – Enugu State"
  *   quote       — testimonial quote
- *   program     — related program name (shown as badge)
+ *   programme     — related programme name (shown as badge)
  */
-export default function SuccessStoryCard({ image, name, description, quote, program, className }) {
+export default function SuccessStoryCard({ image, name, description, quote, programme, className }) {
   return (
-    <div className={cn('card flex flex-col', className)}>
+    <motion.div variants={scaleIn} initial='hidden' whileInView='visible' viewport={viewportOnce} className={cn('card flex flex-col', className)}>
       {/* Photo */}
       <div className="aspect-[4/3] overflow-hidden">
         <img src={image} alt={name} className="w-full h-full object-cover" />
@@ -31,12 +33,12 @@ export default function SuccessStoryCard({ image, name, description, quote, prog
             "{quote}"
           </blockquote>
         )}
-        {program && (
+        {programme && (
           <div className="mt-4">
-            <Badge variant="green">{program}</Badge>
+            <Badge variant="green">{programme}</Badge>
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   )
 }

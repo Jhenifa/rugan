@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion'
+import { fadeUp, staggerContainer, scaleIn, viewportOnce } from '@/lib/motion'
 import { useParams } from 'react-router'
 import PageHeroBanner  from '@/components/common/PageHeroBanner'
 import ChecklistItem   from '@/components/common/ChecklistItem'
@@ -5,7 +7,7 @@ import CTABanner       from '@/components/common/CTABanner'
 import SectionHeader   from '@/components/ui/SectionHeader'
 
 /* ─────────────────────────────────────────────
-   Program Data
+   Programme Data
    Images reference /public/images/programs/<folder>/
    Swap in real filenames as assets are added.
 ───────────────────────────────────────────── */
@@ -157,7 +159,7 @@ function PathwayCard({ number, name, description, target }) {
           width: '2.25rem',
           height: '2.25rem',
           borderRadius: '8px',
-          background: '#FEF9F5',
+          background: '#FFF7F0',
           fontSize: '1.125rem',
           fontWeight: 700,
           color: '#507A7C',
@@ -186,9 +188,9 @@ function PathwayCard({ number, name, description, target }) {
 ───────────────────────────────────────────── */
 export default function ProgramDetailPage() {
   const { slug } = useParams()
-  const program  = PROGRAMS[slug]
+  const programme  = PROGRAMS[slug]
 
-  if (!program) {
+  if (!programme) {
     return (
       <div className="container-rugan section-padding text-center">
         <h1 style={{ fontSize: '2rem', fontWeight: 700, color: '#111827' }}>
@@ -202,17 +204,22 @@ export default function ProgramDetailPage() {
     <>
       {/* Hero */}
       <PageHeroBanner
-        title={program.title}
-        subtitle={program.subtitle}
-        backgroundImage={program.heroImage}
-        backLink={{ to: '/programs', label: 'Back to Programs' }}
+        title={programme.title}
+        subtitle={programme.subtitle}
+        backgroundImage={programme.heroImage}
+        backLink={{ to: '/programmes', label: 'Back to Programmes' }}
+        darkOverlay
         primaryFallback
       />
 
       {/* Programme Overview */}
-      <section className="section-padding" style={{ background: '#F5F5F5' }}>
+      <section className="section-padding" style={{ background: '#EBEBEB' }}>
         <div className="container-rugan" style={{ maxWidth: '780px' }}>
-          <h2
+          <motion.h2
+            variants={fadeUp}
+            initial='hidden'
+            whileInView='visible'
+            viewport={viewportOnce}
             style={{
               fontSize: 'clamp(1.375rem, 2.5vw, 1.75rem)',
               fontWeight: 700,
@@ -222,8 +229,12 @@ export default function ProgramDetailPage() {
             }}
           >
             Programme Overview
-          </h2>
-          <p
+          </motion.h2>
+          <motion.p
+            variants={fadeUp}
+            initial='hidden'
+            whileInView='visible'
+            viewport={viewportOnce}
             style={{
               fontSize: '0.9375rem',
               color: '#374151',
@@ -231,8 +242,8 @@ export default function ProgramDetailPage() {
               textAlign: 'left',
             }}
           >
-            {program.overview}
-          </p>
+            {programme.overview}
+          </motion.p>
         </div>
       </section>
 
@@ -240,24 +251,29 @@ export default function ProgramDetailPage() {
       <section className="section-padding" style={{ background: '#FAFAFA' }}>
         <div className="container-rugan">
           <SectionHeader title="Key Activities" />
-          <div
+          <motion.div
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(2, minmax(0, 636px))',
               gap: '0.875rem',
               justifyContent: 'center',
+              alignItems: 'stretch',
             }}
+            variants={staggerContainer}
+            initial='hidden'
+            whileInView='visible'
+            viewport={viewportOnce}
           >
-            {program.activities.map((activity, i) => (
-              <ChecklistItem key={i} text={activity} variant="card" />
+            {programme.activities.map((activity, i) => (
+              <motion.div key={i} variants={fadeUp}><ChecklistItem text={activity} variant='card' /></motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Three Interconnected Pathways — Rural to Global only */}
-      {program.pathways && (
-        <section className="section-padding" style={{ background: '#FEF9F5' }}>
+      {programme.pathways && (
+        <section className="section-padding" style={{ background: '#FFF7F0' }}>
           <div className="container-rugan">
             <SectionHeader
               title="Three Interconnected Pathways"
@@ -270,7 +286,7 @@ export default function ProgramDetailPage() {
                 gap: '1.25rem',
               }}
             >
-              {program.pathways.map((pathway, i) => (
+              {programme.pathways.map((pathway, i) => (
                 <PathwayCard key={i} {...pathway} />
               ))}
             </div>
@@ -278,28 +294,28 @@ export default function ProgramDetailPage() {
         </section>
       )}
 
-      {/* Program Gallery */}
+      {/* Programme Gallery */}
       <section className="section-padding" style={{ background: '#E1EDDE' }}>
         <div className="container-rugan">
-          <SectionHeader title="Program Gallery" />
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {program.gallery.map((img, i) => (
-              <div key={i} className="aspect-square rounded-2xl overflow-hidden">
+          <SectionHeader title="Programme Gallery" />
+          <motion.div className="grid grid-cols-2 md:grid-cols-3 gap-4" variants={staggerContainer} initial='hidden' whileInView='visible' viewport={viewportOnce}>
+            {programme.gallery.map((img, i) => (
+              <motion.div key={i} variants={scaleIn} className="aspect-square rounded-2xl overflow-hidden">
                 <img
                   src={img.src}
                   alt={img.alt}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                 />
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Support CTA */}
       <CTABanner
-        title="Support This Program"
-        subtitle="Your contribution can help us expand this program and reach more girls."
+        title="Support This Programme"
+        subtitle="Your contribution can help us expand this programme and reach more girls."
         buttons={[
           { label: 'Volunteer With Us', to: '/volunteers', variant: 'volunteer' },
           { label: 'Make a Donation',   to: '/donate',     variant: 'primary'   },

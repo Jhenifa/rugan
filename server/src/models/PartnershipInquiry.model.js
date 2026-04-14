@@ -8,7 +8,7 @@ const partnershipSchema = new mongoose.Schema(
     phone:       { type: String, required: true, trim: true },
     partnership: {
       type: String,
-      enum: ['Corporate Partnership', 'Program Sponsorship', 'In-Kind Donations', 'Other'],
+      enum: ['Corporate Partnership', 'Programme Sponsorship', 'In-Kind Donations', 'Other'],
       required: true,
     },
     message: { type: String, required: true },

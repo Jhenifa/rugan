@@ -1,66 +1,69 @@
-import mongoose from 'mongoose'
-import slugify  from 'slugify'
+import mongoose from "mongoose";
+import slugify from "slugify";
 
 const blogPostSchema = new mongoose.Schema(
   {
     title: {
-      type:     String,
+      type: String,
       required: true,
-      trim:     true,
+      trim: true,
       maxlength: 200,
     },
     slug: {
-      type:   String,
+      type: String,
       unique: true,
     },
     excerpt: {
-      type:     String,
+      type: String,
       required: true,
       maxlength: 300,
     },
     content: {
-      type:     String,
+      type: mongoose.Schema.Types.Mixed,
       required: true,
     },
     coverImage: {
-      type:    String,
-      default: '',
+      type: String,
+      default: "",
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,
-      ref:  'User',
+      ref: "User",
     },
     authorName: {
-      type:    String,
-      default: 'RUGAN Team',
+      type: String,
+      default: "RUGAN Team",
     },
     tags: [{ type: String }],
     status: {
-      type:    String,
-      enum:    ['draft', 'published'],
-      default: 'draft',
+      type: String,
+      enum: ["draft", "published"],
+      default: "draft",
     },
     publishedAt: { type: Date },
-    views:       { type: Number, default: 0 },
+    views: { type: Number, default: 0 },
   },
-  { timestamps: true }
-)
+  { timestamps: true },
+);
 
-blogPostSchema.pre('validate', function (next) {
+blogPostSchema.pre("validate", function (next) {
   if (this.title && !this.slug) {
-    this.slug = slugify(this.title, { lower: true, strict: true })
+    this.slug = slugify(this.title, { lower: true, strict: true });
   }
-  next()
-})
+  next();
+});
 
-blogPostSchema.pre('save', function (next) {
-  if (this.isModified('status') && this.status === 'published' && !this.publishedAt) {
-    this.publishedAt = new Date()
+blogPostSchema.pre("save", function (next) {
+  if (
+    this.isModified("status") &&
+    this.status === "published" &&
+    !this.publishedAt
+  ) {
+    this.publishedAt = new Date();
   }
-  next()
-})
+  next();
+});
 
-blogPostSchema.index({ slug: 1 })
-blogPostSchema.index({ status: 1, publishedAt: -1 })
+blogPostSchema.index({ status: 1, publishedAt: -1 });
 
-export default mongoose.model('BlogPost', blogPostSchema)
+export default mongoose.model("BlogPost", blogPostSchema);

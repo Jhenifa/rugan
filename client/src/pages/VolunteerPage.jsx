@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+import { fadeUp, staggerContainer, scaleIn, viewportOnce } from "@/lib/motion";
 import { useState } from "react";
 import {
   Users,
@@ -21,8 +23,11 @@ const WHO = [
 
 /* ── Volunteer Stories ── */
 const STORIES = [
-  { label: "Why I Volunteer", image: "/images/volunteers/story-1.jpg" },
-  { label: "My Impact Journey", image: "/images/volunteers/story-2.jpg" },
+  {
+    label: "Why I Volunteer",
+    videoUrl:
+      "https://drive.google.com/file/d/1jGrmnudMv3iBhIyuOhdb8vIIZpfS6SLV/preview",
+  },
 ];
 
 /* ── Volunteer Photo Grid ── */
@@ -34,14 +39,14 @@ const VOLUNTEER_PHOTOS = Array.from({ length: 12 }, (_, i) => ({
 /* ── Opportunities ── */
 const OPPORTUNITIES = [
   {
-    title: "Program Manager Volunteer",
+    title: "Programme Manager Volunteer",
     commitment: "Flexible (Project-based)",
     location: "On-site (Nigeria)",
     description: "Supports implementation of school outreaches and workshops.",
     responsibilities: [
       "Coordinate outreach logistics",
       "Supervise field activities",
-      "Report on program outcomes",
+      "Report on programme outcomes",
     ],
   },
   {
@@ -75,7 +80,7 @@ const BENEFITS = [
   "Make a meaningful difference in girls' lives",
   "Gain leadership and mentoring experience",
   "Connect with like-minded changemakers",
-  "Access to training and development programs",
+  "Access to training and development programmes",
   "Receive a RUGAN volunteering certificate",
   "Flexible scheduling options",
 ];
@@ -99,12 +104,12 @@ const FAQS = [
   {
     question: "How much time do I need to commit?",
     answer:
-      "We understand that volunteers have different schedules. Most roles require a minimum commitment of 3–5 hours per week, depending on the project or department. For event-based or campaign-specific roles, time commitments may be flexible and short-term. We encourage consistency, as our programs support rural girls who depend on structured and reliable support.",
+      "We understand that volunteers have different schedules. Most roles require a minimum commitment of 3–5 hours per week, depending on the project or department. For event-based or campaign-specific roles, time commitments may be flexible and short-term. We encourage consistency, as our programmes support rural girls who depend on structured and reliable support.",
   },
   {
     question: "Can I volunteer remotely?",
     answer:
-      "Yes! We offer both remote and on-site volunteer opportunities. Remote roles include: Social media management, Content writing, Graphic design, Research and data support, Fundraising and partnership outreach. On-site roles are available for: Community outreach, School programs, Field projects, Mentorship sessions. You can indicate your preference during the application process.",
+      "Yes, we offer both remote and on-site volunteer opportunities. Remote roles include: Social media management, Content writing, Graphic design, Research and data support, Fundraising and partnership outreach, On-site roles are available for: Community outreach, School programmes, Field projects, Mentorship sessions.You can indicate your preference during the application process.",
   },
   {
     question: "What is the application process?",
@@ -114,7 +119,7 @@ const FAQS = [
   {
     question: "Are there age requirements for volunteers?",
     answer:
-      "Yes. Volunteers must be at least 18 years old. However, individuals under 18 may participate in selected programs or community initiatives with parental/guardian consent. We encourage youth participation, especially those passionate about education, leadership, and advocacy for the rural girl child.",
+      "Yes. Volunteers must be at least 18 years old. However, individuals under 18 may participate in selected programmes or community initiatives with parental/guardian consent. We encourage youth participation, especially those passionate about education, leadership, and advocacy for the rural girl child.",
   },
 ];
 
@@ -156,73 +161,34 @@ function WhoCard({ label }) {
   );
 }
 
-function StoryCard({ label, image }) {
+function StoryCard({ label, image, videoUrl }) {
   return (
-    <div
-      style={{
-        position: "relative",
-        borderRadius: "1rem",
-        overflow: "hidden",
-        aspectRatio: "16/9",
-      }}
-    >
-      <img
-        src={image}
-        alt={label}
-        style={{ width: "100%", height: "100%", objectFit: "cover" }}
-      />
+    <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
       <div
         style={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%)",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          borderRadius: "1rem",
+          overflow: "hidden",
+          aspectRatio: "16/9",
         }}
       >
-        <div
-          style={{
-            width: "3.25rem",
-            height: "3.25rem",
-            borderRadius: "50%",
-            background: "rgba(255,255,255,0.9)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div
-            style={{
-              width: 0,
-              height: 0,
-              borderTop: "10px solid transparent",
-              borderBottom: "10px solid transparent",
-              borderLeft: "17px solid var(--color-primary)",
-              marginLeft: "4px",
-            }}
+        {videoUrl ? (
+          <iframe
+            src={videoUrl}
+            title={label}
+            width="100%"
+            height="100%"
+            style={{ border: "0" }}
+            allow="autoplay; encrypted-media; fullscreen; picture-in-picture; subtitles; captions"
+            allowFullScreen
           />
-        </div>
+        ) : (
+          <img
+            src={image}
+            alt={label}
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        )}
       </div>
-      <p
-        style={{
-          position: "absolute",
-          bottom: "1rem",
-          left: "1rem",
-          color: "white",
-          fontSize: "0.9375rem",
-          fontWeight: 600,
-        }}
-      >
-        {label}
-      </p>
     </div>
   );
 }
@@ -416,6 +382,7 @@ export default function VolunteerPage() {
         subtitle="Volunteers are essential to RUGAN’s mission, delivering education, mentorship, and hope to girls and underserved rural communities."
         backgroundImage="/images/volunteers/hero.jpg"
         centerText
+        darkOverlay
       >
         <div
           style={{
@@ -459,7 +426,7 @@ export default function VolunteerPage() {
             title="Who Can Volunteer?"
             subtitle="Everyone with a passion for girl-child empowerment"
           />
-          <div
+          <motion.div
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(2, 1fr)",
@@ -467,11 +434,17 @@ export default function VolunteerPage() {
               maxWidth: "860px",
               margin: "0 auto",
             }}
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
           >
             {WHO.map((item, i) => (
-              <WhoCard key={i} {...item} />
+              <motion.div key={i} variants={fadeUp}>
+                <WhoCard {...item} />
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -485,7 +458,7 @@ export default function VolunteerPage() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(2, 1fr)",
+              gridTemplateColumns: "1fr",
               gap: "1.25rem",
               maxWidth: "860px",
               margin: "0 auto",
@@ -550,17 +523,23 @@ export default function VolunteerPage() {
             title="Volunteer Opportunities"
             subtitle="Find a role that matches your skills and interests."
           />
-          <div
+          <motion.div
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(2, 1fr)",
               gap: "1rem",
             }}
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
           >
             {OPPORTUNITIES.map((opp, i) => (
-              <OpportunityCard key={i} {...opp} />
+              <motion.div key={i} variants={fadeUp}>
+                <OpportunityCard {...opp} />
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -593,7 +572,7 @@ export default function VolunteerPage() {
                   marginBottom: "1.25rem",
                 }}
               >
-                Benefits You'll Receive
+                Benefits You Will Receive
               </h3>
               <ul
                 style={{
@@ -699,7 +678,7 @@ export default function VolunteerPage() {
           >
             <SectionHeader
               title="Frequently Asked Questions"
-              subtitle="Everything you need to know about volunteering with RUGAN."
+              subtitle="Everything you need to know about volunteering with RUGAN"
             />
             {FAQS.map((faq, i) => (
               <FAQItem key={i} {...faq} />

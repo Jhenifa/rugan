@@ -71,7 +71,7 @@ export default function VolunteerForm() {
           rows={2}
           className="form-input"
           style={{ resize: 'none' }}
-          placeholder="Tell us about your skills and relevant experience"
+          placeholder="e.g. Teaching, Social work, Photography..."
         />
         {errors.skills && <p className="form-error">{errors.skills.message}</p>}
       </div>
@@ -96,7 +96,7 @@ export default function VolunteerForm() {
           rows={4}
           className="form-input"
           style={{ resize: 'none' }}
-          placeholder="Share your motivation and what you hope to contribute"
+          placeholder="Tell us about your motivation..."
         />
         {errors.motivation && <p className="form-error">{errors.motivation.message}</p>}
       </div>

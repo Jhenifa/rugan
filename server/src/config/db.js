@@ -1,11 +1,12 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
 export async function connectDB() {
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI)
-    console.log(`✅ MongoDB connected: ${conn.connection.host}`)
+    const conn = await mongoose.connect(process.env.MONGODB_URI);
+    console.log(`✅ MongoDB connected: ${conn.connection.host}`);
   } catch (err) {
-    console.error('❌ MongoDB connection error:', err.message)
-    process.exit(1)
+    console.error("❌ MongoDB connection error:", err.message);
+    console.log("⚠️  Continuing without database. Some features may not work.");
+    // Don't exit, continue without DB
   }
 }

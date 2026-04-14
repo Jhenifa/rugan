@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion'
+import { scaleIn, viewportOnce } from '@/lib/motion'
 import { cn } from '@/lib/cn'
 
 /**

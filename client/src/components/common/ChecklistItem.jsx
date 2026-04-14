@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion'
+import { fadeUp, viewportOnce } from '@/lib/motion'
 import { CheckCircle2 } from 'lucide-react'
 import { cn } from '@/lib/cn'
 
@@ -23,12 +25,17 @@ export default function ChecklistItem({ text, variant = 'card', className }) {
   }
 
   return (
-    <div
+    <motion.div
+      variants={fadeUp}
+      initial='hidden'
+      whileInView='visible'
+      viewport={viewportOnce}
       className={cn('flex items-start gap-3 p-4 rounded-xl bg-white', className)}
       style={{
         border: '1px solid #E5E7EB',
         transition: 'border-color 200ms ease, box-shadow 200ms ease',
         cursor: 'default',
+        height: '100%',
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.borderColor = 'var(--color-primary)'
@@ -41,6 +48,6 @@ export default function ChecklistItem({ text, variant = 'card', className }) {
     >
       {icon}
       <span style={{ fontSize: '0.875rem', color: '#374151', lineHeight: 1.6 }}>{text}</span>
-    </div>
+    </motion.div>
   )
 }

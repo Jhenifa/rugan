@@ -400,7 +400,7 @@ input, textarea, select, button {
 .page-hero-overlay {
   position: absolute;
   inset: 0;
-  background-color: rgba(24, 48, 20, 0.62);
+  background-color: rgba(24, 48, 20, 0.82);
 }
 
 .page-hero-content {

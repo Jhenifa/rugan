@@ -1,43 +1,67 @@
-import { Link } from 'react-router'
-import { ArrowRight } from 'lucide-react'
-import { cn } from '@/lib/cn'
+import { motion } from "framer-motion";
+import { fadeUp, scaleIn, viewportOnce } from "@/lib/motion";
+import { Link } from "react-router";
+import { ArrowRight } from "lucide-react";
+import { cn } from "@/lib/cn";
 
 /**
  * ProgramCard
  * variant:
- *   'plain'   — image top, title, description, Learn More link (Programs page)
+ *   'plain'   — image top, title, description, Learn More link (Programmes page)
  *   'overlay' — image with dark gradient overlay, title + description on top (Homepage)
  *
  * Props:
  *   image       — image URL
- *   title       — program name
+ *   title       — programme name
  *   description — short description
  *   to          — React Router link path
  *   variant     — 'plain' | 'overlay'
  */
-export default function ProgramCard({ image, title, description, to, variant = 'plain', className }) {
-  if (variant === 'overlay') {
+export default function ProgramCard({
+  image,
+  title,
+  description,
+  to,
+  variant = "plain",
+  className,
+}) {
+  if (variant === "overlay") {
     return (
-      <Link
-        to={to}
-        className={cn(
-          'relative block rounded-2xl overflow-hidden group aspect-[4/3]',
-          className
-        )}
+      <motion.div
+        variants={scaleIn}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewportOnce}
       >
-        <img src={image} alt={title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-          <h3 className="text-heading-sm font-semibold">{title}</h3>
-          {description && <p className="text-white/80 text-body-sm mt-1 line-clamp-2">{description}</p>}
-        </div>
-      </Link>
-    )
+        <Link
+          to={to}
+          className={cn(
+            "relative block rounded-2xl overflow-hidden group aspect-[4/3]",
+            className,
+          )}
+        >
+          <img
+            src={image}
+            alt={title}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
+            <h3 className="text-heading-sm font-semibold">{title}</h3>
+            {description && (
+              <p className="text-white/80 text-body-sm mt-1 line-clamp-2">
+                {description}
+              </p>
+            )}
+          </div>
+        </Link>
+      </motion.div>
+    );
   }
 
   return (
-    <div className={cn('card-hover flex flex-col', className)}>
+    <div className={cn("card-hover flex flex-col h-full", className)}>
       <div className="aspect-[16/10] overflow-hidden">
         <img
           src={image}
@@ -46,18 +70,22 @@ export default function ProgramCard({ image, title, description, to, variant = '
         />
       </div>
       <div className="p-6 flex flex-col flex-1">
-        <h3 className="text-heading-md font-semibold text-neutral-900 mb-2">{title}</h3>
+        <h3 className="text-heading-md font-semibold text-neutral-900 mb-2">
+          {title}
+        </h3>
         {description && (
-          <p className="text-body-sm text-neutral-500 mb-4 flex-1">{description}</p>
+          <p className="text-body-sm text-neutral-500 mb-4 flex-1">
+            {description}
+          </p>
         )}
         <Link
           to={to}
           className="inline-flex items-center gap-1.5 font-semibold text-sm hover:gap-3 transition-all duration-200"
-          style={{ color: 'var(--color-primary)' }}
+          style={{ color: "var(--color-primary)" }}
         >
           Learn More <ArrowRight size={16} />
         </Link>
       </div>
     </div>
-  )
+  );
 }

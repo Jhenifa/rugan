@@ -1,17 +1,8 @@
 import { Link } from 'react-router'
 import { ChevronLeft } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { fadeUp, fadeIn, staggerContainer, viewportOnce } from '@/lib/motion'
 
-/**
- * PageHeroBanner
- * Reusable hero used on all inner pages.
- *
- * Props:
- *   title           — main heading
- *   subtitle        — supporting text
- *   backgroundImage — optional URL for bg image with overlay
- *   backLink        — optional { to, label } breadcrumb
- *   children        — optional extra content (stat badges etc.)
- */
 export default function PageHeroBanner({
   title,
   subtitle,
@@ -19,6 +10,7 @@ export default function PageHeroBanner({
   backLink,
   children,
   centerText = false,
+  darkOverlay = false,
   className = '',
 }) {
   return (
@@ -26,31 +18,40 @@ export default function PageHeroBanner({
       className={`page-hero ${className}`}
       style={
         backgroundImage
-          ? {
-              backgroundImage: `url(${backgroundImage})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }
+          ? { backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }
           : {}
       }
     >
-      {backgroundImage && <div className="page-hero-overlay" />}
+      {backgroundImage && (
+        <div
+          className="page-hero-overlay"
+          style={darkOverlay ? { backgroundColor: 'rgba(10, 25, 10, 0.91)' } : {}}
+        />
+      )}
 
-      <div className="page-hero-content container-rugan">
+      <motion.div
+        className="page-hero-content container-rugan"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="visible"
+      >
         {backLink && (
-          <Link
-            to={backLink.to}
-            className="inline-flex items-center gap-1 mb-4 transition-colors"
-            style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.875rem' }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = 'white')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.75)')}
-          >
-            <ChevronLeft size={16} />
-            {backLink.label}
-          </Link>
+          <motion.div variants={fadeIn}>
+            <Link
+              to={backLink.to}
+              className="inline-flex items-center gap-1 mb-4 transition-colors"
+              style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.875rem' }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = 'white')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.75)')}
+            >
+              <ChevronLeft size={16} />
+              {backLink.label}
+            </Link>
+          </motion.div>
         )}
 
-        <h1
+        <motion.h1
+          variants={fadeUp}
           style={{
             fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
             fontWeight: 700,
@@ -63,10 +64,11 @@ export default function PageHeroBanner({
           }}
         >
           {title}
-        </h1>
+        </motion.h1>
 
         {subtitle && (
-          <p
+          <motion.p
+            variants={fadeUp}
             style={{
               marginTop: '0.75rem',
               color: 'rgba(255,255,255,0.82)',
@@ -78,11 +80,15 @@ export default function PageHeroBanner({
             }}
           >
             {subtitle}
-          </p>
+          </motion.p>
         )}
 
-        {children && <div style={{ marginTop: '1.5rem' }}>{children}</div>}
-      </div>
+        {children && (
+          <motion.div variants={fadeUp} style={{ marginTop: '1.5rem' }}>
+            {children}
+          </motion.div>
+        )}
+      </motion.div>
     </section>
   )
 }

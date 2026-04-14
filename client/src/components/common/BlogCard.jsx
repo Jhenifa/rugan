@@ -1,59 +1,94 @@
+import { motion } from 'framer-motion'
+import { scaleIn, viewportOnce } from '@/lib/motion'
 import { Link } from 'react-router'
 import { ArrowRight, User, Calendar } from 'lucide-react'
-import { cn } from '@/lib/cn'
 
 /**
  * BlogCard
  * Used on: Blog listing page
- *
- * Props:
- *   image     — cover image URL
- *   title     — post title
- *   excerpt   — short description
- *   author    — author name
- *   date      — formatted date string e.g. "February 15, 2026"
- *   to        — React Router link path
  */
-export default function BlogCard({ image, title, excerpt, author, date, to, className }) {
+export default function BlogCard({ image, title, excerpt, author, date, to, className = '' }) {
   return (
-    <div className={cn('card-hover flex flex-col', className)}>
+    <div
+      className={className}
+      style={{
+        border: '1px solid #E5E7EB',
+        borderRadius: '1rem',
+        overflow: 'hidden',
+        background: 'white',
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        transition: 'box-shadow 200ms ease',
+      }}
+      onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.10)' }}
+      onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'none' }}
+    >
       {/* Image */}
-      <div className="aspect-[16/9] overflow-hidden">
+      <div style={{ aspectRatio: '16/9', overflow: 'hidden', flexShrink: 0 }}>
         <img
           src={image}
           alt={title}
-          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 500ms ease' }}
+          onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.04)' }}
+          onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)' }}
         />
       </div>
 
       {/* Content */}
-      <div className="p-6 flex flex-col flex-1">
-        <h3 className="text-heading-md font-semibold text-neutral-900 mb-2 line-clamp-2">{title}</h3>
+      <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
+        <h3 style={{
+          fontSize: '1rem', fontWeight: 700, color: '#111827',
+          lineHeight: 1.45, marginBottom: '0.625rem',
+          display: '-webkit-box', WebkitLineClamp: 3,
+          WebkitBoxOrient: 'vertical', overflow: 'hidden',
+        }}>
+          {title}
+        </h3>
+
+        {/* Excerpt grows to fill available space, pushing meta + link to bottom */}
         {excerpt && (
-          <p className="text-body-sm text-neutral-500 mb-4 flex-1 line-clamp-3">{excerpt}</p>
+          <p style={{
+            fontSize: '0.875rem', color: '#6B7280', lineHeight: 1.65,
+            marginBottom: '1rem', flex: 1,
+            display: '-webkit-box', WebkitLineClamp: 3,
+            WebkitBoxOrient: 'vertical', overflow: 'hidden',
+          }}>
+            {excerpt}
+          </p>
         )}
 
         {/* Meta */}
-        <div className="flex items-center gap-4 text-xs text-neutral-400 mb-4">
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '1rem',
+          fontSize: '0.8125rem', color: '#9CA3AF',
+          marginBottom: '1rem',
+        }}>
           {author && (
-            <span className="flex items-center gap-1.5">
-              <User size={13} />
-              {author}
+            <span style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+              <User size={13} />{author}
             </span>
           )}
           {date && (
-            <span className="flex items-center gap-1.5">
-              <Calendar size={13} />
-              {date}
+            <span style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+              <Calendar size={13} />{date}
             </span>
           )}
         </div>
 
+        {/* Read More */}
         <Link
           to={to}
-          className="inline-flex items-center gap-1.5 text-primary-600 font-semibold text-sm hover:gap-3 transition-all duration-200"
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: '0.375rem',
+            fontSize: '0.875rem', fontWeight: 600,
+            color: 'var(--color-primary)', textDecoration: 'none',
+            transition: 'gap 200ms ease',
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.gap = '0.625rem' }}
+          onMouseLeave={(e) => { e.currentTarget.style.gap = '0.375rem' }}
         >
-          Read More <ArrowRight size={16} />
+          Read More <ArrowRight size={15} />
         </Link>
       </div>
     </div>

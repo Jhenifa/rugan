@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion'
+import { scaleIn, viewportOnce } from '@/lib/motion'
 import IconBox from '@/components/ui/IconBox'
 
 /**
@@ -7,7 +9,7 @@ import IconBox from '@/components/ui/IconBox'
  */
 export default function StatCard({ icon: Icon, value, label, variant = 'bordered', className = '' }) {
   return (
-    <div
+    <motion.div variants={scaleIn} initial='hidden' whileInView='visible' viewport={viewportOnce}
       className={`flex flex-col items-center text-center gap-3 p-6 ${variant === 'bordered' ? 'card' : ''} ${className}`}
       style={variant === 'bordered' ? { border: '1px solid var(--color-border)' } : {}}
     >
@@ -20,6 +22,6 @@ export default function StatCard({ icon: Icon, value, label, variant = 'bordered
         {value}
       </p>
       <p style={{ fontSize: '0.875rem', color: 'var(--color-muted)' }}>{label}</p>
-    </div>
+    </motion.div>
   )
 }

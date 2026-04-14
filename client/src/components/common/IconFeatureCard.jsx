@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion'
+import { scaleIn, viewportOnce } from '@/lib/motion'
 import IconBox from '@/components/ui/IconBox'
 
 /**
@@ -32,7 +34,11 @@ export default function IconFeatureCard({
   }
 
   return (
-    <div
+    <motion.div
+      variants={scaleIn}
+      initial='hidden'
+      whileInView='visible'
+      viewport={viewportOnce}
       className={`rounded-2xl p-6 ${className}`}
       style={{
         background: backgrounds[variant],
@@ -53,6 +59,6 @@ export default function IconFeatureCard({
           {description}
         </p>
       )}
-    </div>
+    </motion.div>
   )
 }

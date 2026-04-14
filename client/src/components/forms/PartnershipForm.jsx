@@ -16,7 +16,7 @@ const schema = z.object({
 
 const PARTNERSHIP_TYPES = [
   'Corporate Partnership',
-  'Program Sponsorship',
+  'Programme Sponsorship',
   'In-Kind Donations',
   'Other',
 ]
