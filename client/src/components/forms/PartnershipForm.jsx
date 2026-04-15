@@ -7,11 +7,11 @@ import api from '@/lib/api'
 
 const schema = z.object({
   orgName:     z.string().min(2, 'Organization name is required'),
-  contactName: z.string().min(2, 'Contact person name is required'),
   email:       z.string().email('Valid email is required'),
   phone:       z.string().min(10, 'Valid phone number required'),
   partnership: z.string().min(1, 'Please select a partnership type'),
   message:     z.string().min(20, 'Please describe your interests (min 20 chars)'),
+  otherPartnership: z.string().min(15, 'please tell us other partnership you are interested in'),
 })
 
 const PARTNERSHIP_TYPES = [
@@ -21,10 +21,13 @@ const PARTNERSHIP_TYPES = [
   'Other',
 ]
 
+
 export default function PartnershipForm() {
-  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm({
+  const { register, watch, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm({
     resolver: zodResolver(schema),
   })
+
+  const selectedPartnership = watch('partnership')
 
   const onSubmit = async (data) => {
     try {
@@ -43,13 +46,6 @@ export default function PartnershipForm() {
         <label className="form-label">Organization Name / Name of Individual</label>
         <input {...register('orgName')} className="form-input" placeholder="Your organization name / Name of Individual" />
         {errors.orgName && <p className="form-error">{errors.orgName.message}</p>}
-      </div>
-
-      {/* Contact person */}
-      <div>
-        <label className="form-label">Contact Person</label>
-        <input {...register('contactName')} className="form-input" placeholder="Your full name" />
-        {errors.contactName && <p className="form-error">{errors.contactName.message}</p>}
       </div>
 
       {/* Email + Phone */}
@@ -77,6 +73,26 @@ export default function PartnershipForm() {
         </select>
         {errors.partnership && <p className="form-error">{errors.partnership.message}</p>}
       </div>
+      {selectedPartnership === 'Other' && (
+        <div className="mt-2">
+          <input
+            type="text"
+            {...register('otherPartnership', {
+              required:
+                selectedPartnership === 'Other'
+                  ? 'Please specify partnership'
+                  : false,
+            })}
+            placeholder="Please specify..."
+            className="form-input"
+          />
+          {errors.otherPartnership && (
+            <p className="form-error">
+              {errors.otherPartnership.message}
+            </p>
+          )}
+        </div>
+      )}
 
       {/* Message */}
       <div>
