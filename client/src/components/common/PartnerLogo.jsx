@@ -14,8 +14,8 @@ import { cn } from '@/lib/cn'
 export default function PartnerLogo({ logo, name, url, className }) {
   const content = (
     <div className={cn('flex flex-col items-center gap-4', className)}>
-      <div className="w-32 h-32 rounded-full overflow-hidden bg-white shadow-card flex items-center justify-center p-3">
-        <img src={logo} alt={name} className="w-full h-full object-contain" />
+      <div className="w-32 h-32 rounded-full overflow-hidden bg-white shadow-card flex items-center justify-center">
+        <img src={logo} alt={name} className="w-full h-full object-cover" />
       </div>
       <p className="text-white font-semibold text-center text-body-sm">{name}</p>
     </div>

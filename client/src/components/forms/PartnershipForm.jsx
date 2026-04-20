@@ -7,7 +7,6 @@ import api from '@/lib/api'
 
 const schema = z.object({
   orgName:     z.string().min(2, 'Organization name is required'),
-  contactName: z.string().min(2, 'Contact person name is required'),
   email:       z.string().email('Valid email is required'),
   phone:       z.string().min(10, 'Valid phone number required'),
   partnership: z.string().min(1, 'Please select a partnership type'),
@@ -15,10 +14,14 @@ const schema = z.object({
 })
 
 const PARTNERSHIP_TYPES = [
-  'Corporate Partnership',
-  'Programme Sponsorship',
-  'In-Kind Donations',
-  'Other',
+  'Strategic Impact Partnership',
+  'Program-Based Partnership',
+  'Financial Sponsorship Partnership',
+  'Technical and Knowledge Partnership',
+  'Community Outreach Partnership',
+  'Media and communications Partnership',
+  'Volunteer Engagement Partnership',
+  'Corporate Social Responsibility',
 ]
 
 export default function PartnershipForm() {
@@ -45,13 +48,6 @@ export default function PartnershipForm() {
         {errors.orgName && <p className="form-error">{errors.orgName.message}</p>}
       </div>
 
-      {/* Contact person */}
-      <div>
-        <label className="form-label">Contact Person</label>
-        <input {...register('contactName')} className="form-input" placeholder="Your full name" />
-        {errors.contactName && <p className="form-error">{errors.contactName.message}</p>}
-      </div>
-
       {/* Email + Phone */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
@@ -69,8 +65,8 @@ export default function PartnershipForm() {
       {/* Partnership type */}
       <div>
         <label className="form-label">Partnership</label>
-        <select {...register('partnership')} className="form-input">
-          <option value="">Partnership</option>
+        <select {...register('partnership')} className="form-input" defaultValue="">
+          <option value="" disabled>Partnership</option>
           {PARTNERSHIP_TYPES.map((t) => (
             <option key={t} value={t}>{t}</option>
           ))}
