@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import ProgramCard from "../components/common/ProgramCard";
 import CTABanner from "../components/common/CTABanner";
 import ChecklistItem from "../components/common/ChecklistItem";
+import AnimatedCount from "../components/common/AnimatedCount";
 import {
   Target,
   TrendingUp,
@@ -134,7 +135,11 @@ export default function HomePage() {
           <Icon size={26} className="text-[#4F7B44]" />
         </div>
 
-        <h2 className="text-[32px] font-bold text-[#4F7B44]">{title}</h2>
+        <AnimatedCount
+          as="h2"
+          value={title}
+          className="text-[32px] font-bold text-[#4F7B44]"
+        />
 
         <p className="text-[15px] text-[#6B7280]">{description}</p>
       </div>
@@ -289,7 +294,10 @@ export default function HomePage() {
                 </div>
 
                 <div>
-                  <h3 className="font-semibold">10+ States Reached</h3>
+                  <h3 className="font-semibold">
+                    <AnimatedCount value="10+" className="inline-block" />{" "}
+                    States Reached
+                  </h3>
                   <p className="text-sm text-[#777]">Across rural Nigeria</p>
                 </div>
               </div>
@@ -300,7 +308,10 @@ export default function HomePage() {
                 </div>
 
                 <div>
-                  <h3 className="font-semibold">20+ Communities</h3>
+                  <h3 className="font-semibold">
+                    <AnimatedCount value="20+" className="inline-block" />{" "}
+                    Communities
+                  </h3>
                   <p className="text-sm text-[#777]">
                     Direct grassroots engagement
                   </p>

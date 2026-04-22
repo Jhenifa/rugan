@@ -1,14 +1,20 @@
+import { useRef } from "react"
 import PageHeroBanner from "../components/common/PageHeroBanner"
 import CTABanner from "../components/common/CTABanner"
 import { Users, Award, BarChart3, Target} from "lucide-react"
 import SuccessStoryCard from "../components/common/SuccessStoryCard"
-import IconFeatureCard from "../components/common/IconFeatureCard"
 import PhotoGallery from "../components/common/PhotoGallery"
-import { motion } from 'framer-motion'
-import { fadeUp, staggerContainer, scaleIn, viewportOnce } from '@/lib/motion'
+import AnimatedCount from "../components/common/AnimatedCount"
+import { motion, useInView } from 'framer-motion'
+import { fadeUp, staggerContainer, viewportOnce } from '@/lib/motion'
 import SectionHeader from "../components/ui/SectionHeader"
 
 export default function ImpactPage() {
+  const growthSectionRef = useRef(null)
+  const highlightSectionRef = useRef(null)
+  const isGrowthSectionInView = useInView(growthSectionRef, { once: true, amount: 0.2 })
+  const isHighlightSectionInView = useInView(highlightSectionRef, { once: true, amount: 0.2 })
+
   const images = [
     { src: "/images/impact/Image (Impact 2).png", alt: 'Outreach team with community members' },
     { src: "/images/impact/Image (Impact 3).png" },
@@ -81,7 +87,7 @@ export default function ImpactPage() {
   },
 ]
 
- function StatCard({ icon: Icon, title, description }) {
+ function StatCard({ icon: Icon, title, description, isCountActive }) {
   return (
     <div className="bg-white rounded-[16px] px-6 py-6 border border-[#ffffff] border-t-[4px] border-b-[4px] border-t-[#548349] border-b-[#548349] flex flex-col gap-3 w-[256px] h-[174px]">
       
@@ -91,9 +97,12 @@ export default function ImpactPage() {
       </div>
 
       {/* Number */}
-      <h2 className="text-[32px] font-semibold text-[#111827] leading-[1.1]">
-        {title}
-      </h2>
+      <AnimatedCount
+        as="h2"
+        value={title}
+        isActive={isCountActive}
+        className="text-[32px] font-semibold text-[#111827] leading-[1.1]"
+      />
 
       {/* Description */}
       <p className="text-[14px] text-[#6B7280] leading-[1.4]">
@@ -104,7 +113,7 @@ export default function ImpactPage() {
 }
 
 
-function ImpactHighlight({ icon: Icon, title, stat, description, bottomText}) {
+function ImpactHighlight({ icon: Icon, title, stat, description, bottomText, isCountActive}) {
   return (
     <div className="flex min-h-[200px] items-center gap-5 border border-[#E5E7EB] rounded-[16px] bg-white px-8 py-7">
       
@@ -123,9 +132,11 @@ function ImpactHighlight({ icon: Icon, title, stat, description, bottomText}) {
 
         {/* DESCRIPTION */}
         <p className="text-[15px] leading-[22px] text-[#6B7280] lineHeight-1.6">
-          <span className="font-bold text-[#111827]">
-            {stat}
-          </span>{" "}
+          <AnimatedCount
+            value={stat}
+            isActive={isCountActive}
+            className="font-bold text-[#111827] inline-block"
+          />{" "}
           {description}
         </p>
         <p>
@@ -148,7 +159,7 @@ function ImpactHighlight({ icon: Icon, title, stat, description, bottomText}) {
       />
 
       {/* IMPACT AT A GLANCE */}
-      <section className="section-padding bg-white">
+      <section ref={growthSectionRef} className="section-padding bg-white">
         <div className="container-rugan">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
@@ -173,7 +184,7 @@ function ImpactHighlight({ icon: Icon, title, stat, description, bottomText}) {
                 whileHover={{ y: -6, scale: 1.03 }}
                 transition={{ duration: 0.3 }}
               >
-                <StatCard {...growth} />
+                <StatCard {...growth} isCountActive={isGrowthSectionInView} />
               </motion.div>
             ))}
           </motion.div>
@@ -181,7 +192,7 @@ function ImpactHighlight({ icon: Icon, title, stat, description, bottomText}) {
       </section>
 
         {/* HIGHLIGHTS */}
-      <section className=" section-padding py-20 px-4 bg-[#FAFAFA]">
+      <section ref={highlightSectionRef} className=" section-padding py-20 px-4 bg-[#FAFAFA]">
         <div className="container-rugan">
           <SectionHeader
             title="2025 Impact Highlights"
@@ -190,7 +201,11 @@ function ImpactHighlight({ icon: Icon, title, stat, description, bottomText}) {
 
           <div className="grid gap-8 md:grid-cols-2 max-w-4xl mx-auto">
             {Highlight.map((highlight, i) => (
-              <ImpactHighlight key={i} {...highlight}/>
+              <ImpactHighlight
+                key={i}
+                {...highlight}
+                isCountActive={isHighlightSectionInView}
+              />
             ))}
           </div>
         </div>
