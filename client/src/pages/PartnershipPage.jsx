@@ -390,7 +390,7 @@ export default function PartnershipPage() {
       </section>
 
       {/* FORM */}
-      <section className="section-padding bg-[#E1EDDE]">
+      <section className="section-padding bg-[#F0FDF4]">
         <div className="container-rugan" style={{ maxWidth: "720px" }}>
           <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
               <SectionHeader

@@ -57,7 +57,7 @@ export default function HomePage() {
     { title: "4,750+", description: "Girls Reached", icon: Users },
     { title: "20+", description: "Communities Served", icon: MapPin },
     { title: "70+", description: "Active Volunteers", icon: Heart },
-    { title: "20+", description: "Program Delivered", icon: Award },
+    { title: "20+", description: "Programmes Delivered", icon: Award },
     { title: "10+", description: "States in Nigeria", icon: Target },
   ];
 
@@ -145,10 +145,20 @@ export default function HomePage() {
     <div>
       {/* HERO */}
       <PageHeroBanner
-        title="Empowering Rural Girls to Become Tomorrow's Leaders"
-        subtitle="Breaking down barriers facing rural girl-children through quality education, life skills, mentorship, and practical resources."
-        backgroundImage="/images/homepage/Hero.jpg"
-        className="min-h-screen"
+        title={
+          <h1 className="font-bold text-[60px] leading-[74px] tracking-[-1.2px] text-white max-w-[700px]">
+            Empowering Rural Girls <br />
+            to Become Tomorrow's <br />
+            Leaders
+          </h1>
+        }
+
+        subtitle={
+          <p className="font-sans font-normal text-[22px] leading-[32px] tracking-[-0.5px] text-white py-5">
+            Breaking down barriers facing rural girl-children through quality education, life skills, mentorship, and practical resources.
+          </p>
+        }
+        backgroundImage="/images/homepage/Hero.jpg" className="h-[658px]"
       >
         <div className="flex flex-col sm:flex-row gap-4 mt-4">
           <Button

@@ -56,7 +56,7 @@ export default function ImpactPage() {
   {
     icon: BarChart3,
     title: "20+",
-    description: "Programs Delivered",
+    description: "Programmes Delivered",
   },
   {
     icon: Users,
@@ -81,40 +81,43 @@ export default function ImpactPage() {
   },
 ]
 
-  function StatCard({ icon: Icon, title, description}) {
+ function StatCard({ icon: Icon, title, description }) {
   return (
-    <div className="bg-white rounded-[24px] px-8 py-8 shadow-sm border-t-4 border-b-4 border-[#4F7B44] min-h-[200px] flex flex-col gap-6">
+    <div className="bg-white rounded-[16px] px-6 py-6 border border-[#ffffff] border-t-[4px] border-b-[4px] border-t-[#548349] border-b-[#548349] flex flex-col gap-3 w-[256px] h-[174px]">
       
       {/* Icon */}
       <div className="text-[#4F7B44]">
-        <Icon size={42} strokeWidth={1.8} />
+        <Icon size={28} strokeWidth={1.8} />
       </div>
 
-      <h2 className="text-[56px] font-bold text-black leading-none">
+      {/* Number */}
+      <h2 className="text-[32px] font-semibold text-[#111827] leading-[1.1]">
         {title}
       </h2>
 
-      <p className="text-[20px] text-gray-600 leading-snug">
+      {/* Description */}
+      <p className="text-[14px] text-[#6B7280] leading-[1.4]">
         {description}
       </p>
     </div>
   );
 }
 
+
 function ImpactHighlight({ icon: Icon, title, stat, description, bottomText}) {
   return (
     <div className="flex min-h-[200px] items-center gap-5 border border-[#E5E7EB] rounded-[16px] bg-white px-8 py-7">
       
       {/* ICON */}
-      <div className="w-12 h-12 flex items-center justify-center rounded-full bg-[#E8F5E9]">
-        <Icon size={22} color="#4F7B44" />
+      <div className="w-16 h-16 flex items-center justify-center rounded-full bg-[#DCFCE7]">
+        <Icon size={32} color="#4F7B44" />
       </div>
 
       {/* TEXT */}
       <div className="flex flex-col gap-[2px]">
         
         {/* TITLE */}
-        <h3 className="text-[35px] leading-[28px] font-bold text-[#4F7B44] py-2">
+        <h3 className="text-[24px] leading-[28px] font-bold text-[#4F7B44] py-2">
           {title}
         </h3>
 
@@ -178,7 +181,7 @@ function ImpactHighlight({ icon: Icon, title, stat, description, bottomText}) {
       </section>
 
         {/* HIGHLIGHTS */}
-      <section className=" section-padding py-20 px-4 bg-gray-50">
+      <section className=" section-padding py-20 px-4 bg-[#FAFAFA]">
         <div className="container-rugan">
           <SectionHeader
             title="2025 Impact Highlights"
@@ -192,7 +195,8 @@ function ImpactHighlight({ icon: Icon, title, stat, description, bottomText}) {
           </div>
         </div>
       </section>
-
+            
+            {/* SUCCESS STORY */}
       <section className=" section-padding py-20 px-4 bg-white">
         <div className=" container-rugan ma x-w-6xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-14">
@@ -212,8 +216,8 @@ function ImpactHighlight({ icon: Icon, title, stat, description, bottomText}) {
         </div>
       </section>
 
-
-      <section className="section-light-green section-padding">
+            {/* IMPACT IN ACTION */}
+      <section className="bg-[#F0FDF4] section-padding">
         <div className="container-rugan">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
