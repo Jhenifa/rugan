@@ -91,19 +91,17 @@ function PartnershipItems({ title, description, icon: Icon, details }) {
           onClick={() => setOpen(!open)}
           className="flex w-full cursor-pointer items-start justify-between gap-4 border-0 bg-transparent p-0 text-left"
         >
-          <div className="flex items-start gap-4">
+          <div className="grid min-w-0 flex-1 grid-cols-[auto,1fr] gap-x-4 gap-y-2 sm:gap-y-0">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#4F7B441A]">
               <Icon size={22} color="#4F7B44" />
             </div>
 
-            <div>
-              <h3 className="m-0 text-[1rem] font-semibold text-[#111827]">
-                {title}
-              </h3>
-              <p className="mt-2 text-[14px] leading-6 text-[#6B7280]">
-                {description}
-              </p>
-            </div>
+            <h3 className="m-0 self-center pr-2 text-[1rem] font-semibold leading-6 text-[#111827]">
+              {title}
+            </h3>
+            <p className="col-span-2 text-[14px] leading-6 text-[#6B7280] sm:col-start-2 sm:col-end-3 sm:mt-2">
+              {description}
+            </p>
           </div>
 
           <span className="mt-1 shrink-0 text-[#6B7280]">

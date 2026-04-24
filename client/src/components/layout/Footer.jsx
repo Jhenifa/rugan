@@ -3,12 +3,32 @@ import { motion } from "framer-motion";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 import { Facebook, Twitter, Instagram, Linkedin, Mail } from "lucide-react";
 
-const FOOTER_LINKS = [
+const QUICK_LINKS = [
   { label: "About Us", to: "/about" },
-  { label: "Programmes", to: "/programmes" },
   { label: "Our Impact", to: "/impact" },
-  { label: "Volunteers", to: "/volunteers" },
+  { label: "Our Team", to: "/team" },
   { label: "Blog", to: "/blog" },
+  { label: "FAQ", to: "/volunteers#faq" },
+];
+
+const PROGRAMS = [
+  {
+    label: "RUGAN IDGC School Tours",
+    to: "/programmes/rugan-idgc-school-tours",
+  },
+  {
+    label: "RUGAN Healthy Period Project",
+    to: "/programmes/rugan-healthy-period-project",
+  },
+  { label: "The RISE Project", to: "/programmes/the-rise-project" },
+  {
+    label: "Excellence Award Project",
+    to: "/programmes/excellence-award-project",
+  },
+  {
+    label: "Rural to Global Programme",
+    to: "/programmes/rural-to-global-programme",
+  },
 ];
 
 const SOCIALS = [
@@ -55,15 +75,15 @@ function WhatsAppIcon({ size = 15 }) {
 export default function Footer() {
   return (
     <footer className="section-footer">
-      <div className="container-rugan py-12 lg:py-14">
+      <div className="container-rugan py-14 lg:py-16">
         <motion.div
-          className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between"
+          className="grid grid-cols-1 gap-10 md:grid-cols-12"
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
         >
-          <motion.div variants={fadeUp} className="max-w-md">
+          <motion.div variants={fadeUp} className="md:col-span-4">
             <Link to="/" className="mb-4 inline-flex items-center gap-2">
               <img
                 src="/icons/rugan-logo.jpg"
@@ -84,45 +104,74 @@ export default function Footer() {
             </p>
           </motion.div>
 
-          <motion.div
-            variants={fadeUp}
-            className="flex flex-col gap-6 md:items-end"
-          >
-            <div className="flex flex-wrap gap-x-5 gap-y-2 md:justify-end">
-              {FOOTER_LINKS.map((link) => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  style={mutedWhite}
-                  className="transition-colors hover:text-white"
-                >
-                  {link.label}
-                </Link>
+          <motion.div variants={fadeUp} className="md:col-span-2">
+            <h4 className="mb-4 text-sm font-semibold uppercase tracking-wide text-white">
+              Quick Links
+            </h4>
+            <ul className="flex flex-col gap-2.5">
+              {QUICK_LINKS.map((link) => (
+                <li key={link.to}>
+                  <Link
+                    to={link.to}
+                    style={mutedWhite}
+                    className="transition-colors hover:text-white"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ul>
+          </motion.div>
 
-            <div className="flex flex-col gap-3 md:items-end">
-              <a
-                href="mailto:rugan.ng@gmail.com"
-                style={mutedWhite}
-                className="flex items-center gap-2.5 transition-colors hover:text-white"
-              >
-                <Mail size={15} style={contactIconStyle} />
-                <span>rugan.ng@gmail.com</span>
-              </a>
-              <a
-                href="https://wa.me/2348143158700"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={mutedWhite}
-                className="flex items-center gap-2.5 transition-colors hover:text-white"
-              >
-                <span style={contactIconStyle}>
-                  <WhatsAppIcon size={15} />
-                </span>
-                <span>+234 814 315 8700</span>
-              </a>
-            </div>
+          <motion.div variants={fadeUp} className="md:col-span-3">
+            <h4 className="mb-4 text-sm font-semibold uppercase tracking-wide text-white">
+              Programmes
+            </h4>
+            <ul className="flex flex-col gap-2.5">
+              {PROGRAMS.map((program) => (
+                <li key={program.to}>
+                  <Link
+                    to={program.to}
+                    style={mutedWhite}
+                    className="transition-colors hover:text-white"
+                  >
+                    {program.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          <motion.div variants={fadeUp} className="md:col-span-3">
+            <h4 className="mb-4 text-sm font-semibold uppercase tracking-wide text-white">
+              Contact Us
+            </h4>
+            <ul className="mb-6 flex flex-col gap-3">
+              <li>
+                <a
+                  href="mailto:rugan.ng@gmail.com"
+                  style={mutedWhite}
+                  className="flex items-center gap-2.5 transition-colors hover:text-white"
+                >
+                  <Mail size={15} style={contactIconStyle} />
+                  <span>rugan.ng@gmail.com</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://wa.me/2348143158700"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={mutedWhite}
+                  className="flex items-center gap-2.5 transition-colors hover:text-white"
+                >
+                  <span style={contactIconStyle}>
+                    <WhatsAppIcon size={15} />
+                  </span>
+                  <span>+234 814 315 8700</span>
+                </a>
+              </li>
+            </ul>
 
             <div className="flex items-center gap-2">
               {SOCIALS.map(({ icon: Icon, href, label }) => (
@@ -160,11 +209,11 @@ export default function Footer() {
 
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
         <div
-          className="container-rugan flex flex-col gap-3 py-5 sm:flex-row sm:items-center sm:justify-between"
+          className="container-rugan flex flex-col items-center justify-between gap-3 py-5 sm:flex-row"
           style={{ color: "rgba(255,255,255,0.35)", fontSize: "0.75rem" }}
         >
-          <p>© {new Date().getFullYear()} RUGAN. All rights reserved.</p>
-          <div className="flex flex-wrap items-center gap-4">
+          <p>&copy; {new Date().getFullYear()} RUGAN. All rights reserved.</p>
+          <div className="flex items-center gap-4">
             <Link to="/privacy" className="transition-colors hover:text-white">
               Privacy Policy
             </Link>

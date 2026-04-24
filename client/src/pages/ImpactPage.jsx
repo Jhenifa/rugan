@@ -102,26 +102,28 @@ const HIGHLIGHTS = [
 
 function StatCard({ icon: Icon, title, description, isCountActive }) {
   return (
-    <div className="relative flex h-full min-h-[150px] flex-col gap-2.5 overflow-hidden rounded-[22px] bg-white px-5 py-5 sm:min-h-[168px] sm:gap-3 sm:px-7 sm:py-6">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[16px]">
-        <div className="h-full w-full rounded-t-[22px] border-t-[4px] border-[#5A8A50]" />
+    <div className="relative flex h-full w-full min-h-[118px] flex-col gap-2 overflow-hidden rounded-[18px] bg-white px-3.5 py-3.5 sm:min-h-[168px] sm:gap-3 sm:rounded-[22px] sm:px-7 sm:py-6">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[12px] sm:h-[16px]">
+        <div className="h-full w-full rounded-t-[18px] border-t-[3px] border-[#5A8A50] sm:rounded-t-[22px] sm:border-t-[4px]" />
       </div>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[16px]">
-        <div className="h-full w-full rounded-b-[22px] border-b-[4px] border-[#5A8A50]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[12px] sm:h-[16px]">
+        <div className="h-full w-full rounded-b-[18px] border-b-[3px] border-[#5A8A50] sm:rounded-b-[22px] sm:border-b-[4px]" />
       </div>
 
-      <div className="pt-1 text-[#4F7B44]">
-        <Icon size={30} strokeWidth={1.8} />
+      <div className="pt-0.5 text-[#4F7B44] sm:pt-1">
+        <Icon size={22} strokeWidth={1.8} className="sm:h-[30px] sm:w-[30px]" />
       </div>
 
       <AnimatedCount
         as="h2"
         value={title}
         isActive={isCountActive}
-        className="text-[32px] font-semibold leading-[1.1] text-[#111827]"
+        className="text-[22px] font-semibold leading-[1.05] text-[#111827] sm:text-[32px] sm:leading-[1.1]"
       />
 
-      <p className="text-[15px] leading-[1.45] text-[#4B5563]">{description}</p>
+      <p className="text-[11px] leading-[1.35] text-[#4B5563] sm:text-[15px] sm:leading-[1.45]">
+        {description}
+      </p>
     </div>
   );
 }
@@ -195,14 +197,18 @@ export default function ImpactPage() {
           />
 
           <motion.div
-            className="mx-auto grid max-w-6xl grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 lg:gap-5"
+            className="mx-auto grid max-w-6xl grid-cols-2 justify-items-center gap-2.5 sm:gap-4 lg:grid-cols-4 lg:gap-5"
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
             viewport={viewportOnce}
           >
             {GROWTH.map((growth, i) => (
-              <motion.div key={i} variants={fadeUp}>
+              <motion.div
+                key={i}
+                variants={fadeUp}
+                className="w-full max-w-[155px] sm:max-w-none"
+              >
                 <StatCard {...growth} isCountActive={isGrowthSectionInView} />
               </motion.div>
             ))}

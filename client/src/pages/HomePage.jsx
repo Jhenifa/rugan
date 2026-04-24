@@ -22,35 +22,35 @@ export default function HomePage() {
       description:
         "Empowerment sessions in rural secondary schools to build confidence, leadership skills, self-belief and personal development.",
       image: "/images/programs/card-1.jpg",
-      to: "/programs/idgc",
+      to: "/programmes/rugan-idgc-school-tours",
     },
     {
       title: "RUGAN Healthy Period Project",
       description:
         "Provides accurate menstrual and body health education, reduces stigma and distribute sanitary pads and essential resources.",
       image: "/images/programs/card-2.jpg",
-      to: "/programs/period",
+      to: "/programmes/rugan-healthy-period-project",
     },
     {
       title: "Excellence Awards",
       description:
         "Recognizes and rewards outstanding academic performance among rural secondary school girls to motivate excellence.",
       image: "/images/programs/card-3.jpg",
-      to: "/programs/awards",
+      to: "/programmes/excellence-award-project",
     },
     {
       title: "The RISE Project",
       description:
         "Provide SS3 girls with accurate information and guidance on life after secondary school, including educational vocational and career pathways.",
       image: "/images/programs/card-4.jpg",
-      to: "/programs/rise",
+      to: "/programmes/the-rise-project",
     },
     {
       title: "Rural-to-Global Programme",
       description:
         "Highlights real-life stories of women who rose from rural backgrounds, while proving mentorship, skill training, and exposure pathways.",
       image: "/images/programs/card-5.jpg",
-      to: "/programs/global",
+      to: "/programmes/rural-to-global-programme",
     },
   ];
 
