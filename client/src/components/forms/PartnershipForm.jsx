@@ -11,7 +11,6 @@ const schema = z.object({
   phone:       z.string().min(10, 'Valid phone number required'),
   partnership: z.string().min(1, 'Please select a partnership type'),
   message:     z.string().min(20, 'Please describe your interests (min 20 chars)'),
-  otherPartnership: z.string().min(15, 'please tell us other partnership you are interested in'),
 })
 
 const PARTNERSHIP_TYPES = [
@@ -27,19 +26,17 @@ const PARTNERSHIP_TYPES = [
 
 
 export default function PartnershipForm() {
-  const { register, watch, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm({
+  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm({
     resolver: zodResolver(schema),
   })
-
-  const selectedPartnership = watch('partnership')
 
   const onSubmit = async (data) => {
     try {
       await api.post('/partnerships/inquiry', data)
       toast.success("Inquiry submitted! We'll be in touch soon.")
       reset()
-    } catch {
-      toast.error('Something went wrong. Please try again.')
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Something went wrong. Please try again.')
     }
   }
 
@@ -77,26 +74,6 @@ export default function PartnershipForm() {
         </select>
         {errors.partnership && <p className="form-error">{errors.partnership.message}</p>}
       </div>
-      {selectedPartnership === 'Other' && (
-        <div className="mt-2">
-          <input
-            type="text"
-            {...register('otherPartnership', {
-              required:
-                selectedPartnership === 'Other'
-                  ? 'Please specify partnership'
-                  : false,
-            })}
-            placeholder="Please specify..."
-            className="form-input"
-          />
-          {errors.otherPartnership && (
-            <p className="form-error">
-              {errors.otherPartnership.message}
-            </p>
-          )}
-        </div>
-      )}
 
       {/* Message */}
       <div>

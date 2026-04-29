@@ -32,12 +32,18 @@ export default function DonationForm() {
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [customAmount, setCustomAmount] = useState("");
   const [paymentMethod, setPaymentMethod] = useState(null);
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [donorName, setDonorName] = useState("");
+  const [donorEmail, setDonorEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
   const isCustom = selectedAmount === "custom";
   const finalAmount = isCustom ? customAmount : selectedAmount;
-  const canProceed = finalAmount && paymentMethod;
+  const emailRequired = paymentMethod === "card";
+  const hasValidEmail = /\S+@\S+\.\S+/.test(donorEmail.trim());
+  const canProceed =
+    finalAmount &&
+    paymentMethod &&
+    (!emailRequired || hasValidEmail);
 
   const handleSubmit = async () => {
     if (!canProceed) return;
@@ -51,8 +57,8 @@ export default function DonationForm() {
           amount: Number(finalAmount),
           frequency,
           paymentMethod,
-          donorName: "", // Can add a name field later
-          donorEmail: "", // Can add email field
+          donorName: donorName.trim(),
+          donorEmail: donorEmail.trim(),
         }),
       });
 
@@ -273,6 +279,51 @@ export default function DonationForm() {
         </div>
       </div>
 
+      <div style={{ marginBottom: "1.5rem" }}>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div>
+            <p
+              style={{
+                fontSize: "0.8125rem",
+                fontWeight: 500,
+                color: "#374151",
+                marginBottom: "0.625rem",
+              }}
+            >
+              Full Name
+            </p>
+            <input
+              type="text"
+              value={donorName}
+              onChange={(e) => setDonorName(e.target.value)}
+              className="form-input"
+              placeholder="Your name"
+            />
+          </div>
+
+          <div>
+            <p
+              style={{
+                fontSize: "0.8125rem",
+                fontWeight: 500,
+                color: "#374151",
+                marginBottom: "0.625rem",
+              }}
+            >
+              Email Address {emailRequired ? "*" : ""}
+            </p>
+            <input
+              type="email"
+              value={donorEmail}
+              onChange={(e) => setDonorEmail(e.target.value)}
+              className="form-input"
+              placeholder="you@example.com"
+              required={emailRequired}
+            />
+          </div>
+        </div>
+      </div>
+
       {/* CTA */}
       {!canProceed ? (
         <div
@@ -289,7 +340,9 @@ export default function DonationForm() {
           }}
         >
           <AlertTriangle size={15} />
-          Select an amount to continue
+          {emailRequired
+            ? "Select an amount and enter a valid email to continue"
+            : "Select an amount to continue"}
         </div>
       ) : (
         <button

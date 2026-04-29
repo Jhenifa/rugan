@@ -14,8 +14,8 @@ export default function NewsletterForm() {
       await api.post('/newsletter/subscribe', { email })
       toast.success('Subscribed! Thank you for joining us.')
       setEmail('')
-    } catch {
-      toast.error('Could not subscribe. Please try again.')
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Could not subscribe. Please try again.')
     } finally {
       setLoading(false)
     }

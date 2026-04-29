@@ -14,6 +14,7 @@ export async function protect(req, res, next) {
     req.user      = await User.findById(decoded.id).select('-password')
 
     if (!req.user) throw new AppError('User not found', 401)
+    if (!req.user.isActive) throw new AppError('Account is deactivated', 403)
     next()
   } catch (err) {
     next(err)

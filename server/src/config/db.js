@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { isProductionEnv } from "./env.js";
 
 const globalMongoose = globalThis;
 
@@ -14,6 +15,10 @@ const cached = globalMongoose.__ruganMongoose;
 
 export async function connectDB() {
   if (!process.env.MONGODB_URI) {
+    if (isProductionEnv()) {
+      throw new Error("MONGODB_URI is required in production.");
+    }
+
     if (!cached.warnedMissingUri) {
       console.warn(
         "MONGODB_URI is not configured. Continuing without database access.",
@@ -27,15 +32,20 @@ export async function connectDB() {
 
   if (!cached.promise) {
     cached.promise = mongoose
-      .connect(process.env.MONGODB_URI)
+      .connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 10000 })
       .then((conn) => {
         console.log(`MongoDB connected: ${conn.connection.host}`);
         return conn;
       })
       .catch((err) => {
         console.error("MongoDB connection error:", err.message);
-        console.warn("Continuing without database. Some features may not work.");
         cached.promise = null;
+
+        if (isProductionEnv()) {
+          throw err;
+        }
+
+        console.warn("Continuing without database. Some features may not work.");
         return null;
       });
   }

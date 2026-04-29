@@ -1,73 +1,56 @@
-import { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router";
 import { motion } from "framer-motion";
 import {
   ArrowLeft,
-  User,
   Calendar,
+  CheckCircle,
   Clock,
   Share2,
-  CheckCircle,
+  User,
 } from "lucide-react";
-import { fadeUp, fadeIn, staggerContainer, viewportOnce } from "@/lib/motion";
-import NewsletterForm from "@/components/forms/NewsletterForm";
-import { ARTICLES } from "./articleData";
 
-/* ── Reading time estimate ── */
+import NewsletterForm from "@/components/forms/NewsletterForm";
+import api from "@/lib/api";
+import { formatPostDate, getPostAuthorName, getPostImage } from "@/lib/blog";
+import { fadeIn, fadeUp, staggerContainer } from "@/lib/motion";
+
 function readingTime(content) {
+  if (typeof content === "string") {
+    return Math.max(1, Math.round(content.split(/\s+/).filter(Boolean).length / 200));
+  }
+
+  if (!Array.isArray(content)) {
+    return 1;
+  }
+
   const words = content
-    .map((b) => {
+    .map((block) => {
       if (
-        b.type === "paragraph" ||
-        b.type === "heading" ||
-        b.type === "conclusion"
-      )
-        return b.text;
-      if (b.type === "list" || b.type === "tips")
-        return b.items
-          .map((i) => (i.text || "") + (i.points?.join(" ") || ""))
+        block.type === "paragraph" ||
+        block.type === "heading" ||
+        block.type === "conclusion"
+      ) {
+        return block.text || "";
+      }
+
+      if (block.type === "list" || block.type === "tips") {
+        return (block.items || [])
+          .map((item) => [item.title || "", item.text || "", ...(item.points || [])].join(" "))
           .join(" ");
-      if (b.type === "bullets") return b.items.join(" ");
+      }
+
+      if (block.type === "bullets") {
+        return (block.items || []).join(" ");
+      }
+
       return "";
     })
-    .join(" ")
-    .split(/\s+/).length;
-  return Math.max(1, Math.round(words / 200));
+    .join(" ");
+
+  return Math.max(1, Math.round(words.split(/\s+/).filter(Boolean).length / 200));
 }
 
-function getArticleAuthor(article) {
-  if (!article) return "";
-
-  if (typeof article.author === "string") {
-    return article.author;
-  }
-
-  if (article.author && typeof article.author === "object") {
-    return article.author.name || article.author.fullName || "";
-  }
-
-  return article.authorName || "";
-}
-
-function formatArticleDate(article) {
-  if (!article) return "";
-
-  const rawDate = article.publishedAt || article.createdAt || article.date;
-  if (!rawDate) return "";
-
-  const parsedDate = new Date(rawDate);
-  if (!Number.isNaN(parsedDate.getTime())) {
-    return parsedDate.toLocaleDateString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    });
-  }
-
-  return typeof rawDate === "string" ? rawDate : "";
-}
-
-/* ── Content block renderers ── */
 function Paragraph({ text }) {
   return (
     <p
@@ -113,9 +96,9 @@ function BulletList({ items }) {
         gap: "0.5rem",
       }}
     >
-      {items.map((item, i) => (
+      {items.map((item, index) => (
         <li
-          key={i}
+          key={`${item}-${index}`}
           style={{ display: "flex", alignItems: "flex-start", gap: "0.625rem" }}
         >
           <CheckCircle
@@ -126,9 +109,7 @@ function BulletList({ items }) {
               marginTop: "3px",
             }}
           />
-          <span
-            style={{ fontSize: "0.9375rem", color: "#374151", lineHeight: 1.7 }}
-          >
+          <span style={{ fontSize: "0.9375rem", color: "#374151", lineHeight: 1.7 }}>
             {item}
           </span>
         </li>
@@ -147,9 +128,9 @@ function CardList({ items }) {
         margin: "0.5rem 0 1.5rem 0",
       }}
     >
-      {items.map((item, i) => (
+      {items.map((item, index) => (
         <div
-          key={i}
+          key={`${item.title}-${index}`}
           style={{
             background: "#F0FDF4",
             border: "1px solid #4F7B4422",
@@ -193,9 +174,9 @@ function TipsList({ items }) {
         margin: "0.5rem 0 1.5rem 0",
       }}
     >
-      {items.map((item, i) => (
+      {items.map((item, index) => (
         <div
-          key={i}
+          key={`${item.title}-${index}`}
           style={{
             border: "1px solid #E5E7EB",
             borderRadius: "0.75rem",
@@ -211,7 +192,7 @@ function TipsList({ items }) {
               marginBottom: "0.5rem",
             }}
           >
-            {i + 1}. {item.title}
+            {index + 1}. {item.title}
           </p>
           <ul
             style={{
@@ -223,9 +204,9 @@ function TipsList({ items }) {
               gap: "0.35rem",
             }}
           >
-            {item.points.map((pt, j) => (
+            {(item.points || []).map((point, pointIndex) => (
               <li
-                key={j}
+                key={`${point}-${pointIndex}`}
                 style={{
                   display: "flex",
                   alignItems: "flex-start",
@@ -249,7 +230,7 @@ function TipsList({ items }) {
                     lineHeight: 1.65,
                   }}
                 >
-                  {pt}
+                  {point}
                 </span>
               </li>
             ))}
@@ -294,20 +275,20 @@ function Conclusion({ text }) {
   );
 }
 
-function renderBlock(block, i) {
+function renderBlock(block, index) {
   switch (block.type) {
     case "paragraph":
-      return <Paragraph key={i} text={block.text} />;
+      return <Paragraph key={index} text={block.text} />;
     case "heading":
-      return <Heading key={i} text={block.text} />;
+      return <Heading key={index} text={block.text} />;
     case "list":
-      return <CardList key={i} items={block.items} />;
+      return <CardList key={index} items={block.items || []} />;
     case "tips":
-      return <TipsList key={i} items={block.items} />;
+      return <TipsList key={index} items={block.items || []} />;
     case "bullets":
-      return <BulletList key={i} items={block.items} />;
+      return <BulletList key={index} items={block.items || []} />;
     case "conclusion":
-      return <Conclusion key={i} text={block.text} />;
+      return <Conclusion key={index} text={block.text} />;
     default:
       return null;
   }
@@ -316,6 +297,7 @@ function renderBlock(block, i) {
 function renderBody(content) {
   if (typeof content === "string") {
     const hasHtml = /<\/?[a-z][\s\S]*>/i.test(content);
+
     if (hasHtml) {
       return (
         <div
@@ -336,14 +318,17 @@ function renderBody(content) {
     ));
   }
 
-  return content.map((block, i) => (
-    <motion.div key={i} variants={fadeUp}>
-      {renderBlock(block, i)}
+  if (!Array.isArray(content)) {
+    return null;
+  }
+
+  return content.map((block, index) => (
+    <motion.div key={index} variants={fadeUp}>
+      {renderBlock(block, index)}
     </motion.div>
   ));
 }
 
-/* ── Related articles ── */
 function RelatedCard({ article }) {
   return (
     <Link to={`/blog/${article.slug}`} style={{ textDecoration: "none" }}>
@@ -355,16 +340,16 @@ function RelatedCard({ article }) {
           background: "white",
           transition: "box-shadow 200ms ease",
         }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.09)";
+        onMouseEnter={(event) => {
+          event.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.09)";
         }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.boxShadow = "none";
+        onMouseLeave={(event) => {
+          event.currentTarget.style.boxShadow = "none";
         }}
       >
         <div style={{ aspectRatio: "16/9", overflow: "hidden" }}>
           <img
-            src={article.image}
+            src={getPostImage(article)}
             alt={article.title}
             style={{
               width: "100%",
@@ -372,11 +357,11 @@ function RelatedCard({ article }) {
               objectFit: "cover",
               transition: "transform 500ms ease",
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "scale(1.04)";
+            onMouseEnter={(event) => {
+              event.currentTarget.style.transform = "scale(1.04)";
             }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "scale(1)";
+            onMouseLeave={(event) => {
+              event.currentTarget.style.transform = "scale(1)";
             }}
           />
         </div>
@@ -389,7 +374,7 @@ function RelatedCard({ article }) {
               marginBottom: "0.375rem",
             }}
           >
-            {formatArticleDate(article)}
+            {formatPostDate(article)}
           </p>
           <p
             style={{
@@ -407,92 +392,63 @@ function RelatedCard({ article }) {
   );
 }
 
-/* ── Page ── */
 export default function ArticlePage() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const [article, setArticle] = useState(null);
   const [related, setRelated] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    function fetchArticle() {
-      setLoading(true);
-      setError(null);
+    let active = true;
 
+    async function fetchArticle() {
       try {
-        const articleData = ARTICLES.find((article) => article.slug === slug);
-        if (!articleData) {
-          setError("Article not found");
-          return;
-        }
+        const response = await api.get(`/blog/posts/${slug}`);
 
-        setArticle(articleData);
-        // Set related articles (all articles except current one)
-        setRelated(
-          ARTICLES.filter((article) => article.slug !== slug).slice(0, 3),
-        );
+        if (active) {
+          setArticle(response.data.data);
+          setRelated(response.data.data.related || []);
+          setError("");
+        }
       } catch (err) {
-        setError("Article not found");
+        if (active) {
+          setError(err.response?.data?.message || "Article not found");
+        }
       } finally {
-        setLoading(false);
+        if (active) {
+          setLoading(false);
+        }
       }
     }
 
+    setLoading(true);
     fetchArticle();
+
+    return () => {
+      active = false;
+    };
   }, [slug]);
 
-  const articleContent = article?.content;
-  const minutes = article
-    ? readingTime(
-        Array.isArray(articleContent)
-          ? articleContent
-          : [{ type: "paragraph", text: articleContent || "" }],
-      )
-    : 0;
+  const minutes = article ? readingTime(article.content) : 0;
 
   if (loading) {
     return (
-      <div
-        className="container-rugan section-padding"
-        style={{ textAlign: "center" }}
-      >
-        <h1
-          style={{
-            fontSize: "2rem",
-            fontWeight: 700,
-            color: "#111827",
-            marginBottom: "1rem",
-          }}
-        >
-          Loading article…
-        </h1>
+      <div className="container-rugan section-padding text-center">
+        <h1 className="text-[2rem] font-bold text-[#111827]">Loading article...</h1>
       </div>
     );
   }
 
   if (error || !article) {
     return (
-      <div
-        className="container-rugan section-padding"
-        style={{ textAlign: "center" }}
-      >
-        <h1
-          style={{
-            fontSize: "2rem",
-            fontWeight: 700,
-            color: "#111827",
-            marginBottom: "1rem",
-          }}
-        >
+      <div className="container-rugan section-padding text-center">
+        <h1 className="text-[2rem] font-bold text-[#111827]">
           {error || "Article not found"}
         </h1>
-        <Link
-          to="/blog"
-          style={{ color: "var(--color-primary)", fontWeight: 600 }}
-        >
-          ← Back to Blog
+        <Link to="/blog" className="mt-4 inline-block font-semibold text-[var(--color-primary)]">
+          Back to Blog
         </Link>
       </div>
     );
@@ -500,12 +456,9 @@ export default function ArticlePage() {
 
   return (
     <>
-      {/* Hero */}
-      <section
-        style={{ position: "relative", minHeight: "340px", overflow: "hidden" }}
-      >
+      <section style={{ position: "relative", minHeight: "340px", overflow: "hidden" }}>
         <img
-          src={article.coverImage || article.image || "/images/blog/hero.jpg"}
+          src={getPostImage(article)}
           alt={article.title}
           style={{
             position: "absolute",
@@ -522,6 +475,7 @@ export default function ArticlePage() {
             background: "rgba(10,25,10,0.72)",
           }}
         />
+
         <motion.div
           className="container-rugan"
           style={{
@@ -534,7 +488,6 @@ export default function ArticlePage() {
           initial="hidden"
           animate="visible"
         >
-          {/* Back link */}
           <motion.div variants={fadeIn}>
             <button
               onClick={() => navigate("/blog")}
@@ -551,18 +504,17 @@ export default function ArticlePage() {
                 padding: 0,
                 transition: "color 200ms",
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = "white";
+              onMouseEnter={(event) => {
+                event.currentTarget.style.color = "white";
               }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = "rgba(255,255,255,0.78)";
+              onMouseLeave={(event) => {
+                event.currentTarget.style.color = "rgba(255,255,255,0.78)";
               }}
             >
               <ArrowLeft size={15} /> Back to Blog
             </button>
           </motion.div>
 
-          {/* Title */}
           <motion.h1
             variants={fadeUp}
             style={{
@@ -578,7 +530,6 @@ export default function ArticlePage() {
             {article.title}
           </motion.h1>
 
-          {/* Meta */}
           <motion.div
             variants={fadeUp}
             style={{
@@ -589,13 +540,9 @@ export default function ArticlePage() {
             }}
           >
             {[
-              { key: "author", icon: User, text: getArticleAuthor(article) },
-              {
-                key: "date",
-                icon: Calendar,
-                text: formatArticleDate(article),
-              },
-              { key: "reading-time", icon: Clock, text: `${minutes} min read` },
+              { key: "author", icon: User, text: getPostAuthorName(article) },
+              { key: "date", icon: Calendar, text: formatPostDate(article) },
+              { key: "time", icon: Clock, text: `${minutes} min read` },
             ]
               .filter(({ text }) => Boolean(text))
               .map(({ key, icon: Icon, text }) => (
@@ -617,7 +564,6 @@ export default function ArticlePage() {
         </motion.div>
       </section>
 
-      {/* Article body */}
       <section
         style={{
           background: "#FAFAFA",
@@ -626,18 +572,10 @@ export default function ArticlePage() {
         }}
       >
         <div className="container-rugan" style={{ maxWidth: "780px" }}>
-          <motion.article
-            variants={staggerContainer}
-            initial="hidden"
-            animate="visible"
-          >
-            {/* Content blocks */}
-            <motion.div variants={staggerContainer}>
-              {renderBody(article.content)}
-            </motion.div>
+          <motion.article variants={staggerContainer} initial="hidden" animate="visible">
+            <motion.div variants={staggerContainer}>{renderBody(article.content)}</motion.div>
           </motion.article>
 
-          {/* Share strip */}
           <motion.div
             variants={fadeUp}
             initial="hidden"
@@ -667,6 +605,7 @@ export default function ArticlePage() {
             >
               <ArrowLeft size={15} /> Back to all articles
             </Link>
+
             <button
               onClick={() => {
                 if (navigator.share) {
@@ -674,10 +613,11 @@ export default function ArticlePage() {
                     title: article.title,
                     url: window.location.href,
                   });
-                } else {
-                  navigator.clipboard.writeText(window.location.href);
-                  alert("Link copied to clipboard!");
+                  return;
                 }
+
+                navigator.clipboard.writeText(window.location.href);
+                window.alert("Link copied to clipboard.");
               }}
               style={{
                 display: "inline-flex",
@@ -693,13 +633,13 @@ export default function ArticlePage() {
                 cursor: "pointer",
                 transition: "color 200ms, border-color 200ms",
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = "var(--color-primary)";
-                e.currentTarget.style.borderColor = "var(--color-primary)";
+              onMouseEnter={(event) => {
+                event.currentTarget.style.color = "var(--color-primary)";
+                event.currentTarget.style.borderColor = "var(--color-primary)";
               }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = "#6B7280";
-                e.currentTarget.style.borderColor = "#E5E7EB";
+              onMouseLeave={(event) => {
+                event.currentTarget.style.color = "#6B7280";
+                event.currentTarget.style.borderColor = "#E5E7EB";
               }}
             >
               <Share2 size={14} /> Share article
@@ -708,30 +648,30 @@ export default function ArticlePage() {
         </div>
       </section>
 
-      {/* Related articles */}
       {related.length > 0 && (
         <section className="section-padding" style={{ background: "white" }}>
           <div className="container-rugan">
             <div style={{ maxWidth: "860px", margin: "0 auto" }}>
               <h2
-              style={{
-                fontSize: "1.375rem",
-                fontWeight: 700,
-                color: "#111827",
-                marginBottom: "1.5rem",
-              }}
+                style={{
+                  fontSize: "1.375rem",
+                  fontWeight: 700,
+                  color: "#111827",
+                  marginBottom: "1.5rem",
+                }}
               >
                 You may also like
               </h2>
+
               <motion.div
                 className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5"
                 variants={staggerContainer}
                 initial="hidden"
                 animate="visible"
               >
-                {related.map((a) => (
-                  <motion.div key={a.slug} variants={fadeUp}>
-                    <RelatedCard article={a} />
+                {related.map((item) => (
+                  <motion.div key={item.slug} variants={fadeUp}>
+                    <RelatedCard article={item} />
                   </motion.div>
                 ))}
               </motion.div>
@@ -740,7 +680,6 @@ export default function ArticlePage() {
         </section>
       )}
 
-      {/* Newsletter */}
       <section className="section-padding" style={{ background: "#5B8A8C" }}>
         <div className="container-rugan" style={{ textAlign: "center" }}>
           <h2

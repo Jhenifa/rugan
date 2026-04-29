@@ -1,216 +1,65 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
-import { Link } from "react-router";
-import { User, Calendar, ArrowRight } from "lucide-react";
+
+import BlogCard from "@/components/common/BlogCard";
 import PageHeroBanner from "@/components/common/PageHeroBanner";
 import NewsletterForm from "@/components/forms/NewsletterForm";
-import { ARTICLES } from "./blog/articleData";
+import api from "@/lib/api";
+import { formatPostDate, getPostAuthorName, getPostImage } from "@/lib/blog";
+import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
-function formatDate(dateString) {
-  if (!dateString) return "";
-  return new Date(dateString).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-}
-
-/* ── Blog Card ── */
-function BlogCard({ image, title, excerpt, author, date, to }) {
+function EmptyState() {
   return (
     <div
-      style={{
-        border: "1px solid #E5E7EB",
-        borderRadius: "1rem",
-        overflow: "hidden",
-        background: "white",
-        display: "flex",
-        flexDirection: "column",
-        height: "100%",
-        transition: "box-shadow 200ms ease",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = "0 8px 30px rgba(0,0,0,0.10)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.boxShadow = "none";
-      }}
+      className="rounded-2xl border border-dashed border-[#D0D5DD] bg-[#F9FAFB] px-6 py-14 text-center"
+      style={{ borderRadius: "1rem" }}
     >
-      {/* Image */}
-      <div style={{ aspectRatio: "16/9", overflow: "hidden", flexShrink: 0 }}>
-        <img
-          src={image}
-          alt={title}
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            transition: "transform 500ms ease",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "scale(1.04)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "scale(1)";
-          }}
-        />
-      </div>
-
-      {/* Content */}
-      <div
-        style={{
-          padding: "1.5rem",
-          display: "flex",
-          flexDirection: "column",
-          flex: 1,
-        }}
-      >
-        <h3
-          style={{
-            fontSize: "1rem",
-            fontWeight: 700,
-            color: "#111827",
-            lineHeight: 1.45,
-            marginBottom: "0.625rem",
-            display: "-webkit-box",
-            WebkitLineClamp: 3,
-            WebkitBoxOrient: "vertical",
-            overflow: "hidden",
-          }}
-        >
-          {title}
-        </h3>
-
-        {excerpt && (
-          <p
-            style={{
-              fontSize: "0.875rem",
-              color: "#6B7280",
-              lineHeight: 1.65,
-              marginBottom: "1rem",
-              flex: 1,
-              display: "-webkit-box",
-              WebkitLineClamp: 3,
-              WebkitBoxOrient: "vertical",
-              overflow: "hidden",
-            }}
-          >
-            {excerpt}
-          </p>
-        )}
-
-        <div style={{ marginTop: "auto" }}>
-          {/* Meta */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "1rem",
-              fontSize: "0.8125rem",
-              color: "#9CA3AF",
-              marginBottom: "1rem",
-            }}
-          >
-            {author && (
-              <span
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.375rem",
-                }}
-              >
-                <User size={13} />
-                {author}
-              </span>
-            )}
-            {date && (
-              <span
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.375rem",
-                }}
-              >
-                <Calendar size={13} />
-                {date}
-              </span>
-            )}
-          </div>
-
-          {/* Read More */}
-          <Link
-            to={to}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "0.375rem",
-              fontSize: "0.875rem",
-              fontWeight: 600,
-              color: "var(--color-primary)",
-              textDecoration: "none",
-              transition: "gap 200ms ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.gap = "0.625rem";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.gap = "0.375rem";
-            }}
-          >
-            Read More <ArrowRight size={15} />
-          </Link>
-        </div>
-      </div>
+      <h2 className="text-xl font-bold text-[#101828]">No posts yet</h2>
+      <p className="mt-3 text-sm text-[#667085]">
+        New stories and updates will appear here once they are published.
+      </p>
     </div>
   );
 }
 
-function BlogList() {
-  const posts = ARTICLES;
-
-  if (!posts.length) {
-    return (
-      <div style={{ textAlign: "center", padding: "4rem 0" }}>
-        <p style={{ fontSize: "1rem", color: "#9CA3AF" }}>
-          No posts yet. Check back soon!
-        </p>
-      </div>
-    );
-  }
-
-  return (
-    <motion.div
-      className="mx-auto grid max-w-[1220px] grid-cols-1 items-stretch gap-5 md:grid-cols-2 lg:gap-6"
-      variants={staggerContainer}
-      initial="hidden"
-      whileInView="visible"
-      viewport={viewportOnce}
-    >
-      {posts.map((post) => (
-        <motion.div
-          key={post._id}
-          variants={fadeUp}
-          style={{ display: "flex", flexDirection: "column", height: "100%" }}
-        >
-          <BlogCard
-            image={post.image}
-            title={post.title}
-            excerpt={post.excerpt}
-            author={post.author}
-            date={post.date}
-            to={`/blog/${post.slug}`}
-          />
-        </motion.div>
-      ))}
-    </motion.div>
-  );
-}
-
-/* ── Page ── */
 export default function BlogPage() {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadPosts() {
+      try {
+        const response = await api.get("/blog/posts", {
+          params: { limit: 12 },
+        });
+
+        if (active) {
+          setPosts(response.data.data || []);
+          setError("");
+        }
+      } catch (err) {
+        if (active) {
+          setError(err.response?.data?.message || "Could not load blog posts.");
+        }
+      } finally {
+        if (active) {
+          setLoading(false);
+        }
+      }
+    }
+
+    loadPosts();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
   return (
     <>
-      {/* Hero */}
       <PageHeroBanner
         title="News & Stories"
         subtitle="Updates, insights, and inspiring stories from our work in the field"
@@ -219,14 +68,54 @@ export default function BlogPage() {
         darkOverlay
       />
 
-      {/* Blog Posts Grid */}
       <section className="section-padding">
         <div className="container-rugan">
-          <BlogList />
+          {loading ? (
+            <div className="py-10 text-center">
+              <p className="text-base text-[#667085]">Loading stories...</p>
+            </div>
+          ) : error ? (
+            <div
+              className="rounded-2xl border border-[#FECACA] bg-[#FEF2F2] px-6 py-5 text-center"
+              style={{ borderRadius: "1rem" }}
+            >
+              <p className="text-sm font-medium text-[#991B1B]">{error}</p>
+            </div>
+          ) : posts.length === 0 ? (
+            <EmptyState />
+          ) : (
+            <motion.div
+              className="mx-auto grid max-w-[1220px] grid-cols-1 items-stretch gap-5 md:grid-cols-2 lg:gap-6"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportOnce}
+            >
+              {posts.map((post) => (
+                <motion.div
+                  key={post._id || post.slug}
+                  variants={fadeUp}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100%",
+                  }}
+                >
+                  <BlogCard
+                    image={getPostImage(post)}
+                    title={post.title}
+                    excerpt={post.excerpt}
+                    author={getPostAuthorName(post)}
+                    date={formatPostDate(post)}
+                    to={`/blog/${post.slug}`}
+                  />
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
         </div>
       </section>
 
-      {/* Newsletter — teal section */}
       <section className="section-padding" style={{ background: "#5B8A8C" }}>
         <div className="container-rugan" style={{ textAlign: "center" }}>
           <h2

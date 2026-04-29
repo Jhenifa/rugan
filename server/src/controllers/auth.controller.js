@@ -31,6 +31,18 @@ export async function getMe(req, res) {
   res.json({ success: true, user: req.user })
 }
 
+export async function getUsers(_req, res, next) {
+  try {
+    const users = await User.find({})
+      .sort({ createdAt: -1 })
+      .select('name email role isActive createdAt')
+
+    res.json({ success: true, data: users, total: users.length })
+  } catch (err) {
+    next(err)
+  }
+}
+
 export async function register(req, res, next) {
   try {
     const { name, email, password, role } = req.body

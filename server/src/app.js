@@ -5,7 +5,13 @@ import helmet from "helmet";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
 
+import { ensureAdminUser } from "./config/admin.js";
 import { connectDB } from "./config/db.js";
+import {
+  getAllowedOrigins,
+  getFeatureFlags,
+  validateEnvironment,
+} from "./config/env.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { notFound } from "./middleware/notFound.js";
 
@@ -19,27 +25,14 @@ import contactRoutes from "./routes/contact.routes.js";
 
 const app = express();
 
-function getAllowedOrigins() {
-  const configuredOrigins = process.env.CORS_ORIGIN?.split(",")
-    .map((origin) => origin.trim())
-    .filter(Boolean);
-
-  if (configuredOrigins?.length) return configuredOrigins;
-
-  return [
-    "http://localhost:5173",
-    "http://localhost:5174",
-    "http://localhost:5175",
-    "https://rugan.org",
-    "https://www.rugan.org",
-  ];
-}
-
+validateEnvironment();
 const allowedOrigins = getAllowedOrigins();
 const allowAllOrigins = allowedOrigins.includes("*");
 
 await connectDB();
+await ensureAdminUser();
 
+app.set("trust proxy", 1);
 app.use(helmet());
 app.use(
   cors({
@@ -57,7 +50,14 @@ app.use(
     },
   }),
 );
-app.use(express.json({ limit: "10mb" }));
+app.use(
+  express.json({
+    limit: "10mb",
+    verify(req, _res, buffer) {
+      req.rawBody = buffer.toString("utf8");
+    },
+  }),
+);
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan(process.env.NODE_ENV === "development" ? "dev" : "combined"));
 
@@ -65,6 +65,8 @@ const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
   message: "Too many requests, please try again later.",
+  standardHeaders: true,
+  legacyHeaders: false,
 });
 
 app.use("/api", limiter);
@@ -78,7 +80,11 @@ app.use("/api/newsletter", newsletterRoutes);
 app.use("/api/contact", contactRoutes);
 
 app.get("/api/health", (_req, res) =>
-  res.json({ status: "ok", env: process.env.NODE_ENV }),
+  res.json({
+    status: "ok",
+    env: process.env.NODE_ENV,
+    features: getFeatureFlags(),
+  }),
 );
 
 app.use(notFound);

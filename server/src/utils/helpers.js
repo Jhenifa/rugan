@@ -30,3 +30,27 @@ export function sanitizeMongoQuery(obj) {
       .map(([key, val]) => [key, sanitizeMongoQuery(val)])
   )
 }
+
+export function escapeHtml(value = '') {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
+export function nl2br(value = '') {
+  return escapeHtml(value).replace(/\r?\n/g, '<br />')
+}
+
+export function joinUrl(baseUrl = '', path = '') {
+  const normalizedBase = String(baseUrl).trim().replace(/\/+$/, '')
+  const normalizedPath = String(path).trim().replace(/^\/+/, '')
+
+  if (!normalizedBase) {
+    return normalizedPath ? `/${normalizedPath}` : '/'
+  }
+
+  return normalizedPath ? `${normalizedBase}/${normalizedPath}` : normalizedBase
+}

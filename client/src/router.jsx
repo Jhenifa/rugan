@@ -1,6 +1,8 @@
-import { createBrowserRouter } from "react-router";
+import { Navigate, createBrowserRouter } from "react-router";
 
 import RootLayout from "@/components/layout/RootLayout";
+import AdminLayout from "@/components/layout/AdminLayout";
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import HomePage from "@/pages/HomePage";
 import AboutPage from "@/pages/AboutPage";
 import TeamPage from "@/pages/TeamPage";
@@ -15,8 +17,35 @@ import DonationPage from "@/pages/DonationPage";
 import DonationSuccessPage from "@/pages/DonationSuccessPage";
 import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage";
 import TermsPage from "@/pages/TermsPage";
+import AdminLoginPage from "@/pages/admin/AdminLoginPage";
+import AdminPostsPage from "@/pages/admin/AdminPostsPage";
+import AdminUsersPage from "@/pages/admin/AdminUsersPage";
 
 const router = createBrowserRouter([
+  {
+    path: "/login",
+    element: <AdminLoginPage />,
+  },
+  {
+    path: "/admin",
+    element: (
+      <ProtectedRoute>
+        <AdminLayout />
+      </ProtectedRoute>
+    ),
+    children: [
+      { index: true, element: <Navigate to="/admin/posts" replace /> },
+      { path: "posts", element: <AdminPostsPage /> },
+      {
+        path: "users",
+        element: (
+          <ProtectedRoute requireAdmin>
+            <AdminUsersPage />
+          </ProtectedRoute>
+        ),
+      },
+    ],
+  },
   {
     path: "/",
     element: <RootLayout />,

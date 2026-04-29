@@ -1,6 +1,5 @@
 import { useEffect, useLayoutEffect } from "react";
 import { Outlet, useLocation } from "react-router";
-import { Toaster } from "react-hot-toast";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 
@@ -61,7 +60,6 @@ export default function RootLayout() {
   return (
     <>
       <ScrollToTop />
-      <Toaster position="top-right" toastOptions={{ duration: 4000 }} />
       <Navbar />
       <main>
         <Outlet />

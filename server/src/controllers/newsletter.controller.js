@@ -1,9 +1,12 @@
 import NewsletterSubscriber from "../models/NewsletterSubscriber.model.js";
 import { AppError } from "../middleware/errorHandler.js";
+import { sendEmailSafely } from "../utils/email.js";
+import { sendNewsletterSubscriptionConfirmation } from "../services/newsletter.service.js";
+import { escapeHtml } from "../utils/helpers.js";
 
 export async function subscribe(req, res, next) {
   try {
-    const { email } = req.body;
+    const email = String(req.body.email || "").trim().toLowerCase();
     if (!email) throw new AppError("Email is required", 400);
 
     const existing = await NewsletterSubscriber.findOne({ email });
@@ -11,35 +14,50 @@ export async function subscribe(req, res, next) {
       if (existing.isActive) {
         return res.json({ success: true, message: "Already subscribed!" });
       }
+
       existing.isActive = true;
       await existing.save();
+      const emailTasks = [sendNewsletterSubscriptionConfirmation(email, true)];
+
+      if (process.env.ADMIN_EMAIL) {
+        emailTasks.push(
+          sendEmailSafely(
+            {
+            to: process.env.ADMIN_EMAIL,
+            subject: "Newsletter Subscriber Re-activated",
+            html: `<p>Subscriber re-activated: ${escapeHtml(email)}</p>`,
+            },
+            "newsletter admin re-activation notification",
+          ),
+        );
+      }
+
+      await Promise.all(emailTasks);
+
       return res.json({
         success: true,
         message: "Welcome back! You are now re-subscribed.",
       });
     }
 
-    const subscriber = await NewsletterSubscriber.create({ email });
+    await NewsletterSubscriber.create({ email });
 
-    // Send welcome email
-    await sendEmail({
-      to: email,
-      subject: "Welcome to RUGAN Newsletter!",
-      html: `
-        <h2>Welcome to RUGAN!</h2>
-        <p>Thank you for subscribing to our newsletter. You'll receive updates on our work empowering girls in Nigeria.</p>
-        <p>Stay tuned for stories, updates, and ways to get involved.</p>
-        <br>
-        <p>Best regards,<br>The RUGAN Team</p>
-      `,
-    }).catch(console.error);
+    const emailTasks = [sendNewsletterSubscriptionConfirmation(email)];
 
-    // Notify admin
-    await sendEmail({
-      to: process.env.ADMIN_EMAIL,
-      subject: "New Newsletter Subscriber",
-      html: `<p>New subscriber: ${email}</p>`,
-    }).catch(console.error);
+    if (process.env.ADMIN_EMAIL) {
+      emailTasks.push(
+        sendEmailSafely(
+          {
+          to: process.env.ADMIN_EMAIL,
+          subject: "New Newsletter Subscriber",
+          html: `<p>New subscriber: ${escapeHtml(email)}</p>`,
+          },
+          "newsletter admin notification",
+        ),
+      );
+    }
+
+    await Promise.all(emailTasks);
 
     res
       .status(201)
@@ -54,7 +72,7 @@ export async function subscribe(req, res, next) {
 
 export async function unsubscribe(req, res, next) {
   try {
-    const { email } = req.body;
+    const email = String(req.body.email || "").trim().toLowerCase();
     const subscriber = await NewsletterSubscriber.findOne({ email });
     if (!subscriber) throw new AppError("Email not found", 404);
 

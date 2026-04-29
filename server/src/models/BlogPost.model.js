@@ -41,6 +41,7 @@ const blogPostSchema = new mongoose.Schema(
       default: "draft",
     },
     publishedAt: { type: Date },
+    newsletterSentAt: { type: Date },
     views: { type: Number, default: 0 },
   },
   { timestamps: true },
@@ -54,11 +55,7 @@ blogPostSchema.pre("validate", function (next) {
 });
 
 blogPostSchema.pre("save", function (next) {
-  if (
-    this.isModified("status") &&
-    this.status === "published" &&
-    !this.publishedAt
-  ) {
+  if (this.status === "published" && !this.publishedAt) {
     this.publishedAt = new Date();
   }
   next();
