@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { scaleIn, viewportOnce } from '@/lib/motion'
 import { Link } from 'react-router'
 import { ArrowRight, User, Calendar } from 'lucide-react'
+import OptimizedImage from '@/components/common/OptimizedImage'
 
 /**
  * BlogCard
@@ -25,15 +26,12 @@ export default function BlogCard({ image, title, excerpt, author, date, to, clas
       onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'none' }}
     >
       {/* Image */}
-      <div style={{ aspectRatio: '16/9', overflow: 'hidden', flexShrink: 0 }}>
-        <img
-          src={image}
-          alt={title}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 500ms ease' }}
-          onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.04)' }}
-          onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)' }}
-        />
-      </div>
+      <OptimizedImage
+        src={image}
+        alt={title}
+        aspectRatio="16/9"
+        style={{ flexShrink: 0 }}
+      />
 
       {/* Content */}
       <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', flex: 1 }}>

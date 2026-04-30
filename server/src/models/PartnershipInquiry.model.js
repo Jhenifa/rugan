@@ -34,3 +34,6 @@ const partnershipSchema = new mongoose.Schema(
 partnershipSchema.index({ status: 1, createdAt: -1 })
 
 export default mongoose.model('PartnershipInquiry', partnershipSchema)
+
+
+partnershipSchema.index({ status: 1, createdAt: -1 });

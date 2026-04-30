@@ -3,6 +3,7 @@ import { fadeUp, scaleIn, viewportOnce } from "@/lib/motion";
 import { Link } from "react-router";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/cn";
+import OptimizedImage from "@/components/common/OptimizedImage";
 
 /**
  * ProgramCard
@@ -40,12 +41,8 @@ export default function ProgramCard({
             className,
           )}
         >
-          <img
-            src={image}
-            alt={title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-          {/* Gradient overlay */}
+          <OptimizedImage src={image} alt={title} aspectRatio="4/3" />
+        {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
             <h3 className="text-heading-sm font-semibold text-white">{title}</h3>
@@ -63,12 +60,8 @@ export default function ProgramCard({
   return (
     <div className={cn("card-hover flex flex-col h-full", className)}>
       <div className="aspect-[16/10] overflow-hidden">
-        <img
-          src={image}
-          alt={title}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-      </div>
+        <OptimizedImage src={image} alt={title} aspectRatio="4/3" />
+        </div>
       <div className="p-6 flex flex-col flex-1">
         <h3 className="text-heading-md font-semibold text-neutral-900 mb-2">
           {title}

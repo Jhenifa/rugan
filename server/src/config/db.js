@@ -32,7 +32,7 @@ export async function connectDB() {
 
   if (!cached.promise) {
     cached.promise = mongoose
-      .connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 10000 })
+      .connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 10000, maxPoolSize: 10, minPoolSize: 2, socketTimeoutMS: 45000, heartbeatFrequencyMS: 10000 })
       .then((conn) => {
         console.log(`MongoDB connected: ${conn.connection.host}`);
         return conn;

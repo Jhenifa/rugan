@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { scaleIn, staggerContainer, viewportOnce } from '@/lib/motion'
 import { cn } from '@/lib/cn'
+import OptimizedImage from '@/components/common/OptimizedImage'
 
 /**
  * PhotoGallery
@@ -18,11 +19,11 @@ export default function PhotoGallery({ images = [], bgColor = 'light-green', cla
       <div className="container-rugan">
         <motion.div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3" variants={staggerContainer} initial='hidden' whileInView='visible' viewport={viewportOnce}>
           {images.map((img, i) => (
-            <motion.div key={i} variants={scaleIn} className="aspect-square rounded-2xl overflow-hidden">
-              <img
+            <motion.div key={i} variants={scaleIn} className="rounded-2xl overflow-hidden">
+              <OptimizedImage
                 src={img.src}
                 alt={img.alt || `Gallery image ${i + 1}`}
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                aspectRatio="1/1"
               />
             </motion.div>
           ))}

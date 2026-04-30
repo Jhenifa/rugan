@@ -54,7 +54,7 @@ export default function AdminUsersPage() {
   }
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[420px_minmax(0,1fr)]">
+    <div className="grid gap-6 lg:grid-cols-[420px_minmax(0,1fr)]">
       <section className="rounded-2xl border border-[#E5E7EB] bg-white">
         <div className="border-b border-[#E5E7EB] px-5 py-4">
           <h2 className="text-lg font-bold text-[#101828]">Create user</h2>

@@ -47,6 +47,11 @@ export async function ensureAdminUser() {
     shouldSave = true;
   }
 
+  if (admin.name !== adminName) {
+    admin.name = adminName;
+    shouldSave = true;
+  }
+
   if (!(await admin.matchPassword(password))) {
     admin.password = password;
     shouldSave = true;

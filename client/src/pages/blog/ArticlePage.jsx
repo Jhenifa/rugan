@@ -13,6 +13,7 @@ import {
 import NewsletterForm from "@/components/forms/NewsletterForm";
 import api from "@/lib/api";
 import { formatPostDate, getPostAuthorName, getPostImage } from "@/lib/blog";
+import { parseFormattedText } from "@/lib/formatText";
 import { fadeIn, fadeUp, staggerContainer } from "@/lib/motion";
 
 function readingTime(content) {
@@ -40,8 +41,16 @@ function readingTime(content) {
           .join(" ");
       }
 
-      if (block.type === "bullets") {
+      if (block.type === "bullets" || block.type === "numbered") {
         return (block.items || []).join(" ");
+      }
+
+      if (block.type === "subheading" || block.type === "quote" || block.type === "callout") {
+        return block.text || "";
+      }
+
+      if (block.type === "image") {
+        return block.caption || "";
       }
 
       return "";
@@ -61,7 +70,7 @@ function Paragraph({ text }) {
         marginBottom: "1.25rem",
       }}
     >
-      {text}
+      {parseFormattedText(text)}
     </p>
   );
 }
@@ -79,7 +88,7 @@ function Heading({ text }) {
         borderLeft: "3px solid var(--color-primary)",
       }}
     >
-      {text}
+      {parseFormattedText(text)}
     </h2>
   );
 }
@@ -110,7 +119,7 @@ function BulletList({ items }) {
             }}
           />
           <span style={{ fontSize: "0.9375rem", color: "#374151", lineHeight: 1.7 }}>
-            {item}
+            {parseFormattedText(item)}
           </span>
         </li>
       ))}
@@ -269,7 +278,7 @@ function Conclusion({ text }) {
         >
           Conclusion
         </strong>
-        {text}
+        {parseFormattedText(text)}
       </p>
     </div>
   );
@@ -281,6 +290,55 @@ function renderBlock(block, index) {
       return <Paragraph key={index} text={block.text} />;
     case "heading":
       return <Heading key={index} text={block.text} />;
+    case "subheading":
+      return (
+        <h3 key={index} style={{ fontSize: "1.05rem", fontWeight: 600, color: "#1F2937", margin: "1.5rem 0 0.5rem" }}>
+          {block.text}
+        </h3>
+      );
+    case "image":
+      return block.url ? (
+        <figure key={index} style={{ margin: "1.75rem 0" }}>
+          <img
+            src={block.url}
+            alt={block.alt || ""}
+            loading="lazy"
+            decoding="async"
+            style={{ width: "100%", borderRadius: "0.75rem", display: "block", border: "1px solid #E5E7EB" }}
+          />
+          {block.caption && (
+            <figcaption style={{ textAlign: "center", fontSize: "0.8125rem", color: "#9CA3AF", marginTop: "0.5rem", fontStyle: "italic" }}>
+              {block.caption}
+            </figcaption>
+          )}
+        </figure>
+      ) : null;
+    case "quote":
+      return (
+        <blockquote key={index} style={{ borderLeft: "4px solid #4F7B44", margin: "1.5rem 0", padding: "0.875rem 1.25rem", fontStyle: "italic", color: "#374151", background: "#F9FAFB", borderRadius: "0 0.625rem 0.625rem 0" }}>
+          {parseFormattedText(block.text)}
+        </blockquote>
+      );
+    case "numbered":
+      return (
+        <ol key={index} style={{ margin: "0.5rem 0 1.25rem", paddingLeft: "1.5rem", display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+          {(block.items || []).map((item, i) => (
+            <li key={i} style={{ fontSize: "0.9375rem", color: "#374151", lineHeight: 1.7 }}>{parseFormattedText(item)}</li>
+          ))}
+        </ol>
+      );
+    case "callout": {
+      const variants = { info: { bg: "#EFF6FF", border: "#BFDBFE", icon: "💡" }, tip: { bg: "#F0FDF4", border: "#BBF7D0", icon: "✅" }, warning: { bg: "#FFFBEB", border: "#FDE68A", icon: "⚠️" } };
+      const v = variants[block.variant || "info"];
+      return (
+        <div key={index} style={{ background: v.bg, border: `1px solid ${v.border}`, borderRadius: "0.625rem", padding: "1rem 1.25rem", margin: "1rem 0", display: "flex", gap: "0.75rem" }}>
+          <span style={{ fontSize: "1.1rem", flexShrink: 0 }}>{v.icon}</span>
+          <p style={{ margin: 0, fontSize: "0.9375rem", color: "#374151", lineHeight: 1.7 }}>{parseFormattedText(block.text)}</p>
+        </div>
+      );
+    }
+    case "divider":
+      return <hr key={index} style={{ border: "none", borderTop: "1px solid #E5E7EB", margin: "2rem 0" }} />;
     case "list":
       return <CardList key={index} items={block.items || []} />;
     case "tips":

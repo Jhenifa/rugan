@@ -10,3 +10,6 @@ const subscriberSchema = new mongoose.Schema(
 )
 
 export default mongoose.model('NewsletterSubscriber', subscriberSchema)
+
+// Index for fast active subscriber queries (used in newsletter broadcasts)
+subscriberSchema.index({ isActive: 1, subscribedAt: -1 });

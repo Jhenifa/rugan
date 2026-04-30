@@ -6,6 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="RUGAN — Empowering rural girl-children through education, mentorship, and advocacy." />
     <title>RUGAN | Empowering Rural Girls</title>
+
+    <!-- Preconnect to API server so the first request has no DNS/TLS handshake delay -->
+    <link rel="preconnect" href="https://rugan-server.onrender.com" crossorigin />
+    <!-- Preconnect to Brevo in case emails need to fire quickly -->
+    <link rel="dns-prefetch" href="https://api.brevo.com" />
+
+    <!-- Open Graph (social sharing) -->
+    <meta property="og:title" content="RUGAN | Empowering Rural Girls" />
+    <meta property="og:description" content="Empowering rural girl-children through education, mentorship, and advocacy." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://rugan.org" />
+    <meta property="og:image" content="https://rugan.org/images/og-image.jpg" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="RUGAN | Empowering Rural Girls" />
+    <meta name="twitter:description" content="Empowering rural girl-children through education, mentorship, and advocacy." />
   </head>
   <body>
     <div id="root"></div>

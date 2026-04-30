@@ -16,12 +16,20 @@ export default function AdminLayout() {
         <div className="mx-auto flex w-full max-w-[1320px] flex-col gap-4 px-4 py-4 lg:px-8">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#4F7B44]">
-                RUGAN CMS
-              </p>
-              <h1 className="mt-1 text-2xl font-bold text-[#101828]">
-                Publishing and outreach
-              </h1>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                <div style={{ width: 36, height: 36, borderRadius: "0.5rem", overflow: "hidden", border: "1px solid #E5E7EB", flexShrink: 0 }}>
+                  <img src="/icons/rugan-logo.jpg" alt="RUGAN" style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    onError={e => { e.target.style.display = "none"; }} />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#4F7B44]">
+                    RUGAN
+                  </p>
+                  <h1 className="text-lg font-bold text-[#101828] leading-tight">
+                    Content Management System
+                  </h1>
+                </div>
+              </div>
             </div>
 
             <div className="flex flex-wrap items-center gap-3">

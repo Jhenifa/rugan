@@ -146,7 +146,8 @@ export async function getPosts(req, res, next) {
         .skip(skip)
         .limit(limit)
         .select("title slug excerpt coverImage publishedAt createdAt author authorName tags views")
-        .populate("author", "name"),
+        .populate("author", "name")
+        .lean(),
       BlogPost.countDocuments(filter),
     ]);
 
@@ -167,24 +168,24 @@ export async function getPosts(req, res, next) {
 
 export async function getPost(req, res, next) {
   try {
-    const post = await BlogPost.findOne({
-      slug: req.params.slug,
-      status: "published",
-    }).populate("author", "name");
+    // Increment view count atomically and fetch post in one operation
+    const [post, related] = await Promise.all([
+      BlogPost.findOneAndUpdate(
+        { slug: req.params.slug, status: "published" },
+        { $inc: { views: 1 } },
+        { new: true },
+      ).populate("author", "name"),
+      BlogPost.find({
+        status: "published",
+        slug: { $ne: req.params.slug },
+      })
+        .sort({ publishedAt: -1, createdAt: -1 })
+        .limit(3)
+        .select("title slug excerpt coverImage publishedAt createdAt author authorName")
+        .lean(),
+    ]);
 
     if (!post) throw new AppError("Post not found", 404);
-
-    post.views += 1;
-    await post.save({ validateBeforeSave: false });
-
-    const related = await BlogPost.find({
-      status: "published",
-      slug: { $ne: req.params.slug },
-    })
-      .sort({ publishedAt: -1, createdAt: -1 })
-      .limit(3)
-      .select("title slug excerpt coverImage publishedAt createdAt author authorName")
-      .populate("author", "name");
 
     res.json({
       success: true,
@@ -209,10 +210,8 @@ export async function getAdminPosts(req, res, next) {
     }
 
     if (search) {
-      filter.$or = [
-        { title: { $regex: search, $options: "i" } },
-        { excerpt: { $regex: search, $options: "i" } },
-      ];
+      // Use MongoDB text index for fast full-text search
+      filter.$text = { $search: search };
     }
 
     const [posts, total] = await Promise.all([

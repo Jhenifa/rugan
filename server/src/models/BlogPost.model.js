@@ -62,5 +62,8 @@ blogPostSchema.pre("save", function (next) {
 });
 
 blogPostSchema.index({ status: 1, publishedAt: -1 });
+blogPostSchema.index({ tags: 1 });
+// Full-text search index for admin search queries
+blogPostSchema.index({ title: "text", excerpt: "text" });
 
 export default mongoose.model("BlogPost", blogPostSchema);
