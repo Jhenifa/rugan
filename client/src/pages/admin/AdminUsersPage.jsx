@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { Edit2, Eye, EyeOff } from "lucide-react";
+import { Edit2, Eye, EyeOff, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 
 import Button from "@/components/ui/Button";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
+import { useAuth } from "@/context/AuthContext";
 import api from "@/lib/api";
 
 const EMPTY_FORM = {
@@ -29,12 +31,34 @@ function EditUserButton({ onClick, fullWidth = false }) {
 }
 
 export default function AdminUsersPage() {
+  const { user: currentUser } = useAuth();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState(EMPTY_FORM);
   const [editingUserId, setEditingUserId] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
+  const [deleting, setDeleting] = useState(false);
+
+  async function confirmDelete() {
+    if (!userToDelete) return;
+    setDeleting(true);
+    try {
+      await api.delete(`/auth/users/${userToDelete._id}`);
+      toast.success("User deleted permanently.");
+      setShowDeleteConfirm(false);
+      setUserToDelete(null);
+      if (editingUserId === userToDelete._id) cancelEdit();
+      await loadUsers();
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Could not delete user.");
+    } finally {
+      setDeleting(false);
+    }
+  }
 
   async function loadUsers() {
     try {
@@ -97,7 +121,24 @@ export default function AdminUsersPage() {
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[380px_minmax(0,1fr)] lg:items-start">
+    <>
+      <ConfirmDialog
+        open={showDeleteConfirm}
+        title="Delete user?"
+        description={`This will permanently delete ${userToDelete?.name} and remove their access to the CMS. This action cannot be undone.`}
+        confirmLabel="Delete user"
+        cancelLabel="Cancel"
+        busy={deleting}
+        onCancel={() => {
+          if (!deleting) {
+            setShowDeleteConfirm(false);
+            setUserToDelete(null);
+          }
+        }}
+        onConfirm={confirmDelete}
+      />
+
+      <div className="grid gap-6 lg:grid-cols-[380px_minmax(0,1fr)] lg:items-start">
       <section className="rounded-2xl border border-[#E5E7EB] bg-white lg:sticky lg:top-6">
         <div className="border-b border-[#E5E7EB] px-4 py-4 sm:px-5">
           <h2 className="text-lg font-bold text-[#101828]">
@@ -236,15 +277,31 @@ export default function AdminUsersPage() {
                     <p className="break-all text-sm text-[#475467]">{user.email}</p>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => handleEdit(user)}
-                    aria-label={`Edit ${user.name}`}
-                    title={`Edit ${user.name}`}
-                    className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#D0D5DD] text-[#4F7B44]"
-                  >
-                    <Edit2 size={14} />
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleEdit(user)}
+                      aria-label={`Edit ${user.name}`}
+                      title={`Edit ${user.name}`}
+                      className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#D0D5DD] text-[#4F7B44]"
+                    >
+                      <Edit2 size={14} />
+                    </button>
+                    {user._id !== currentUser?._id && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setUserToDelete(user);
+                          setShowDeleteConfirm(true);
+                        }}
+                        aria-label={`Delete ${user.name}`}
+                        title={`Delete ${user.name}`}
+                        className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#FECACA] text-[#B42318] bg-white transition-colors hover:bg-red-50"
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3 rounded-xl bg-[#F9FAFB] p-3">
@@ -306,7 +363,22 @@ export default function AdminUsersPage() {
                       {user.isActive ? "Active" : "Disabled"}
                     </td>
                     <td className="px-5 py-4 text-right text-sm">
-                      <EditUserButton onClick={() => handleEdit(user)} />
+                      <div className="flex items-center justify-end gap-2">
+                        <EditUserButton onClick={() => handleEdit(user)} />
+                        {user._id !== currentUser?._id && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setUserToDelete(user);
+                              setShowDeleteConfirm(true);
+                            }}
+                            className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-sm font-medium text-[#B42318] transition-colors hover:bg-red-50"
+                            style={{ background: "none", border: "none", cursor: "pointer" }}
+                          >
+                            <Trash2 size={14} /> Delete
+                          </button>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -316,5 +388,6 @@ export default function AdminUsersPage() {
         </div>
       </section>
     </div>
+    </>
   );
 }

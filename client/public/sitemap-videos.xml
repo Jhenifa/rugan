@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+  <url>
+    <loc>https://rugan.org/volunteers</loc>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/ZPWM55hwx6o/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Stories of Impact from RUGAN Volunteers</video:title>
+      <video:description>Hear directly from RUGAN volunteers about the impact of supporting girls through outreach, mentorship, and advocacy.</video:description>
+      <video:content_loc>https://www.youtube.com/embed/ZPWM55hwx6o</video:content_loc>
+      <video:player_loc>https://www.youtube.com/embed/ZPWM55hwx6o</video:player_loc>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+</urlset>

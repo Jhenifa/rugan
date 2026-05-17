@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
-import { Facebook, Twitter, Instagram, Linkedin, Mail } from "lucide-react";
+import { Facebook, Youtube, Instagram, Linkedin, Mail } from "lucide-react";
 
 const QUICK_LINKS = [
   { label: "About Us", to: "/about" },
@@ -38,13 +38,13 @@ const SOCIALS = [
     label: "Facebook",
   },
   {
-    icon: Twitter,
-    href: "https://www.facebook.com/share/1E1x2wHhog/?mibextid=wwXIfr",
-    label: "Twitter",
+    icon: Youtube,
+    href: "https://www.youtube.com/@therugannigeria",
+    label: "YouTube",
   },
   {
     icon: Instagram,
-    href: "https://www.instagram.com/theruralgirladvancementnetwork?igsh=dWw5cGtyZGhrOTd0",
+    href: "https://www.instagram.com/theruralgirladvancementnetwork/",
     label: "Instagram",
   },
   {
@@ -84,11 +84,15 @@ export default function Footer() {
           viewport={viewportOnce}
         >
           <motion.div variants={fadeUp} className="md:col-span-4">
-            <Link to="/" className="mb-4 inline-flex items-center gap-2">
+            <Link
+              to="/"
+              className="mb-4 inline-flex items-center gap-2"
+              aria-label="RUGAN home"
+            >
               <img
                 src="/icons/rugan-logo.jpg"
                 alt="RUGAN"
-                className="h-8 w-auto"
+                className="h-10 w-19"
                 style={{ borderRadius: "9px" }}
                 onError={(e) => {
                   e.target.style.display = "none";
@@ -108,38 +112,42 @@ export default function Footer() {
             <h4 className="mb-4 text-sm font-semibold uppercase tracking-wide text-white">
               Quick Links
             </h4>
-            <ul className="flex flex-col gap-2.5">
-              {QUICK_LINKS.map((link) => (
-                <li key={link.to}>
-                  <Link
-                    to={link.to}
-                    style={mutedWhite}
-                    className="transition-colors hover:text-white"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <nav aria-label="Footer quick links">
+              <ul className="flex flex-col gap-2.5">
+                {QUICK_LINKS.map((link) => (
+                  <li key={link.to}>
+                    <Link
+                      to={link.to}
+                      style={mutedWhite}
+                      className="transition-colors hover:text-white"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </motion.div>
 
           <motion.div variants={fadeUp} className="md:col-span-3">
             <h4 className="mb-4 text-sm font-semibold uppercase tracking-wide text-white">
               Programmes
             </h4>
-            <ul className="flex flex-col gap-2.5">
-              {PROGRAMS.map((program) => (
-                <li key={program.to}>
-                  <Link
-                    to={program.to}
-                    style={mutedWhite}
-                    className="transition-colors hover:text-white"
-                  >
-                    {program.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <nav aria-label="Footer programmes">
+              <ul className="flex flex-col gap-2.5">
+                {PROGRAMS.map((program) => (
+                  <li key={program.to}>
+                    <Link
+                      to={program.to}
+                      style={mutedWhite}
+                      className="transition-colors hover:text-white"
+                    >
+                      {program.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </motion.div>
 
           <motion.div variants={fadeUp} className="md:col-span-3">
@@ -149,12 +157,12 @@ export default function Footer() {
             <ul className="mb-6 flex flex-col gap-3">
               <li>
                 <a
-                  href="mailto:rugan.ng@gmail.com"
+                  href="mailto:info@rugan.org"
                   style={mutedWhite}
                   className="flex items-center gap-2.5 transition-colors hover:text-white"
                 >
                   <Mail size={15} style={contactIconStyle} />
-                  <span>rugan.ng@gmail.com</span>
+                  <span>info@rugan.org</span>
                 </a>
               </li>
               <li>
@@ -173,13 +181,13 @@ export default function Footer() {
               </li>
             </ul>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2" aria-label="Social profiles">
               {SOCIALS.map(({ icon: Icon, href, label }) => (
                 <a
                   key={label}
                   href={href}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noopener noreferrer me"
                   aria-label={label}
                   style={{
                     width: "2.25rem",

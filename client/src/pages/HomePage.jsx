@@ -5,54 +5,18 @@ import ProgramCard from "../components/common/ProgramCard";
 import CTABanner from "../components/common/CTABanner";
 import ChecklistItem from "../components/common/ChecklistItem";
 import AnimatedCount from "../components/common/AnimatedCount";
-import {
-  Target,
-  TrendingUp,
-  Users,
-  MapPin,
-  Heart,
-  Award,
-} from "lucide-react";
+import SEO from "../components/SEO";
+import { PROGRAMME_LIST } from "@/data/programmes";
+import { Target, TrendingUp, Users, MapPin, Heart, Award } from "lucide-react";
 import SectionHeader from "../components/ui/SectionHeader";
 
 export default function HomePage() {
-  const programs = [
-    {
-      title: "RUGAN IDGC School Tours (International Day of the Girl Child)",
-      description:
-        "Empowerment sessions in rural secondary schools to build confidence, leadership skills, self-belief and personal development.",
-      image: "/images/programs/card-1.jpg",
-      to: "/programmes/rugan-idgc-school-tours",
-    },
-    {
-      title: "RUGAN Healthy Period Project",
-      description:
-        "Provides accurate menstrual and body health education, reduces stigma and distribute sanitary pads and essential resources.",
-      image: "/images/programs/card-2.jpg",
-      to: "/programmes/rugan-healthy-period-project",
-    },
-    {
-      title: "Excellence Awards",
-      description:
-        "Recognises and rewards outstanding academic performance among rural secondary school girls to motivate excellence.",
-      image: '/images/programs/excellence-award/gallery-3.jpg',
-      to: "/programmes/excellence-award-project",
-    },
-    {
-      title: "The RISE Project",
-      description:
-        "Provide SS3 girls with accurate information and guidance on life after secondary school, including educational vocational and career pathways.",
-      image: "/images/programs/card-4.jpg",
-      to: "/programmes/the-rise-project",
-    },
-    {
-      title: "Rural-to-Global Programme",
-      description:
-        "Highlights real-life stories of women who rose from rural backgrounds, while proving mentorship, skill training, and exposure pathways.",
-      image: '/images/programs/rural-to-global/gallery-1.jpg',
-      to: "/programmes/rural-to-global-programme",
-    },
-  ];
+  const programs = PROGRAMME_LIST.map((programme) => ({
+    title: programme.cardTitle,
+    description: programme.teaser,
+    image: programme.cardImage,
+    to: `/programmes/${programme.slug}`,
+  }));
 
   const Impact = [
     { title: "4,750+", description: "Girls Reached", icon: Users },
@@ -148,6 +112,13 @@ export default function HomePage() {
 
   return (
     <div>
+      <SEO
+        title="RUGAN – Empowering Rural Girl-Children in Nigeria"
+        description="RUGAN (The Rural Girl-Child Advancement Network) empowers rural girl-children in Nigeria through education, mentorship, menstrual health support, and leadership development."
+        keywords="RUGAN, The Rural Girl-Child Advancement Network, RUGAN Nigeria, rural girl empowerment, girls education Nigeria, menstrual health education, girl-child mentorship, nonprofit Nigeria"
+        path="/"
+        pageType="AboutPage"
+      />
       {/* HERO */}
       <PageHeroBanner
         title={
@@ -159,7 +130,8 @@ export default function HomePage() {
         }
         subtitle={
           <span className="block max-w-[42rem] pb-2 pt-4 text-[clamp(1rem,4vw,1.25rem)] font-normal leading-[1.65] tracking-[-0.02em] text-white sm:py-5 sm:leading-[1.7]">
-            Breaking down barriers facing rural girl-children through quality education, life skills, mentorship, and practical resources.
+            Breaking down barriers facing rural girl-children through quality
+            education, life skills, mentorship, and practical resources.
           </span>
         }
         backgroundImage="/images/homepage/Hero.jpg"
@@ -197,14 +169,16 @@ export default function HomePage() {
                 src="/images/homepage/rural-girls-with-card.png"
                 alt="Girls education and teaching"
                 className="h-full w-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </div>
 
           <div className="w-full max-w-[560px]">
-            <h1 className="mb-4 text-[clamp(1.75rem,3vw,2.25rem)] font-bold leading-tight text-[#111827]">
+            <h2 className="mb-4 text-[clamp(1.75rem,3vw,2.25rem)] font-bold leading-tight text-[#111827]">
               Breaking Down Barriers to Education
-            </h1>
+            </h2>
 
             <p className="mb-8 text-[#555] leading-7">
               Rural girl-children face persistant barriers to education,
@@ -300,9 +274,9 @@ export default function HomePage() {
       <section className="section-padding bg-white">
         <div className="container-rugan flex flex-col items-center justify-between gap-6 sm:gap-8 lg:flex-row lg:gap-10">
           <div className="w-full max-w-[560px]">
-            <h1 className="mb-4 text-[clamp(1.75rem,3vw,2.25rem)] font-bold leading-tight text-[#111827]">
+            <h2 className="mb-4 text-[clamp(1.75rem,3vw,2.25rem)] font-bold leading-tight text-[#111827]">
               Serving Rural Nigeria
-            </h1>
+            </h2>
 
             <p className="mb-8 text-[#555] leading-7">
               RUGAN currently serves rural and underserved communities, with a
@@ -350,6 +324,8 @@ export default function HomePage() {
                 src="/images/homepage/group-of-girls.jpg"
                 alt="Girls education and teaching"
                 className="h-full w-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </div>

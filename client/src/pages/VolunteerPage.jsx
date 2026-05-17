@@ -1,128 +1,27 @@
-import { motion } from "framer-motion";
-import { fadeUp, staggerContainer, scaleIn, viewportOnce } from "@/lib/motion";
 import { useState } from "react";
+import { motion } from "framer-motion";
 import {
-  Users,
   CheckCircle,
   ChevronDown,
   ChevronUp,
   Clock,
   Heart,
+  Users,
 } from "lucide-react";
+import SEO from "@/components/SEO";
 import PageHeroBanner from "@/components/common/PageHeroBanner";
-import SectionHeader from "@/components/ui/SectionHeader";
 import VolunteerForm from "@/components/forms/VolunteerForm";
-
-/* ── Who Can Volunteer ── */
-const WHO = [
-  { label: "Students & Young Professionals" },
-  { label: "Educators for Outreaches" },
-  { label: "Community Advocates" },
-  { label: "Committed Individuals" },
-];
-
-/* ── Volunteer Stories ── */
-const STORIES = [
-  {
-    label: "Stories of Impact from RUGAN Volunteers",
-    videoUrl: "https://www.youtube.com/embed/ZPWM55hwx6o",
-  },
-];
-
-/* ── Volunteer Photo Grid ── */
-const VOLUNTEER_PHOTOS = Array.from({ length: 12 }, (_, i) => ({
-  src: `/images/volunteers/vol-${i + 1}.jpg`,
-  alt: `Volunteer ${i + 1}`,
-}));
-
-/* ── Opportunities ── */
-const OPPORTUNITIES = [
-  {
-    title: "Programme Manager Volunteer",
-    commitment: "Flexible (Project-based)",
-    location: "On-site (Nigeria)",
-    description: "Supports implementation of school outreaches and workshops.",
-    responsibilities: [
-      "Coordinate outreach logistics",
-      "Supervise field activities",
-      "Report on programme outcomes",
-    ],
-  },
-  {
-    title: "Community Outreach Volunteer",
-    commitment: "5–10 hours/month",
-    location: "On-site or Hybrid",
-    description:
-      "Assists with mobilization and coordination in local communities.",
-    responsibilities: [
-      "Mobilize community members",
-      "Support event setup",
-      "Engage with participants",
-    ],
-  },
-  {
-    title: "Content & Media Volunteer",
-    commitment: "Flexible",
-    location: "Remote",
-    description:
-      "Supports documentation and storytelling for our digital platforms.",
-    responsibilities: [
-      "Create social media content",
-      "Document events (photos/videos)",
-      "Write blog posts",
-    ],
-  },
-];
-
-/* ── Benefits & Expectations ── */
-const BENEFITS = [
-  "Make a meaningful difference in girls' lives",
-  "Gain leadership and mentoring experience",
-  "Connect with like-minded changemakers",
-  "Access to training and development programmes",
-  "Receive a RUGAN volunteering certificate",
-  "Flexible scheduling options",
-];
-
-const EXPECTATIONS = [
-  "Commitment to RUGAN's mission and values",
-  "Regular attendance and punctuality",
-  "Professional conduct at all times",
-  "Respect for confidentiality",
-  "Completion of required training",
-  "Open to feedback and continuous learning",
-];
-
-/* ── FAQ ── */
-const FAQS = [
-  {
-    question: "Do I need prior experience to volunteer?",
-    answer:
-      "No, prior experience is not mandatory. At RUGAN, we welcome individuals who are passionate about advancing the rural girl child. While some roles (such as content creation, project coordination, or mentorship) may benefit from prior experience, we also have entry-level opportunities. What matters most is your commitment, willingness to learn, and alignment with our mission. We provide guidance and orientation to help you succeed in your role.",
-  },
-  {
-    question: "How much time do I need to commit?",
-    answer:
-      "We understand that volunteers have different schedules. Most roles require a minimum commitment of 3–5 hours per week, depending on the project or department. For event-based or campaign-specific roles, time commitments may be flexible and short-term. We encourage consistency, as our programmes support rural girls who depend on structured and reliable support.",
-  },
-  {
-    question: "Can I volunteer remotely?",
-    answer:
-      "Yes, we offer both remote and on-site volunteer opportunities. Remote roles include: Social media management, Content writing, Graphic design, Research and data support, Fundraising and partnership outreach, On-site roles are available for: Community outreach, School programmes, Field projects, Mentorship sessions.You can indicate your preference during the application process.",
-  },
-  {
-    question: "What is the application process?",
-    answer:
-      "Our application process is simple: first, complete the volunteer application form. Our team will then review submissions and shortlist candidates. If needed, a brief virtual interview will follow, after which selected volunteers will go through onboarding and an orientation session before receiving their role assignments and project briefings. We strive to keep the process smooth and transparent while matching volunteers with roles that align with their skills and interests.",
-  },
-  {
-    question: "Are there age requirements for volunteers?",
-    answer:
-      "Yes. Volunteers must be at least 18 years old. However, individuals under 18 may participate in selected programmes or community initiatives with parental/guardian consent. We encourage youth participation, especially those passionate about education, leadership, and advocacy for the rural girl child.",
-  },
-];
-
-/* ── Sub-components ── */
+import SectionHeader from "@/components/ui/SectionHeader";
+import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
+import {
+  VOLUNTEER_BENEFITS,
+  VOLUNTEER_EXPECTATIONS,
+  VOLUNTEER_FAQS,
+  VOLUNTEER_OPPORTUNITIES,
+  VOLUNTEER_PHOTOS,
+  VOLUNTEER_STORIES,
+  VOLUNTEER_WHO,
+} from "@/data/volunteer";
 
 function WhoCard({ label }) {
   return (
@@ -186,6 +85,8 @@ function StoryCard({ label, image, videoUrl }) {
           <img
             src={image}
             alt={label}
+            loading="lazy"
+            decoding="async"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
         )}
@@ -217,9 +118,7 @@ function OpportunityCard({
         gap: "0.625rem",
       }}
     >
-      <div
-        className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"
-      >
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <h3
           style={{ fontSize: "0.9375rem", fontWeight: 700, color: "#111827" }}
         >
@@ -265,9 +164,9 @@ function OpportunityCard({
           Responsibilities:
         </p>
         <ul style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
-          {responsibilities.map((r, i) => (
+          {responsibilities.map((responsibility, index) => (
             <li
-              key={i}
+              key={index}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -280,7 +179,7 @@ function OpportunityCard({
                 size={14}
                 style={{ color: "var(--color-primary)", flexShrink: 0 }}
               />
-              {r}
+              {responsibility}
             </li>
           ))}
         </ul>
@@ -292,6 +191,7 @@ function OpportunityCard({
 function BenefitItem({ text, variant = "green" }) {
   const color =
     variant === "orange" ? "var(--color-btn-orange)" : "var(--color-primary)";
+
   return (
     <li
       style={{
@@ -313,9 +213,7 @@ function BenefitItem({ text, variant = "green" }) {
 
 function FAQItem({ question, answer, open, onToggle }) {
   return (
-    <div
-      className="mx-auto w-full rounded-xl bg-white px-4 py-4 sm:px-5"
-    >
+    <div className="mx-auto w-full rounded-xl bg-white px-4 py-4 sm:px-5">
       <button
         onClick={onToggle}
         aria-expanded={open}
@@ -346,7 +244,7 @@ function FAQItem({ question, answer, open, onToggle }) {
           <ChevronDown size={18} style={{ color: "#9CA3AF", flexShrink: 0 }} />
         )}
       </button>
-      {open && (
+      {open ? (
         <p
           style={{
             marginTop: "0.75rem",
@@ -357,22 +255,42 @@ function FAQItem({ question, answer, open, onToggle }) {
         >
           {answer}
         </p>
-      )}
+      ) : null}
     </div>
   );
 }
 
-/* ── Page ── */
 export default function VolunteerPage() {
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
+  const breadcrumbs = [
+    { name: "Home", path: "/" },
+    { name: "Volunteer", path: "/volunteers" },
+  ];
 
   return (
     <>
-      {/* Hero */}
+      <SEO
+        title="Volunteer"
+        description="Join our team of change-makers. Volunteers are essential to RUGAN's mission, delivering education, mentorship, and hope to girls."
+        path="/volunteers"
+        image="/images/volunteers/hero.jpg"
+        pageType="AboutPage"
+        breadcrumbs={breadcrumbs}
+        faq={VOLUNTEER_FAQS}
+        service={{
+          name: "Volunteer opportunities",
+          description:
+            "Volunteer roles supporting school outreaches, community engagement, media storytelling, and programme operations for girls in rural communities.",
+          serviceType: "Volunteer programme",
+          audience: "Students, professionals, educators, and community advocates",
+        }}
+      />
+
       <PageHeroBanner
         title="Join Our Team of Change-Makers"
-        subtitle="Volunteers are essential to RUGAN’s mission, delivering education, mentorship, and hope to girls and underserved rural communities."
+        subtitle="Volunteers are essential to RUGAN's mission, delivering education, mentorship, and hope to girls and underserved rural communities."
         backgroundImage="/images/volunteers/hero.jpg"
+        breadcrumbs={breadcrumbs}
         centerText
         darkOverlay
       >
@@ -388,9 +306,9 @@ export default function VolunteerPage() {
           {[
             { icon: Users, text: "70+ Active Volunteers" },
             { icon: Heart, text: "Make Real Impact" },
-          ].map(({ icon: Icon, text }, i) => (
+          ].map(({ icon: Icon, text }, index) => (
             <span
-              key={i}
+              key={index}
               style={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -411,7 +329,6 @@ export default function VolunteerPage() {
         </div>
       </PageHeroBanner>
 
-      {/* Who Can Volunteer */}
       <section className="section-padding" style={{ background: "#F9FAFB" }}>
         <div className="container-rugan">
           <SectionHeader
@@ -425,8 +342,8 @@ export default function VolunteerPage() {
             whileInView="visible"
             viewport={viewportOnce}
           >
-            {WHO.map((item, i) => (
-              <motion.div key={i} variants={fadeUp}>
+            {VOLUNTEER_WHO.map((item, index) => (
+              <motion.div key={index} variants={fadeUp}>
                 <WhoCard {...item} />
               </motion.div>
             ))}
@@ -434,7 +351,6 @@ export default function VolunteerPage() {
         </div>
       </section>
 
-      {/* Volunteer Stories */}
       <section className="section-padding">
         <div className="container-rugan">
           <SectionHeader
@@ -442,26 +358,23 @@ export default function VolunteerPage() {
             subtitle="Hear from those making a difference"
           />
           <div className="mx-auto grid max-w-[860px] grid-cols-1 gap-5">
-            {STORIES.map((s, i) => (
-              <StoryCard key={i} {...s} />
+            {VOLUNTEER_STORIES.map((story, index) => (
+              <StoryCard key={index} {...story} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* Meet Our Amazing Volunteers */}
       <section className="section-padding" style={{ background: "#F9FAFB" }}>
         <div className="container-rugan">
           <SectionHeader
             title="Meet Our Amazing Volunteers"
             subtitle="Dedicated individuals from all walks of life, united by one mission: empowering girls"
           />
-          <div
-            className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3"
-          >
-            {VOLUNTEER_PHOTOS.map((photo, i) => (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+            {VOLUNTEER_PHOTOS.map((photo, index) => (
               <div
-                key={i}
+                key={index}
                 style={{
                   aspectRatio: "1/1",
                   borderRadius: "0.875rem",
@@ -471,17 +384,19 @@ export default function VolunteerPage() {
                 <img
                   src={photo.src}
                   alt={photo.alt}
+                  loading="lazy"
+                  decoding="async"
                   style={{
                     width: "100%",
                     height: "100%",
                     objectFit: "cover",
                     transition: "transform 500ms ease",
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "scale(1.05)";
+                  onMouseEnter={(event) => {
+                    event.currentTarget.style.transform = "scale(1.05)";
                   }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "scale(1)";
+                  onMouseLeave={(event) => {
+                    event.currentTarget.style.transform = "scale(1)";
                   }}
                 />
               </div>
@@ -490,7 +405,6 @@ export default function VolunteerPage() {
         </div>
       </section>
 
-      {/* Volunteer Opportunities */}
       <section className="section-padding" style={{ background: "#E1EDDE" }}>
         <div className="container-rugan">
           <SectionHeader
@@ -504,20 +418,18 @@ export default function VolunteerPage() {
             whileInView="visible"
             viewport={viewportOnce}
           >
-            {OPPORTUNITIES.map((opp, i) => (
-              <motion.div key={i} variants={fadeUp}>
-                <OpportunityCard {...opp} />
+            {VOLUNTEER_OPPORTUNITIES.map((opportunity, index) => (
+              <motion.div key={index} variants={fadeUp}>
+                <OpportunityCard {...opportunity} />
               </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
 
-      {/* Benefits & Expectations */}
       <section className="section-padding">
         <div className="container-rugan">
           <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-6">
-            {/* Benefits */}
             <div
               style={{
                 background: "#F0FDF4",
@@ -525,7 +437,7 @@ export default function VolunteerPage() {
                 padding: "clamp(1.25rem, 4vw, 2rem)",
               }}
             >
-              <h3
+              <h2
                 style={{
                   fontSize: "1.0625rem",
                   fontWeight: 700,
@@ -534,7 +446,7 @@ export default function VolunteerPage() {
                 }}
               >
                 Benefits You Will Receive
-              </h3>
+              </h2>
               <ul
                 style={{
                   display: "flex",
@@ -542,12 +454,12 @@ export default function VolunteerPage() {
                   gap: "0.75rem",
                 }}
               >
-                {BENEFITS.map((b, i) => (
-                  <BenefitItem key={i} text={b} variant="green" />
+                {VOLUNTEER_BENEFITS.map((benefit, index) => (
+                  <BenefitItem key={index} text={benefit} variant="green" />
                 ))}
               </ul>
             </div>
-            {/* Expectations */}
+
             <div
               style={{
                 background: "#FFF7ED",
@@ -555,7 +467,7 @@ export default function VolunteerPage() {
                 padding: "clamp(1.25rem, 4vw, 2rem)",
               }}
             >
-              <h3
+              <h2
                 style={{
                   fontSize: "1.0625rem",
                   fontWeight: 700,
@@ -564,7 +476,7 @@ export default function VolunteerPage() {
                 }}
               >
                 What We Expect
-              </h3>
+              </h2>
               <ul
                 style={{
                   display: "flex",
@@ -572,8 +484,8 @@ export default function VolunteerPage() {
                   gap: "0.75rem",
                 }}
               >
-                {EXPECTATIONS.map((e, i) => (
-                  <BenefitItem key={i} text={e} variant="orange" />
+                {VOLUNTEER_EXPECTATIONS.map((expectation, index) => (
+                  <BenefitItem key={index} text={expectation} variant="orange" />
                 ))}
               </ul>
             </div>
@@ -581,62 +493,60 @@ export default function VolunteerPage() {
         </div>
       </section>
 
-      {/* Apply to Volunteer */}
       <section
         className="section-padding"
         style={{ background: "var(--color-primary)" }}
       >
         <div className="container-rugan">
           <div style={{ maxWidth: "720px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
-            <h2
+            <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
+              <h2
+                style={{
+                  fontSize: "clamp(1.5rem, 3vw, 2rem)",
+                  fontWeight: 700,
+                  color: "white",
+                }}
+              >
+                Apply to Volunteer
+              </h2>
+              <p
+                style={{
+                  marginTop: "0.5rem",
+                  color: "rgba(255,255,255,0.8)",
+                  fontSize: "1rem",
+                }}
+              >
+                Take the first step towards making a difference.
+              </p>
+            </div>
+            <div
               style={{
-                fontSize: "clamp(1.5rem, 3vw, 2rem)",
-                fontWeight: 700,
-                color: "white",
+                background: "white",
+                borderRadius: "1rem",
+                padding: "clamp(1.25rem, 4vw, 2rem)",
               }}
             >
-              Apply to Volunteer
-            </h2>
-            <p
-              style={{
-                marginTop: "0.5rem",
-                color: "rgba(255,255,255,0.8)",
-                fontSize: "1rem",
-              }}
-            >
-              Take the first step towards making a difference.
-            </p>
-          </div>
-          <div
-            style={{
-              background: "white",
-              borderRadius: "1rem",
-              padding: "clamp(1.25rem, 4vw, 2rem)",
-            }}
-          >
-            <VolunteerForm />
-          </div>
+              <VolunteerForm />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* FAQ */}
       <section id="faq" className="section-padding">
         <div className="container-rugan">
-          <div
-            className="mx-auto flex w-full max-w-[768px] flex-col gap-3 rounded-2xl bg-[#F9FAFB] px-4 py-6 sm:px-6 sm:py-8"
-          >
+          <div className="mx-auto flex w-full max-w-[768px] flex-col gap-3 rounded-2xl bg-[#F9FAFB] px-4 py-6 sm:px-6 sm:py-8">
             <SectionHeader
               title="Frequently Asked Questions"
               subtitle="Everything you need to know about volunteering with RUGAN"
             />
-            {FAQS.map((faq, i) => (
+            {VOLUNTEER_FAQS.map((faq, index) => (
               <FAQItem
-                key={i}
+                key={index}
                 {...faq}
-                open={openFaqIndex === i}
-                onToggle={() => setOpenFaqIndex(openFaqIndex === i ? null : i)}
+                open={openFaqIndex === index}
+                onToggle={() =>
+                  setOpenFaqIndex(openFaqIndex === index ? null : index)
+                }
               />
             ))}
           </div>

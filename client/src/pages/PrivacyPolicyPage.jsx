@@ -27,6 +27,7 @@ export default function PrivacyPolicyPage() {
   return (
     <LegalPageTemplate
       title="Privacy Policy"
+      path="/privacy"
       subtitle="How RUGAN collects, uses, and protects information shared through our website and related forms."
       updatedAt="Last updated: April 24, 2026"
       intro="RUGAN respects the privacy and dignity of every person who visits our website, supports our work, or engages with our programmes. This Privacy Policy explains how we collect, use, store, and protect information shared through this website."

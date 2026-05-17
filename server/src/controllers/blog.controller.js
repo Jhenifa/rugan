@@ -293,8 +293,13 @@ export async function getAdminPosts(req, res, next) {
     }
 
     if (search) {
-      // Use MongoDB text index for fast full-text search
-      filter.$text = { $search: search };
+      // Escape regex special characters in user input
+      const escaped = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      filter.$or = [
+        { title: { $regex: escaped, $options: "i" } },
+        { excerpt: { $regex: escaped, $options: "i" } },
+        { tags: { $regex: escaped, $options: "i" } },
+      ];
     }
 
     const [posts, total] = await Promise.all([
@@ -309,9 +314,20 @@ export async function getAdminPosts(req, res, next) {
       BlogPost.countDocuments(filter),
     ]);
 
+    // When searching, prioritize titles where match is at a word boundary
+    let sortedPosts = posts;
+    if (search) {
+      const wordBoundary = new RegExp(`\\b${search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`, "i");
+      sortedPosts = [...posts].sort((a, b) => {
+        const aWordMatch = wordBoundary.test(a.title) ? 0 : 1;
+        const bWordMatch = wordBoundary.test(b.title) ? 0 : 1;
+        return aWordMatch - bWordMatch;
+      });
+    }
+
     res.json({
       success: true,
-      data: posts.map((post) => serializePostForResponse(post, req)),
+      data: sortedPosts.map((post) => serializePostForResponse(post, req)),
       pagination: {
         page,
         limit,

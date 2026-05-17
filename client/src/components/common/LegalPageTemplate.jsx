@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Mail } from "lucide-react";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 import PageHeroBanner from "@/components/common/PageHeroBanner";
+import SEO from "@/components/SEO";
 
 export default function LegalPageTemplate({
   title,
@@ -9,12 +10,30 @@ export default function LegalPageTemplate({
   updatedAt,
   intro,
   sections,
+  path,
   contactTitle = "Questions?",
   contactText,
 }) {
+  const breadcrumbs = [
+    { name: "Home", path: "/" },
+    { name: title, path: path || "/" },
+  ];
+
   return (
     <>
-      <PageHeroBanner title={title} subtitle={subtitle} centerText />
+      <SEO
+        title={title}
+        description={intro}
+        path={path}
+        pageType="WebPage"
+        breadcrumbs={breadcrumbs}
+      />
+      <PageHeroBanner
+        title={title}
+        subtitle={subtitle}
+        breadcrumbs={breadcrumbs}
+        centerText
+      />
 
       <section className="section-padding" style={{ background: "#FAFAFA" }}>
         <div className="container-rugan">
@@ -100,10 +119,10 @@ export default function LegalPageTemplate({
                   >
                     {contactText}{" "}
                     <a
-                      href="mailto:rugan.ng@gmail.com"
+                      href="mailto:info@rugan.org"
                       style={{ color: "var(--color-primary)", fontWeight: 600 }}
                     >
-                      rugan.ng@gmail.com
+                      info@rugan.org
                     </a>
                     .
                   </p>

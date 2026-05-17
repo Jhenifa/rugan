@@ -58,7 +58,7 @@ function blocksToEmailHtml(content) {
         return `<blockquote style="border-left:4px solid #4F7B44;margin:20px 0;padding:12px 20px;font-style:italic;color:#111827;background:#F9FAFB;border-radius:0 8px 8px 0">${sanitizeHtml(b.text || "")}</blockquote>`;
 
       case "bullets":
-        return `<ul style="margin:8px 0 18px;padding-left:0;list-style:none">${(b.items || []).map(item => `<li style="display:flex;align-items:flex-start;gap:8px;margin-bottom:6px"><span style="color:#4F7B44;font-weight:700;margin-top:2px">•</span><span style="font-size:15px;color:#111827;line-height:1.7">${sanitizeHtml(item)}</span></li>`).join("")}</ul>`;
+        return `<ul style="margin:8px 0 18px;padding-left:24px;list-style-type:disc">${(b.items || []).map(item => `<li style="font-size:15px;color:#111827;line-height:1.7;margin-bottom:6px">${sanitizeHtml(item)}</li>`).join("")}</ul>`;
 
       case "numbered":
         return `<ol style="margin:8px 0 18px;padding-left:24px">${(b.items || []).map(item => `<li style="font-size:15px;color:#111827;line-height:1.7;margin-bottom:6px">${sanitizeHtml(item)}</li>`).join("")}</ol>`;
@@ -115,19 +115,10 @@ export async function sendNewsletterSubscriptionConfirmation(
       <p style="font-size:15px;color:#111827;line-height:1.7;margin:0 0 10px">
         As a subscriber, you will receive:
       </p>
-      <ul style="margin:0 0 18px;padding-left:0;list-style:none">
-        <li style="display:flex;align-items:flex-start;gap:8px;margin-bottom:6px">
-          <span style="color:#4F7B44;font-weight:700;margin-top:2px">•</span>
-          <span style="font-size:15px;color:#111827;line-height:1.7">Updates on different projects</span>
-        </li>
-        <li style="display:flex;align-items:flex-start;gap:8px;margin-bottom:6px">
-          <span style="color:#4F7B44;font-weight:700;margin-top:2px">•</span>
-          <span style="font-size:15px;color:#111827;line-height:1.7">Real stories from the girls and communities we work with across Nigerian states</span>
-        </li>
-        <li style="display:flex;align-items:flex-start;gap:8px;margin-bottom:6px">
-          <span style="color:#4F7B44;font-weight:700;margin-top:2px">•</span>
-          <span style="font-size:15px;color:#111827;line-height:1.7">New content from the RUGAN blog on girl-child empowerment, rural advocacy, and social impact</span>
-        </li>
+      <ul style="margin:0 0 18px;padding-left:24px;list-style-type:disc">
+        <li style="font-size:15px;color:#111827;line-height:1.7;margin-bottom:6px">Updates on different projects</li>
+        <li style="font-size:15px;color:#111827;line-height:1.7;margin-bottom:6px">Real stories from the girls and communities we work with across Nigerian states</li>
+        <li style="font-size:15px;color:#111827;line-height:1.7;margin-bottom:6px">New content from the RUGAN blog on girl-child empowerment, rural advocacy, and social impact</li>
       </ul>
       <p style="font-size:15px;color:#111827;line-height:1.7;margin:0 0 16px">
         This is not just a newsletter. It is a window into work that is changing lives and an invitation to be part of something that matters.
@@ -187,7 +178,7 @@ export async function notifySubscribersOfPublishedPost(post) {
     <!-- Author and date — clearly separated -->
     <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid #F3F4F6;width:100%">
       <tr>
-        ${authorName ? `<td style="font-size:13px;color:#6B7280;padding-right:16px">By <strong style="color:#111827">${authorName}</strong></td>` : ""}
+        ${authorName ? `<td style="font-size:13px;color:#6B7280;padding-right:16px">By: <strong style="color:#111827">${authorName}</strong></td>` : ""}
         ${publishedDate ? `<td style="font-size:13px;color:#6B7280;text-align:right">${publishedDate}</td>` : ""}
       </tr>
     </table>

@@ -15,6 +15,7 @@ import {
 
 import PartnershipForm from "../components/forms/PartnershipForm";
 import PartnerLogo from "../components/common/PartnerLogo";
+import SEO from "@/components/SEO";
 import SectionHeader from "../components/ui/SectionHeader";
 
 function DetailGroup({
@@ -76,7 +77,14 @@ function DetailGroup({
   );
 }
 
-function PartnershipItems({ title, description, icon: Icon, details, open, onToggle }) {
+function PartnershipItems({
+  title,
+  description,
+  icon: Icon,
+  details,
+  open,
+  onToggle,
+}) {
   return (
     <div className="overflow-hidden rounded-2xl border border-[#E5E7EB] bg-white shadow-card">
       <div
@@ -84,7 +92,6 @@ function PartnershipItems({ title, description, icon: Icon, details, open, onTog
           !open ? "hover:bg-[#EAF4EE]" : ""
         }`}
       >
-
         <button
           type="button"
           onClick={onToggle}
@@ -352,6 +359,25 @@ export default function PartnershipPage() {
 
   return (
     <>
+      <SEO
+        title="Partner With RUGAN"
+        description="Partner with RUGAN to support rural girl-child empowerment initiatives, CSR collaborations, and sustainable community impact across Nigeria."
+        keywords="partner with RUGAN, NGO partnership, CSR Nigeria, rural girls empowerment, nonprofit collaboration"
+        path="/partnership"
+        image="/images/partners/Partnership-Hero.jpg"
+        pageType="AboutPage"
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: "Partnership", path: "/partnership" },
+        ]}
+        service={{
+          name: "Partnership opportunities",
+          description:
+            "Structured NGO partnership opportunities for CSR teams, funding partners, community stakeholders, media collaborators, and technical experts supporting rural girls in Nigeria.",
+          serviceType: "Nonprofit partnership programme",
+          audience: "Companies, foundations, institutions, and impact partners",
+        }}
+      />
       {/* HERO */}
       <section
         style={{
@@ -384,11 +410,10 @@ export default function PartnershipPage() {
             <Heart size={24} color="white" fill="white" />
           </div>
           <h1 className="text-[clamp(2rem,4vw,2.75rem)] font-bold leading-[1.15] text-white">
-            Make a Difference Today
+            Partner With RUGAN
           </h1>
           <p className="mx-auto mt-3 max-w-[36rem] text-[1rem] text-[rgba(255,255,255,0.82)]">
-            Your donation directly empowers girls and transforms communities.
-            Every contribution counts.
+            Collaborate with RUGAN through CSR, programme support, technical expertise, outreach, or media amplification to expand opportunity for rural girls.
           </p>
         </motion.div>
       </section>
@@ -433,7 +458,7 @@ export default function PartnershipPage() {
           </div>
         </div>
       </section>
-      
+
       {/* OUR PARTNERS */}
       <section
         className="section-padding"

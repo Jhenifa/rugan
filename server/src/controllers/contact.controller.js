@@ -33,8 +33,7 @@ export async function sendContactMessage(req, res, next) {
             </tr>
           </table>
           <div style="background:#F9FAFB;border-radius:8px;padding:16px;border-left:3px solid #4F7B44">
-            <p style="font-size:13px;color:#6B7280;margin:0 0 6px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em">Message</p>
-            <p style="font-size:15px;color:#374151;line-height:1.7;margin:0">${message}</p>
+            <p style="font-size:14px;color:#374151;line-height:1.7;margin:0;word-break:break-word"><strong>Message:</strong> ${message}</p>
           </div>
         `,
       }),
@@ -56,9 +55,8 @@ export async function sendContactMessage(req, res, next) {
           <p style="font-size:15px;color:#374151;line-height:1.7;margin:0 0 12px">Dear ${name},</p>
           <p style="font-size:15px;color:#374151;line-height:1.7;margin:0 0 20px">We have received your message and our team will get back to you soon.</p>
           <div style="background:#F9FAFB;border-radius:8px;padding:16px;margin-bottom:20px">
-            <p style="font-size:14px;color:#6B7280;margin:0 0 4px"><strong>Subject:</strong> ${subject || 'General inquiry'}</p>
-            <p style="font-size:14px;color:#6B7280;margin:0"><strong>Your message:</strong></p>
-            <p style="font-size:14px;color:#374151;line-height:1.6;margin:6px 0 0">${message}</p>
+            <p style="font-size:14px;color:#374151;margin:0 0 12px"><strong>Subject:</strong> ${subject || 'General inquiry'}</p>
+            <p style="font-size:14px;color:#374151;line-height:1.7;margin:0;word-break:break-word"><strong>Your message:</strong> ${message}</p>
           </div>
           <p style="font-size:15px;color:#374151;line-height:1.7;margin:0">Best regards,<br>The RUGAN Team</p>
         `,

@@ -50,19 +50,10 @@ export async function submitApplication(req, res, next) {
               <p style="font-size:15px;color:#374151;line-height:1.7;margin:0 0 16px">Thank you for applying to volunteer with RUGAN. We have received your application and are genuinely encouraged by your interest in joining this mission.</p>
               <p style="font-size:15px;color:#374151;line-height:1.7;margin:0 0 16px">RUGAN exists to advance the rights, education, and wellbeing of rural girls across Nigeria. Every volunteer who joins us brings us closer to a future where no girl is left behind because of where she was born.</p>
               <p style="font-size:15px;color:#374151;line-height:1.7;margin:0 0 10px">Our team will carefully review your application and get back to you within 3 to 5 business days. In the meantime, we encourage you to:</p>
-              <ul style="margin:0 0 18px;padding-left:0;list-style:none">
-                <li style="display:flex;align-items:flex-start;gap:8px;margin-bottom:6px">
-                  <span style="color:#4F7B44;font-weight:700;margin-top:2px">•</span>
-                  <span style="font-size:15px;color:#374151;line-height:1.7">Follow us on social media for updates on our programmes and communities</span>
-                </li>
-                <li style="display:flex;align-items:flex-start;gap:8px;margin-bottom:6px">
-                  <span style="color:#4F7B44;font-weight:700;margin-top:2px">•</span>
-                  <span style="font-size:15px;color:#374151;line-height:1.7">Visit <a href="${frontendUrl}" style="color:#4F7B44;text-decoration:none;font-weight:600">rugan.org</a> to learn more about our current initiatives</span>
-                </li>
-                <li style="display:flex;align-items:flex-start;gap:8px;margin-bottom:6px">
-                  <span style="color:#4F7B44;font-weight:700;margin-top:2px">•</span>
-                  <span style="font-size:15px;color:#374151;line-height:1.7">Share our work with anyone who shares this vision</span>
-                </li>
+              <ul style="margin:0 0 18px;padding-left:24px;list-style-type:disc">
+                <li style="font-size:15px;color:#374151;line-height:1.7;margin-bottom:6px">Follow us on social media for updates on our programmes and communities</li>
+                <li style="font-size:15px;color:#374151;line-height:1.7;margin-bottom:6px">Visit <a href="${frontendUrl}" style="color:#4F7B44;text-decoration:none;font-weight:600">rugan.org</a> to learn more about our current initiatives</li>
+                <li style="font-size:15px;color:#374151;line-height:1.7;margin-bottom:6px">Share our work with anyone who shares this vision</li>
               </ul>
               <p style="font-size:15px;color:#374151;line-height:1.7;margin:0 0 20px">We look forward to the possibility of working with you.</p>
               <p style="font-size:15px;color:#374151;line-height:1.7;margin:0">

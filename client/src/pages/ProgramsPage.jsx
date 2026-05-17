@@ -3,52 +3,31 @@ import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 import PageHeroBanner from "@/components/common/PageHeroBanner";
 import ProgramCard from "@/components/common/ProgramCard";
 import CTABanner from "@/components/common/CTABanner";
+import { PROGRAMME_LIST } from "@/data/programmes";
 
-const PROGRAMS = [
-  {
-    slug: "rugan-idgc-school-tours",
-    title: "RUGAN IDGC School Tours",
-    description:
-      "Annual empowerment sessions in rural secondary schools building confidence, leadership skills, and self-belief during International Day of the Girl Child.",
-    image: "/images/programs/card-1.jpg",
-  },
-  {
-    slug: "rugan-healthy-period-project",
-    title: "RUGAN Healthy Period Project",
-    description:
-      "Providing menstrual health education, reducing stigma, and distributing sanitary pads to ensure girls can participate fully in school.",
-    image: "/images/programs/card-2.jpg",
-  },
-  {
-    slug: "excellence-award-project",
-    title: "Excellence Awards",
-    description:
-      "Recognising and rewarding outstanding academic performance among rural secondary school girls to motivate excellence and retention.",
-    image: '/images/programs/excellence-award/gallery-1.jpg',
-  },
-  {
-    slug: "the-rise-project",
-    title: "The RISE Project",
-    description:
-      "Guiding SS3 girls on life after secondary school, including educational, vocational, and career pathways for a confident transition.",
-    image: "/images/programs/card-4.jpg",
-  },
-  {
-    slug: "rural-to-global-programme",
-    title: "Rural-to-Global Programme",
-    description:
-      "Highlighting success stories and providing mentorship to help rural girls dream bigger and access global opportunities.",
-    image: "/images/programs/rural-to-global/gallery-5.jpg",
-  },
-];
+import SEO from "@/components/SEO";
 
 export default function ProgramsPage() {
   return (
     <>
+      <SEO
+        title="Our Programmes"
+        description="Comprehensive initiatives designed to empower girl-children and create lasting change in communities."
+        path="/programmes"
+        pageType="CollectionPage"
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: "Programmes", path: "/programmes" },
+        ]}
+      />
       <PageHeroBanner
         title="Our Programmes"
         subtitle="Comprehensive initiatives designed to empower girl-children and create lasting change in communities"
         backgroundImage="/images/programs/programs-hero.jpg"
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: "Programmes", path: "/programmes" },
+        ]}
         centerText
         darkOverlay
       />
@@ -62,7 +41,7 @@ export default function ProgramsPage() {
             whileInView="visible"
             viewport={viewportOnce}
           >
-            {PROGRAMS.map((programme) => (
+            {PROGRAMME_LIST.map((programme) => (
               <motion.div
                 key={programme.slug}
                 variants={fadeUp}
@@ -73,9 +52,9 @@ export default function ProgramsPage() {
                 }}
               >
                 <ProgramCard
-                  image={programme.image}
-                  title={programme.title}
-                  description={programme.description}
+                  image={programme.cardImage}
+                  title={programme.cardTitle}
+                  description={programme.teaser}
                   to={`/programmes/${programme.slug}`}
                   variant="plain"
                 />

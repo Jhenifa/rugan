@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /admin/login
+Disallow: /login
+Disallow: /api/auth/
+
+Sitemap: https://rugan.org/sitemap.xml
+Host: rugan.org
