@@ -516,7 +516,7 @@ export default function AboutPage() {
                   style={{
                     fontSize: "0.9375rem",
                     color: "#374151",
-                    lineHeight: 1.75,
+                    lineHeight: 1.75, 
                   }}
                 >
                   Fidel believes that every young girl and woman can make, grow,
