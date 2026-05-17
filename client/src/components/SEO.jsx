@@ -50,10 +50,10 @@ export default function SEO(props) {
       <meta property="og:image:secure_url" content={payload.imageUrl} />
       <meta property="og:image:alt" content={payload.imageAlt} />
       <meta property="og:image:type" content="image/jpeg" />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
+      <meta property="og:image:width" content="300" />
+      <meta property="og:image:height" content="300" />
 
-      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:card" content="summary" />
       <meta name="twitter:title" content={payload.pageTitle} />
       <meta name="twitter:description" content={payload.pageDescription} />
       <meta name="twitter:image" content={payload.imageUrl} />

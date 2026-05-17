@@ -294,9 +294,9 @@ function buildDynamicHead(article, origin) {
       <meta property="og:image" content="${escapeHtml(payload.imageUrl)}" />
       <meta property="og:image:secure_url" content="${escapeHtml(payload.imageUrl)}" />
       <meta property="og:image:alt" content="${escapeHtml(payload.imageAlt)}" />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
-      <meta name="twitter:card" content="summary_large_image" />
+      <meta property="og:image:width" content="300" />
+      <meta property="og:image:height" content="300" />
+      <meta name="twitter:card" content="summary" />
       <meta name="twitter:title" content="${escapeHtml(payload.pageTitle)}" />
       <meta name="twitter:description" content="${escapeHtml(payload.pageDescription)}" />
       <meta name="twitter:image" content="${escapeHtml(payload.imageUrl)}" />
