@@ -175,6 +175,8 @@ function ImpactHighlight({
   );
 }
 
+import SEO from "@/components/SEO";
+
 export default function ImpactPage() {
   const growthSectionRef = useRef(null);
   const highlightSectionRef = useRef(null);
@@ -189,10 +191,25 @@ export default function ImpactPage() {
 
   return (
     <div>
+      <SEO
+        title="Our Impact"
+        description="Measuring change, celebrating progress, and transforming lives one girl at a time."
+        path="/impact"
+        image="/images/impact/Impact-hero.jpg"
+        pageType="CollectionPage"
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: "Impact", path: "/impact" },
+        ]}
+      />
       <PageHeroBanner
         title="Our Impact"
         subtitle="Measuring change, celebrating progress, and transforming lives one girl at a time."
         backgroundImage="/images/impact/Impact-hero.jpg"
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: "Impact", path: "/impact" },
+        ]}
         centerText
         darkOverlay
       />

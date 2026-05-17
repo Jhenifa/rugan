@@ -8,7 +8,6 @@ import {
   FileText,
   Heart,
   Mail,
-  UtensilsCrossed,
   Users,
   UserPlus,
 } from "lucide-react";
@@ -56,27 +55,11 @@ function StatCard({
           <p className="text-sm font-medium text-[#6B7280]">{title}</p>
           <p className="mt-2 text-3xl font-bold text-[#111827]">{value}</p>
           {subtitle && (
-            <p className="mt-1 text-xs font-medium text-[#6B7280]">
+            <p className="mt-3 text-xs font-medium text-[#6B7280]">
               {subtitle}
             </p>
           )}
           <StatCardLink href={linkHref} label={linkLabel} external={externalLink} />
-        </div>
-        <div className={`rounded-xl p-3 ${colorClass}`}>
-          <Icon size={24} />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function MessageCard({ title, linkHref, linkLabel, icon: Icon, colorClass }) {
-  return (
-    <div className="rounded-xl border border-[#E5E7EB] bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="text-lg font-semibold leading-7 text-[#111827]">{title}</p>
-          <StatCardLink href={linkHref} label={linkLabel} external />
         </div>
         <div className={`rounded-xl p-3 ${colorClass}`}>
           <Icon size={24} />
@@ -203,13 +186,6 @@ export default function AdminAnalyticsPage() {
           linkHref={data?.links?.partnershipSheet}
           linkLabel="Open partnership spreadsheet"
           externalLink
-        />
-        <MessageCard
-          title="I hope you've eaten today, Cynthia?"
-          linkHref="https://www.chowdeck.com/"
-          linkLabel="if not, click here"
-          icon={UtensilsCrossed}
-          colorClass="bg-[#FFF7E8] text-[#C46B00]"
         />
       </div>
     </div>

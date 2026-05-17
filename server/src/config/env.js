@@ -32,7 +32,7 @@ export function isProductionEnv() {
 }
 
 export function getFrontendUrl() {
-  const raw = getEnvValue("FRONTEND_URL");
+  const raw = getEnvValue("FRONTEND_URL") || "https://rugan.org";
   // Handle comma-separated values (e.g. "https://rugan.org,https://www.rugan.org")
   const firstUrl = raw.split(",")[0].trim();
   return firstUrl.replace(/\/+$/, "");

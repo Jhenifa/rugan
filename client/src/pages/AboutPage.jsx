@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router";
+import { Link } from "react-router";
 import { motion } from "framer-motion";
 import {
   fadeUp,
@@ -425,10 +426,33 @@ function AnimatedTimeline({ items }) {
   );
 }
 
+import SEO from "@/components/SEO";
+
 /* ── Page ── */
 export default function AboutPage() {
   return (
     <>
+      <SEO
+        title="About RUGAN – The Rural Girl-Child Advancement Network"
+        description="Learn about RUGAN's founding story, mission, focus areas, and the principles guiding the Rural Girl-Child Advancement Network's work for rural girls in Nigeria."
+        keywords="RUGAN, The Rural Girl-Child Advancement Network, about RUGAN, RUGAN Nigeria, Fidel Nnadi, rural girl empowerment, girls education nonprofit Nigeria"
+        path="/about"
+        pageType="AboutPage"
+        image="/images/about/founder.jpg"
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: "About Us", path: "/about" },
+        ]}
+        person={{
+          name: "Fidel Bethel Nnadi",
+          description:
+            "Founder and Executive Director of RUGAN, a social worker advancing rural girl-child empowerment through education, mentorship, and dignity-centered advocacy.",
+          image: "/images/about/founder.jpg",
+          url: "https://rugan.org/team",
+          sameAs: ["https://www.linkedin.com/in/fidelnnadi"],
+          jobTitle: "Founder and Executive Director",
+        }}
+      />
       {/* Founder Section */}
       <section className="section-padding">
         <div className="container-rugan">
@@ -447,6 +471,8 @@ export default function AboutPage() {
               <img
                 src="/images/about/founder.jpg"
                 alt="Fidel Nnadi"
+                loading="eager"
+                decoding="async"
                 className="w-full h-full object-cover object-top"
               />
             </motion.div>
@@ -500,8 +526,8 @@ export default function AboutPage() {
                   leadership skills, and independence.
                 </p>
               </div>
-              <a
-                href="/team"
+              <Link
+                to="/team"
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -521,7 +547,7 @@ export default function AboutPage() {
                 }}
               >
                 View Full Team →
-              </a>
+              </Link>
             </div>
           </motion.div>
         </div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router";
+import { Link, useLocation, useNavigate, useParams } from "react-router";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import {
@@ -16,11 +16,15 @@ import { resolveApiAssetUrl } from "@/lib/api";
 import api from "@/lib/api";
 import { formatPostDate, getPostAuthorName, getPostImage } from "@/lib/blog";
 import { fadeIn, fadeUp, staggerContainer } from "@/lib/motion";
+import SEO from "@/components/SEO";
 
 function readingTime(content) {
   if (typeof content === "string") {
     const cleanContent = content.replace(/<[^>]*>/g, " ");
-    return Math.max(1, Math.round(cleanContent.split(/\s+/).filter(Boolean).length / 200));
+    return Math.max(
+      1,
+      Math.round(cleanContent.split(/\s+/).filter(Boolean).length / 200),
+    );
   }
 
   if (!Array.isArray(content)) {
@@ -39,7 +43,11 @@ function readingTime(content) {
 
       if (block.type === "list" || block.type === "tips") {
         return (block.items || [])
-          .map((item) => [item.title || "", item.text || "", ...(item.points || [])].join(" "))
+          .map((item) =>
+            [item.title || "", item.text || "", ...(item.points || [])].join(
+              " ",
+            ),
+          )
           .join(" ");
       }
 
@@ -47,7 +55,11 @@ function readingTime(content) {
         return (block.items || []).join(" ");
       }
 
-      if (block.type === "subheading" || block.type === "quote" || block.type === "callout") {
+      if (
+        block.type === "subheading" ||
+        block.type === "quote" ||
+        block.type === "callout"
+      ) {
         return block.text || "";
       }
 
@@ -60,13 +72,16 @@ function readingTime(content) {
     .join(" ");
 
   const cleanWords = words.replace(/<[^>]*>/g, " ");
-  return Math.max(1, Math.round(cleanWords.split(/\s+/).filter(Boolean).length / 200));
+  return Math.max(
+    1,
+    Math.round(cleanWords.split(/\s+/).filter(Boolean).length / 200),
+  );
 }
 
 function formatHtml(text) {
   if (!text) return { __html: "" };
-  let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  html = html.replace(/_(.*?)_/g, '<em>$1</em>');
+  let html = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+  html = html.replace(/_(.*?)_/g, "<em>$1</em>");
   return { __html: html };
 }
 
@@ -126,7 +141,10 @@ function BulletList({ items }) {
               marginTop: "3px",
             }}
           />
-          <span style={{ fontSize: "0.9375rem", color: "#111827", lineHeight: 1.7 }} dangerouslySetInnerHTML={formatHtml(item)} />
+          <span
+            style={{ fontSize: "0.9375rem", color: "#111827", lineHeight: 1.7 }}
+            dangerouslySetInnerHTML={formatHtml(item)}
+          />
         </li>
       ))}
     </ul>
@@ -298,7 +316,16 @@ function renderBlock(block, index) {
       return <Heading key={index} text={block.text} />;
     case "subheading":
       return (
-        <h3 key={index} style={{ fontSize: "1.05rem", fontWeight: 600, color: "#1F2937", margin: "1.5rem 0 0.5rem" }} dangerouslySetInnerHTML={formatHtml(block.text)} />
+        <h3
+          key={index}
+          style={{
+            fontSize: "1.05rem",
+            fontWeight: 600,
+            color: "#1F2937",
+            margin: "1.5rem 0 0.5rem",
+          }}
+          dangerouslySetInnerHTML={formatHtml(block.text)}
+        />
       );
     case "image":
       return block.url ? (
@@ -308,10 +335,23 @@ function renderBlock(block, index) {
             alt={block.alt || ""}
             loading="lazy"
             decoding="async"
-            style={{ width: "100%", borderRadius: "0.75rem", display: "block", border: "1px solid #E5E7EB" }}
+            style={{
+              width: "100%",
+              borderRadius: "0.75rem",
+              display: "block",
+              border: "1px solid #E5E7EB",
+            }}
           />
           {block.caption && (
-            <figcaption style={{ textAlign: "center", fontSize: "0.8125rem", color: "#9CA3AF", marginTop: "0.5rem", fontStyle: "italic" }}>
+            <figcaption
+              style={{
+                textAlign: "center",
+                fontSize: "0.8125rem",
+                color: "#9CA3AF",
+                marginTop: "0.5rem",
+                fontStyle: "italic",
+              }}
+            >
               {block.caption}
             </figcaption>
           )}
@@ -319,28 +359,89 @@ function renderBlock(block, index) {
       ) : null;
     case "quote":
       return (
-        <blockquote key={index} style={{ borderLeft: "4px solid #4F7B44", margin: "1.5rem 0", padding: "0.875rem 1.25rem", fontStyle: "italic", color: "#111827", background: "#F9FAFB", borderRadius: "0 0.625rem 0.625rem 0" }} dangerouslySetInnerHTML={formatHtml(block.text)} />
+        <blockquote
+          key={index}
+          style={{
+            borderLeft: "4px solid #4F7B44",
+            margin: "1.5rem 0",
+            padding: "0.875rem 1.25rem",
+            fontStyle: "italic",
+            color: "#111827",
+            background: "#F9FAFB",
+            borderRadius: "0 0.625rem 0.625rem 0",
+          }}
+          dangerouslySetInnerHTML={formatHtml(block.text)}
+        />
       );
     case "numbered":
       return (
-        <ol key={index} style={{ margin: "0.5rem 0 1.25rem", paddingLeft: "1.5rem", display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+        <ol
+          key={index}
+          style={{
+            margin: "0.5rem 0 1.25rem",
+            paddingLeft: "1.5rem",
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.4rem",
+          }}
+        >
           {(block.items || []).map((item, i) => (
-            <li key={i} style={{ fontSize: "0.9375rem", color: "#111827", lineHeight: 1.7 }} dangerouslySetInnerHTML={formatHtml(item)} />
+            <li
+              key={i}
+              style={{
+                fontSize: "0.9375rem",
+                color: "#111827",
+                lineHeight: 1.7,
+              }}
+              dangerouslySetInnerHTML={formatHtml(item)}
+            />
           ))}
         </ol>
       );
     case "callout": {
-      const variants = { info: { bg: "#EFF6FF", border: "#BFDBFE", icon: "💡" }, tip: { bg: "#F0FDF4", border: "#BBF7D0", icon: "✅" }, warning: { bg: "#FFFBEB", border: "#FDE68A", icon: "⚠️" } };
+      const variants = {
+        info: { bg: "#EFF6FF", border: "#BFDBFE", icon: "💡" },
+        tip: { bg: "#F0FDF4", border: "#BBF7D0", icon: "✅" },
+        warning: { bg: "#FFFBEB", border: "#FDE68A", icon: "⚠️" },
+      };
       const v = variants[block.variant || "info"];
       return (
-        <div key={index} style={{ background: v.bg, border: `1px solid ${v.border}`, borderRadius: "0.625rem", padding: "1rem 1.25rem", margin: "1rem 0", display: "flex", gap: "0.75rem" }}>
+        <div
+          key={index}
+          style={{
+            background: v.bg,
+            border: `1px solid ${v.border}`,
+            borderRadius: "0.625rem",
+            padding: "1rem 1.25rem",
+            margin: "1rem 0",
+            display: "flex",
+            gap: "0.75rem",
+          }}
+        >
           <span style={{ fontSize: "1.1rem", flexShrink: 0 }}>{v.icon}</span>
-          <p style={{ margin: 0, fontSize: "0.9375rem", color: "#111827", lineHeight: 1.7 }} dangerouslySetInnerHTML={formatHtml(block.text)} />
+          <p
+            style={{
+              margin: 0,
+              fontSize: "0.9375rem",
+              color: "#111827",
+              lineHeight: 1.7,
+            }}
+            dangerouslySetInnerHTML={formatHtml(block.text)}
+          />
         </div>
       );
     }
     case "divider":
-      return <hr key={index} style={{ border: "none", borderTop: "1px solid #E5E7EB", margin: "2rem 0" }} />;
+      return (
+        <hr
+          key={index}
+          style={{
+            border: "none",
+            borderTop: "1px solid #E5E7EB",
+            margin: "2rem 0",
+          }}
+        />
+      );
     case "list":
       return <CardList key={index} items={block.items || []} />;
     case "tips":
@@ -449,8 +550,18 @@ function RelatedCard({ article }) {
           </p>
           {article.tags && article.tags.length > 0 && (
             <div style={{ display: "flex", flexWrap: "wrap", gap: "0.375rem" }}>
-              {article.tags.map(tag => (
-                <span key={tag} style={{ padding: "2px 10px", borderRadius: "9999px", background: "#E8F2E6", color: "#3d6235", fontSize: "0.75rem", fontWeight: 500 }}>
+              {article.tags.map((tag) => (
+                <span
+                  key={tag}
+                  style={{
+                    padding: "2px 10px",
+                    borderRadius: "9999px",
+                    background: "#E8F2E6",
+                    color: "#3d6235",
+                    fontSize: "0.75rem",
+                    fontWeight: 500,
+                  }}
+                >
                   {tag}
                 </span>
               ))}
@@ -501,25 +612,15 @@ export default function ArticlePage() {
     };
   }, [slug]);
 
+  const location = useLocation();
   const minutes = article ? readingTime(article.content) : 0;
-
-  useEffect(() => {
-    if (!article?.title) {
-      return undefined;
-    }
-
-    const previousTitle = document.title;
-    document.title = `${article.title} | RUGAN`;
-
-    return () => {
-      document.title = previousTitle;
-    };
-  }, [article]);
 
   if (loading) {
     return (
       <div className="container-rugan section-padding text-center">
-        <h1 className="text-[2rem] font-bold text-[#111827]">Loading article...</h1>
+        <h1 className="text-[2rem] font-bold text-[#111827]">
+          Loading article...
+        </h1>
       </div>
     );
   }
@@ -530,7 +631,10 @@ export default function ArticlePage() {
         <h1 className="text-[2rem] font-bold text-[#111827]">
           {error || "Article not found"}
         </h1>
-        <Link to="/blog" className="mt-4 inline-block font-semibold text-[var(--color-primary)]">
+        <Link
+          to="/blog"
+          className="mt-4 inline-block font-semibold text-[var(--color-primary)]"
+        >
           Back to Blog
         </Link>
       </div>
@@ -539,10 +643,38 @@ export default function ArticlePage() {
 
   return (
     <>
-      <section style={{ position: "relative", minHeight: "340px", overflow: "hidden" }}>
+      <SEO
+        title={article.title}
+        description={
+          article.excerpt || `${article.title} - Read more on RUGAN Blog`
+        }
+        image={getPostImage(article)}
+        author={getPostAuthorName(article)}
+        path={location.pathname}
+        pageType="ArticlePage"
+        keywords={article.tags || []}
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: "Blog", path: "/blog" },
+          { name: article.title, path: location.pathname },
+        ]}
+        article={{
+          authorName: getPostAuthorName(article),
+          publishedTime: article.publishedAt || article.createdAt,
+          modifiedTime: article.updatedAt || article.publishedAt || article.createdAt,
+          section: "Blog",
+          keywords: article.tags || [],
+        }}
+      />
+      <section
+        style={{ position: "relative", minHeight: "340px", overflow: "hidden" }}
+      >
         <img
           src={getPostImage(article)}
           alt={article.title}
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
           style={{
             position: "absolute",
             inset: 0,
@@ -571,6 +703,8 @@ export default function ArticlePage() {
           initial="hidden"
           animate="visible"
         >
+
+
           <motion.div variants={fadeIn}>
             <button
               onClick={() => navigate("/blog")}
@@ -656,17 +790,40 @@ export default function ArticlePage() {
       >
         <div className="container-rugan" style={{ maxWidth: "780px" }}>
           {article.tags && article.tags.length > 0 && (
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.375rem", marginBottom: "1.75rem" }}>
-              {article.tags.map(tag => (
-                <span key={tag} style={{ padding: "2px 10px", borderRadius: "9999px", background: "#E8F2E6", color: "#3d6235", fontSize: "0.75rem", fontWeight: 500 }}>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "0.375rem",
+                marginBottom: "1.75rem",
+              }}
+            >
+              {article.tags.map((tag) => (
+                <span
+                  key={tag}
+                  style={{
+                    padding: "2px 10px",
+                    borderRadius: "9999px",
+                    background: "#E8F2E6",
+                    color: "#3d6235",
+                    fontSize: "0.75rem",
+                    fontWeight: 500,
+                  }}
+                >
                   {tag}
                 </span>
               ))}
             </div>
           )}
 
-          <motion.article variants={staggerContainer} initial="hidden" animate="visible">
-            <motion.div variants={staggerContainer}>{renderBody(article.content)}</motion.div>
+          <motion.article
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.div variants={staggerContainer}>
+              {renderBody(article.content)}
+            </motion.div>
           </motion.article>
 
           <motion.div

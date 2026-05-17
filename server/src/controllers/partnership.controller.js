@@ -20,11 +20,10 @@ async function sendPartnerConfirmation(inquiry) {
         <p style="font-size:15px;color:#374151;line-height:1.7;margin:0 0 16px">Thank you for reaching out to RUGAN. We have received your partnership inquiry and a member of our team will review it and be in touch with you shortly.</p>
         <p style="font-size:15px;color:#374151;line-height:1.7;margin:0 0 12px">For reference, here is a summary of the information you submitted:</p>
         <div style="background:#F9FAFB;border-radius:8px;padding:16px;margin:0 0 20px;border-left:3px solid #4F7B44">
-          <p style="font-size:14px;color:#374151;margin:0 0 4px"><strong>Organisation:</strong> ${escapeHtml(inquiry.orgName)}</p>
-          <p style="font-size:14px;color:#374151;margin:0 0 4px"><strong>Partnership Type:</strong> ${escapeHtml(inquiry.partnership)}</p>
-          <p style="font-size:14px;color:#374151;margin:0 0 4px"><strong>Phone:</strong> ${escapeHtml(inquiry.phone)}</p>
-          <p style="font-size:14px;color:#374151;margin:0 0 4px"><strong>Message:</strong></p>
-          <p style="font-size:14px;color:#374151;line-height:1.7;margin:0">${nl2br(inquiry.message)}</p>
+          <p style="font-size:14px;color:#374151;margin:0 0 12px"><strong>Organisation:</strong> ${escapeHtml(inquiry.orgName)}</p>
+          <p style="font-size:14px;color:#374151;margin:0 0 12px"><strong>Partnership Type:</strong> ${escapeHtml(inquiry.partnership)}</p>
+          <p style="font-size:14px;color:#374151;margin:0 0 12px"><strong>Phone:</strong> ${escapeHtml(inquiry.phone)}</p>
+          <p style="font-size:14px;color:#374151;line-height:1.7;margin:0;word-break:break-word"><strong>Message:</strong> ${nl2br(inquiry.message)}</p>
         </div>
         <p style="font-size:15px;color:#374151;line-height:1.7;margin:0 0 16px">At RUGAN, every partnership conversation matters to us. Whether you are exploring sponsorship, programme collaboration, or advocacy support, we are committed to building relationships that create meaningful impact for the girls and communities we serve.</p>
         <p style="font-size:15px;color:#374151;line-height:1.7;margin:0 0 20px">If you have any additional information to share in the meantime, please do not hesitate to reply to this email.</p>

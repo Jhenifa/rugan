@@ -27,6 +27,7 @@ export default function TermsPage() {
   return (
     <LegalPageTemplate
       title="Terms of Service"
+      path="/terms"
       subtitle="The terms that govern access to and use of the RUGAN website and its forms."
       updatedAt="Last updated: April 24, 2026"
       intro="These Terms of Service apply to your use of the RUGAN website. They are designed to support a respectful, trustworthy, and mission-aligned online space for everyone who learns about, supports, and engages with our work."

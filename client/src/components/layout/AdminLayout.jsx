@@ -175,7 +175,7 @@ export default function AdminLayout() {
                   }}
                 >
                   <img
-                    src="/icons/rugan-logo.jpg"
+                    src="/icons/square-rugan-logo.jpg"
                     alt="RUGAN"
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                     onError={(event) => {
@@ -250,7 +250,7 @@ export default function AdminLayout() {
                   }}
                 >
                   <img
-                    src="/icons/rugan-logo.jpg"
+                    src="/icons/square-rugan-logo.jpg"
                     alt="RUGAN"
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                     onError={(event) => {

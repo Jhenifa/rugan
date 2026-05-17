@@ -82,7 +82,7 @@ const IL = {
   fontSize: "0.875rem",
 };
 
-function EditableText({ value, onChange, placeholder, style, as = "div", onKeyDown }) {
+function EditableText({ value, onChange, placeholder, style, as = "div", onKeyDown, ...rest }) {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -97,6 +97,13 @@ function EditableText({ value, onChange, placeholder, style, as = "div", onKeyDo
     }
   };
 
+  const handlePaste = (e) => {
+    e.preventDefault();
+    const plain = e.clipboardData.getData("text/plain");
+    // Insert plain text at cursor position, preserving undo history
+    document.execCommand("insertText", false, plain);
+  };
+
   const Tag = as;
 
   return (
@@ -107,6 +114,7 @@ function EditableText({ value, onChange, placeholder, style, as = "div", onKeyDo
       onInput={emit}
       onBlur={emit}
       onKeyDown={onKeyDown}
+      onPaste={handlePaste}
       style={{
         ...style,
         outline: "none",
@@ -114,6 +122,7 @@ function EditableText({ value, onChange, placeholder, style, as = "div", onKeyDo
         cursor: "text",
       }}
       data-placeholder={placeholder}
+      {...rest}
     />
   );
 }
@@ -386,6 +395,28 @@ function ImageBlock({ block, onChange, compact = false }) {
 
 function ListBlock({ block, onChange, numbered = false, compact = false }) {
   const items = block.items || [""];
+  const containerRef = useRef(null);
+  const focusIndexRef = useRef(null);
+
+  // After items change, focus the newly created / target item
+  useEffect(() => {
+    if (focusIndexRef.current !== null && containerRef.current) {
+      const target = containerRef.current.querySelector(
+        `[data-list-index="${focusIndexRef.current}"]`
+      );
+      if (target) {
+        target.focus();
+        // Place cursor at end of content
+        const sel = window.getSelection();
+        const range = document.createRange();
+        range.selectNodeContents(target);
+        range.collapse(false);
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+      focusIndexRef.current = null;
+    }
+  });
 
   function updateItem(index, value) {
     const nextItems = [...items];
@@ -396,22 +427,33 @@ function ListBlock({ block, onChange, numbered = false, compact = false }) {
   function addItem(index) {
     const nextItems = [...items];
     nextItems.splice(index + 1, 0, "");
+    focusIndexRef.current = index + 1;
     onChange({ items: nextItems });
   }
 
   function removeItem(index) {
     if (items.length === 1) return;
+    focusIndexRef.current = Math.max(0, index - 1);
     onChange({ items: items.filter((_, itemIndex) => itemIndex !== index) });
   }
 
+  function isItemEmpty(value) {
+    // contentEditable can leave residual <br>, &nbsp;, or whitespace
+    const stripped = String(value || "")
+      .replace(/<br\s*\/?>/gi, "")
+      .replace(/&nbsp;/gi, "")
+      .trim();
+    return stripped.length === 0;
+  }
+
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "0.375rem" }}>
+    <div ref={containerRef} style={{ display: "flex", flexDirection: "column", gap: "0.375rem" }}>
       {items.map((item, index) => (
         <div
           key={index}
           style={{
             display: "flex",
-            alignItems: compact ? "flex-start" : "center",
+            alignItems: "flex-start",
             gap: "0.5rem",
           }}
         >
@@ -423,7 +465,7 @@ function ListBlock({ block, onChange, numbered = false, compact = false }) {
               width: 20,
               flexShrink: 0,
               textAlign: "right",
-              paddingTop: compact ? 6 : 0,
+              paddingTop: 4,
             }}
           >
             {numbered ? `${index + 1}.` : "\u2022"}
@@ -433,13 +475,38 @@ function ListBlock({ block, onChange, numbered = false, compact = false }) {
             value={item}
             placeholder={`Item ${index + 1}`}
             onChange={(value) => updateItem(index, value)}
+            data-list-index={index}
+            onPaste={(e) => {
+              e.preventDefault();
+              const plain = e.clipboardData.getData("text/plain");
+              const lines = plain
+                .split(/\r?\n/)
+                .map((line) =>
+                  line
+                    // Strip common list prefixes: "- ", "* ", "• ", "1. ", "2) ", etc.
+                    .replace(/^\s*(?:[-*•]\s+|\d+[.)]\s+)/, "")
+                    .trim()
+                )
+                .filter(Boolean);
+
+              if (lines.length <= 1) {
+                // Single line — just insert as plain text into current item
+                document.execCommand("insertText", false, lines[0] || plain);
+              } else {
+                // Multi-line — split into separate list items
+                const nextItems = [...items];
+                nextItems.splice(index, 1, ...lines);
+                focusIndexRef.current = index + lines.length - 1;
+                onChange({ items: nextItems });
+              }
+            }}
             onKeyDown={(event) => {
               if (event.key === "Enter") {
                 event.preventDefault();
                 addItem(index);
               }
 
-              if (event.key === "Backspace" && !item) {
+              if (event.key === "Backspace" && isItemEmpty(item)) {
                 event.preventDefault();
                 removeItem(index);
               }

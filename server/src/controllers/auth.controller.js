@@ -95,3 +95,25 @@ export async function updateUser(req, res, next) {
     next(err);
   }
 }
+
+export async function deleteUser(req, res, next) {
+  try {
+    const user = await User.findById(req.params.id);
+    
+    if (!user) throw new AppError('User not found', 404);
+    
+    // Prevent self-deletion
+    if (req.user._id.toString() === user._id.toString()) {
+      throw new AppError('You cannot delete your own account', 400);
+    }
+
+    await user.deleteOne();
+
+    res.json({
+      success: true,
+      data: {}
+    });
+  } catch (err) {
+    next(err);
+  }
+}

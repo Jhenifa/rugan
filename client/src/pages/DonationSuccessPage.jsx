@@ -2,10 +2,19 @@ import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 import { CheckCircle, Heart } from "lucide-react";
 import { Link } from "react-router";
+import SEO from "@/components/SEO";
 
 export default function DonationSuccessPage() {
   return (
     <>
+      <SEO
+        title="Donation Confirmed"
+        description="Thank you for supporting RUGAN. Your contribution will help empower girls, provide menstrual health supplies, and strengthen rural communities."
+        path="/donation/success"
+        noindex
+        nofollow
+        pageType="WebPage"
+      />
       {/* Hero */}
       <section
         style={{

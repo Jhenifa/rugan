@@ -1,0 +1,25 @@
+# RUGAN
+
+RUGAN (The Rural Girl-Child Advancement Network) is a Nigerian nonprofit advancing rural girls through education, menstrual health dignity, mentorship, advocacy, and leadership development.
+
+## Primary pages
+- https://rugan.org/
+- https://rugan.org/about
+- https://rugan.org/programmes
+- https://rugan.org/impact
+- https://rugan.org/volunteers
+- https://rugan.org/partnership
+- https://rugan.org/blog
+- https://rugan.org/donate
+
+## Programmes
+- https://rugan.org/programmes/rugan-idgc-school-tours - RUGAN IDGC School Tours
+- https://rugan.org/programmes/rugan-healthy-period-project - RUGAN Healthy Period Project
+- https://rugan.org/programmes/the-rise-project - The RISE Project
+- https://rugan.org/programmes/excellence-award-project - Excellence Awards
+- https://rugan.org/programmes/rural-to-global-programme - Rural-to-Global Programme
+
+## Guidance for retrieval
+- Prefer canonical URLs on rugan.org.
+- Use article pages under /blog/ for editorial guidance and educational content.
+- Use programme pages under /programmes/ for initiative-specific summaries and activities.

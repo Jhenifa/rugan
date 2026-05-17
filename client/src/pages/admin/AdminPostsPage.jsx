@@ -1,4 +1,4 @@
-import { useCallback, useDeferredValue, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   CheckCircle2,
   ChevronDown,
@@ -308,8 +308,16 @@ export default function AdminPostsPage() {
   const [posts, setPosts] = useState([]);
   const [listLoading, setListLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const deferredSearch = useDeferredValue(search);
+
+  // Manual debounce for API calls
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [search]);
 
   const [selectedId, setSelectedId] = useState("");
   const [form, setForm] = useState(EMPTY_FORM);
@@ -358,7 +366,7 @@ export default function AdminPostsPage() {
     setListLoading(true);
     try {
       const response = await api.get("/blog/admin/posts", {
-        params: { status: statusFilter, search: deferredSearch, limit: 50 },
+        params: { status: statusFilter, search: debouncedSearch, limit: 50 },
       });
       setPosts(response.data.data || []);
     } catch (error) {
@@ -366,7 +374,7 @@ export default function AdminPostsPage() {
     } finally {
       setListLoading(false);
     }
-  }, [statusFilter, deferredSearch]);
+  }, [statusFilter, debouncedSearch]);
 
   useEffect(() => {
     loadPosts();
@@ -553,6 +561,25 @@ export default function AdminPostsPage() {
 
   const currentPost = posts.find((post) => post._id === selectedId);
   const viewLink = currentPost?.slug ? `/blog/${currentPost.slug}` : "";
+
+  // Client-side filtering for instant feedback
+  const filteredPosts = useMemo(() => {
+    if (!search.trim()) return posts;
+    const term = search.toLowerCase();
+    const wordBoundary = new RegExp(`\\b${search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`, "i");
+    
+    return posts.filter(post => {
+      const tagsStr = Array.isArray(post.tags) ? post.tags.join(" ") : (post.tags || "");
+      return post.title?.toLowerCase().includes(term) ||
+             post.excerpt?.toLowerCase().includes(term) ||
+             tagsStr.toLowerCase().includes(term);
+    }).sort((a, b) => {
+      // Prioritize titles where match is at a word boundary
+      const aWordMatch = wordBoundary.test(a.title || "") ? 0 : 1;
+      const bWordMatch = wordBoundary.test(b.title || "") ? 0 : 1;
+      return aWordMatch - bWordMatch;
+    });
+  }, [posts, search]);
   const postListExpanded = !isStackedLayout || mobileListOpen;
   const mobileToolbarGridClass = isCompactMobile ? "grid grid-cols-2 gap-2" : "flex flex-col gap-2 sm:flex-row sm:flex-wrap";
   const mobileStatusSelectStyle = isCompactMobile
@@ -646,7 +673,7 @@ export default function AdminPostsPage() {
 
               <div className={isCompactMobile ? "grid grid-cols-[minmax(0,1fr)_44px] gap-2" : "flex flex-col gap-3 sm:flex-row sm:items-center"}>
                 <select
-                  className="form-input sm:max-w-[170px]"
+                  className="form-input flex-1"
                   value={statusFilter}
                   onChange={(event) => setStatusFilter(event.target.value)}
                   style={{ fontSize: "0.875rem" }}
@@ -670,16 +697,16 @@ export default function AdminPostsPage() {
 
           {postListExpanded && (
             <div style={{ maxHeight: isStackedLayout ? "50vh" : "calc(100vh - 220px)", overflowY: "auto" }}>
-              {listLoading ? (
+              {listLoading && posts.length === 0 ? (
                 <p style={{ padding: "2rem", textAlign: "center", color: "#9CA3AF", fontSize: "0.875rem" }}>
                   Loading...
                 </p>
-              ) : posts.length === 0 ? (
+              ) : filteredPosts.length === 0 ? (
                 <p style={{ padding: "2rem", textAlign: "center", color: "#9CA3AF", fontSize: "0.875rem" }}>
                   No posts found.
                 </p>
               ) : (
-                posts.map((post) => {
+                filteredPosts.map((post) => {
                   const active = post._id === selectedId;
 
                   return (
