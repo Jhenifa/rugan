@@ -261,7 +261,7 @@ const STATIC_PAGE_ROUTES = [
     title: "Privacy Policy",
     description:
       "Review how RUGAN collects, uses, stores, and protects information submitted through its website, forms, donations, and newsletter.",
-    image: "/icons/rugan-logo.jpg",
+    image: "/icons/favicon.jpg",
     pageType: "WebPage",
     breadcrumbs: [
       { name: "Home", path: "/" },
@@ -273,7 +273,7 @@ const STATIC_PAGE_ROUTES = [
     title: "Terms of Service",
     description:
       "Read the terms governing access to and use of RUGAN's website, content, programmes, forms, and donation experiences.",
-    image: "/icons/rugan-logo.jpg",
+    image: "/icons/favicon.jpg",
     pageType: "WebPage",
     breadcrumbs: [
       { name: "Home", path: "/" },

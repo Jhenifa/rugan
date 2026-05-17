@@ -110,8 +110,8 @@ function buildGlobalHeadExtras(origin) {
     '<meta name="theme-color" content="#4F7B44" />',
     '<meta name="format-detection" content="telephone=yes" />',
     '<link rel="manifest" href="/site.webmanifest" />',
-    '<link rel="icon" type="image/jpeg" href="/icons/rugan-logo.jpg" />',
-    '<link rel="apple-touch-icon" href="/icons/rugan-logo.jpg" />',
+    '<link rel="icon" type="image/jpeg" href="/icons/favicon.jpg" />',
+    '<link rel="apple-touch-icon" href="/icons/favicon.jpg" />',
     `<link rel="sitemap" type="application/xml" title="Sitemap" href="${escapeHtml(
       `${origin}/sitemap.xml`,
     )}" />`,

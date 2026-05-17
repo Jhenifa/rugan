@@ -13,7 +13,7 @@ export const ORGANIZATION_DESCRIPTION =
 export const ORGANIZATION_FOUNDING_DATE = "2022-11-01";
 export const ORGANIZATION_EMAIL = "info@rugan.org";
 export const ORGANIZATION_TELEPHONE = "+2348143158700";
-export const ORGANIZATION_LOGO_PATH = "/icons/rugan-logo.jpg";
+export const ORGANIZATION_LOGO_PATH = "/icons/favicon.jpg";
 export const ORGANIZATION_FOUNDER = {
   name: "Fidel Bethel Nnadi",
   url: `${SITE_URL}/team`,

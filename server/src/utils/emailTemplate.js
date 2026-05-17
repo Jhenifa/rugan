@@ -9,7 +9,7 @@ import { getFrontendUrl } from '../config/env.js'
  */
 export function wrapEmailTemplate({ heading, subtitle, body }) {
   const frontendUrl = getFrontendUrl()
-  const logoUrl = `${frontendUrl}/icons/square-rugan-logo.jpg`
+  const logoUrl = `${frontendUrl}/icons/favicon.jpg`
 
   return `
     <div style="font-family:'Helvetica Neue',Arial,sans-serif;max-width:600px;margin:0 auto;background:#ffffff">
