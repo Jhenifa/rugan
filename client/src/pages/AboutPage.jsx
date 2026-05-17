@@ -508,7 +508,7 @@ export default function AboutPage() {
                   <strong style={{ color: "#111827" }}>
                     "The Girl & Nation (TGAN)"
                   </strong>{" "}
-                  in November 2022, born out of Fidel's passion to empower young
+                  in October 2022, born out of Fidel's passion to empower young
                   girls and women with the right resources needed to maximise
                   their full potential through education.
                 </p>

@@ -231,6 +231,17 @@ export default function Navbar() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.45, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
         >
+          <div className="hidden lg:block">
+            <Button
+              as={Link}
+              to="/donate"
+              variant="primary"
+              size="md"
+            >
+              Make a Donation
+            </Button>
+          </div>
+
           <button
             onClick={() => setIsOpen(!isOpen)}
             className={cn(
