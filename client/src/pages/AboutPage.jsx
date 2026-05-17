@@ -433,8 +433,9 @@ export default function AboutPage() {
   return (
     <>
       <SEO
-        title="About Us"
-        description="Learn about the history, focus areas, and guiding principles behind RUGAN."
+        title="About RUGAN – The Rural Girl-Child Advancement Network"
+        description="Learn about RUGAN's founding story, mission, focus areas, and the principles guiding the Rural Girl-Child Advancement Network's work for rural girls in Nigeria."
+        keywords="RUGAN, The Rural Girl-Child Advancement Network, about RUGAN, RUGAN Nigeria, Fidel Nnadi, rural girl empowerment, girls education nonprofit Nigeria"
         path="/about"
         pageType="AboutPage"
         image="/images/about/founder.jpg"

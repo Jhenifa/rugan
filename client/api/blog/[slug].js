@@ -2,9 +2,9 @@ import { readFile } from "fs/promises";
 import path from "path";
 import { buildSeoPayload } from "../../src/seo/meta.js";
 
-const DEFAULT_TITLE = "RUGAN | Empowering Rural Girls";
+const DEFAULT_TITLE = "RUGAN \u2013 The Rural Girl-Child Advancement Network";
 const DEFAULT_DESCRIPTION =
-  "Empowering rural girl-children through education, mentorship, and advocacy.";
+  "RUGAN (The Rural Girl-Child Advancement Network) empowers rural girl-children in Nigeria through quality education, menstrual health dignity, mentorship, advocacy, and leadership development.";
 const DEFAULT_IMAGE_PATH = "/images/homepage/Hero.jpg";
 
 function getOrigin(req) {

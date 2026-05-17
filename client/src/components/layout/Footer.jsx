@@ -44,7 +44,7 @@ const SOCIALS = [
   },
   {
     icon: Instagram,
-    href: "https://www.instagram.com/theruralgirladvancementnetwork?igsh=dWw5cGtyZGhrOTd0",
+    href: "https://www.instagram.com/theruralgirladvancementnetwork/",
     label: "Instagram",
   },
   {
@@ -187,7 +187,7 @@ export default function Footer() {
                   key={label}
                   href={href}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noopener noreferrer me"
                   aria-label={label}
                   style={{
                     width: "2.25rem",

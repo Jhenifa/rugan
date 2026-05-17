@@ -113,9 +113,9 @@ export default function HomePage() {
   return (
     <div>
       <SEO
-        title="Empowering Rural Girl-Children in Nigeria"
-        description="RUGAN empowers rural girl-children through education, mentorship, menstrual health support, and leadership development across underserved communities."
-        keywords="RUGAN, rural girl empowerment, girls education Nigeria, menstrual health education, girls mentorship"
+        title="RUGAN – Empowering Rural Girl-Children in Nigeria"
+        description="RUGAN (The Rural Girl-Child Advancement Network) empowers rural girl-children in Nigeria through education, mentorship, menstrual health support, and leadership development."
+        keywords="RUGAN, The Rural Girl-Child Advancement Network, RUGAN Nigeria, rural girl empowerment, girls education Nigeria, menstrual health education, girl-child mentorship, nonprofit Nigeria"
         path="/"
         pageType="AboutPage"
       />

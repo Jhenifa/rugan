@@ -1,9 +1,17 @@
 User-agent: *
 Allow: /
+Allow: /about
+Allow: /team
+Allow: /programmes
+Allow: /impact
+Allow: /volunteers
+Allow: /partnership
+Allow: /blog
+Allow: /donate
 Disallow: /admin/
 Disallow: /admin/login
 Disallow: /login
-Disallow: /api/auth/
+Disallow: /api/
 
 Sitemap: https://rugan.org/sitemap.xml
 Host: rugan.org
