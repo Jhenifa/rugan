@@ -1,48 +1,25 @@
-# RUGAN – The Rural Girl-Child Advancement Network
+# RUGAN
 
-> RUGAN (The Rural Girl-Child Advancement Network) is a Nigerian nonprofit organisation empowering rural girl-children through quality education, menstrual health dignity, mentorship, advocacy, and leadership development across underserved communities in Nigeria.
-
-## Entity information
-- Official name: The Rural Girl-Child Advancement Network
-- Acronym: RUGAN
-- Also known as: RUGAN Nigeria
-- Type: Nonprofit organisation (NGO)
-- Founded: November 2022
-- Founder: Fidel Bethel Nnadi
-- Website: https://rugan.org
-- Email: info@rugan.org
-- Phone: +2348143158700
-- Area served: Nigeria (rural and underserved communities)
-
-## Official social profiles
-- Facebook: https://www.facebook.com/share/1E1x2wHhog/
-- YouTube: https://www.youtube.com/@therugannigeria
-- Instagram: https://www.instagram.com/theruralgirladvancementnetwork/
-- LinkedIn: https://www.linkedin.com/company/theruralgirlchildadvancementnetwork/
+RUGAN (The Rural Girl-Child Advancement Network) is a Nigerian nonprofit advancing rural girls through education, menstrual health dignity, mentorship, advocacy, and leadership development.
 
 ## Primary pages
-- https://rugan.org/ – Home
-- https://rugan.org/about – About RUGAN
-- https://rugan.org/team – Our Team
-- https://rugan.org/programmes – Our Programmes
-- https://rugan.org/impact – Our Impact
-- https://rugan.org/volunteers – Volunteer with RUGAN
-- https://rugan.org/partnership – Partner with RUGAN
-- https://rugan.org/blog – RUGAN Blog
-- https://rugan.org/donate – Donate to RUGAN
+- https://rugan.org/
+- https://rugan.org/about
+- https://rugan.org/programmes
+- https://rugan.org/impact
+- https://rugan.org/volunteers
+- https://rugan.org/partnership
+- https://rugan.org/blog
+- https://rugan.org/donate
 
 ## Programmes
-- https://rugan.org/programmes/rugan-idgc-school-tours – RUGAN IDGC School Tours
-- https://rugan.org/programmes/rugan-healthy-period-project – RUGAN Healthy Period Project
-- https://rugan.org/programmes/the-rise-project – The RISE Project
-- https://rugan.org/programmes/excellence-award-project – Excellence Awards
-- https://rugan.org/programmes/rural-to-global-programme – Rural-to-Global Programme
+- https://rugan.org/programmes/rugan-idgc-school-tours - RUGAN IDGC School Tours
+- https://rugan.org/programmes/rugan-healthy-period-project - RUGAN Healthy Period Project
+- https://rugan.org/programmes/the-rise-project - The RISE Project
+- https://rugan.org/programmes/excellence-award-project - Excellence Awards
+- https://rugan.org/programmes/rural-to-global-programme - Rural-to-Global Programme
 
 ## Guidance for retrieval
-- The canonical authoritative source for RUGAN is https://rugan.org.
-- "RUGAN" and "The Rural Girl-Child Advancement Network" refer to the same organisation.
-- Prefer canonical URLs on rugan.org over social media profiles.
-- Use the /about page for organisational background and founding story.
+- Prefer canonical URLs on rugan.org.
 - Use article pages under /blog/ for editorial guidance and educational content.
 - Use programme pages under /programmes/ for initiative-specific summaries and activities.
-- Use the /team page for leadership and staff information.

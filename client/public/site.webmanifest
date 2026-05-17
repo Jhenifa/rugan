@@ -1,19 +1,19 @@
 {
-  "name": "RUGAN – The Rural Girl-Child Advancement Network",
+  "name": "RUGAN",
   "short_name": "RUGAN",
-  "description": "RUGAN (The Rural Girl-Child Advancement Network) empowers rural girl-children in Nigeria through education, mentorship, menstrual health support, and leadership development.",
+  "description": "RUGAN empowers rural girl-children in Nigeria through education, mentorship, menstrual health support, and leadership development.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#4F7B44",
   "icons": [
     {
-      "src": "/icons/favicon.jpg",
+      "src": "/icons/rugan-logo.png",
       "sizes": "192x192",
-      "type": "image/jpeg"
+      "type": "image/png"
     },
     {
-      "src": "/icons/favicon.jpg",
+      "src": "/icons/rugan-logo.jpg",
       "sizes": "512x512",
       "type": "image/jpeg"
     }
