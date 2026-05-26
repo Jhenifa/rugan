@@ -109,7 +109,7 @@ function buildGlobalHeadExtras(origin) {
     '<meta name="viewport" content="width=device-width, initial-scale=1.0" />',
     '<meta name="theme-color" content="#4F7B44" />',
     '<meta name="format-detection" content="telephone=yes" />',
-    '<link rel="icon" type="image/jpeg" href="/icons/favicon.jpg" />',
+    '<link rel="icon" type="image/png" href="/icons/favicon-v3.png" />',
     `<link rel="sitemap" type="application/xml" title="Sitemap" href="${escapeHtml(
       `${origin}/sitemap.xml`,
     )}" />`,
