@@ -94,7 +94,7 @@ export default function HomePage() {
 
   function StatCard({ icon: Icon, title, description }) {
     return (
-      <div className="rounded-[20px] bg-[#F9FAFB] px-5 py-7 flex flex-col items-center text-center gap-4">
+      <div className="rounded-[28px] bg-white px-5 py-7 flex flex-col items-center text-center gap-4">
         <div className="w-14 h-14 rounded-2xl bg-[#E6F0EA] flex items-center justify-center">
           <Icon size={26} className="text-[#4F7B44]" />
         </div>
@@ -122,28 +122,28 @@ export default function HomePage() {
       {/* HERO */}
       <PageHeroBanner
         title={
-          <span className="block max-w-[700px] text-[clamp(1.75rem,8vw,3rem)] font-semibold leading-[1.14] tracking-[-0.03em] text-white sm:leading-[1.18] sm:tracking-[-0.04em]">
+          <span className="block max-w-[700px] text-[clamp(1.75rem,7vw,3rem)] font-semibold leading-[1.14] tracking-[-0.03em] text-white sm:leading-[1.18] sm:tracking-[-0.04em]">
             Empowering Rural Girls <br />
             to Become Tomorrow's <br />
             Leaders
           </span>
         }
         subtitle={
-          <span className="block max-w-[42rem] pb-2 pt-4 text-[clamp(1rem,4vw,1.25rem)] font-normal leading-[1.65] tracking-[-0.02em] text-white sm:py-5 sm:leading-[1.7]">
+          <span className="block max-w-[42rem] pt-3 pb-1 text-[clamp(0.9375rem,3.8vw,1.25rem)] font-normal leading-[1.6] tracking-[-0.01em] text-white/90 sm:pt-4 sm:pb-2 sm:leading-[1.7]">
             Breaking down barriers facing rural girl-children through quality
             education, life skills, mentorship, and practical resources.
           </span>
         }
         backgroundImage="/images/homepage/Hero.jpg"
-        className="min-h-[560px] md:min-h-[620px] lg:min-h-[658px]"
+        className="min-h-[480px] md:min-h-[500px] lg:min-h-[540px]"
       >
-        <div className="flex flex-col items-start gap-4 sm:flex-row">
+        <div className="mt-2 flex flex-col items-stretch gap-3 sm:mt-0 sm:flex-row sm:items-start sm:gap-4">
           <Button
             as={Link}
             to="/donate"
             variant="primary"
             size="lg"
-            className="w-auto min-w-[200px]"
+            className="w-full sm:w-auto sm:min-w-[200px]"
           >
             Make a Donation
           </Button>
@@ -153,7 +153,7 @@ export default function HomePage() {
             to="/volunteers"
             variant="volunteer"
             size="lg"
-            className="w-auto min-w-[200px]"
+            className="w-full sm:w-auto sm:min-w-[200px]"
           >
             Volunteer with Us
           </Button>

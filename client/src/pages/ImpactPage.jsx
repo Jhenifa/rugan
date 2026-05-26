@@ -6,6 +6,7 @@ import SuccessStoryCard from "../components/common/SuccessStoryCard";
 import AnimatedCount from "../components/common/AnimatedCount";
 import PageHeroBanner from "../components/common/PageHeroBanner";
 import SectionHeader from "../components/ui/SectionHeader";
+import SEO from "@/components/SEO";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
 const IMAGES = [
@@ -111,15 +112,15 @@ const impactGlanceCard = {
 
 function StatCard({ icon: Icon, title, description, isCountActive }) {
   return (
-    <div className="relative flex h-full w-full min-h-[142px] flex-col items-center justify-center gap-2.5 overflow-hidden rounded-[18px] bg-white px-4 py-5 text-center shadow-[0_8px_22px_rgba(17,24,39,0.06)] sm:min-h-[168px] sm:gap-3 sm:rounded-[22px] sm:px-7 sm:py-6">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[12px] sm:h-[16px]">
-        <div className="h-full w-full rounded-t-[18px] border-t-[3px] border-[#5A8A50] sm:rounded-t-[22px] sm:border-t-[4px]" />
+    <div className="relative flex h-full w-full min-h-[142px] flex-col items-center justify-center gap-2.5 overflow-hidden rounded-[18px] bg-white px-4 py-5 text-center sm:min-h-[168px] sm:gap-3 sm:rounded-[22px] sm:px-7 sm:py-6">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[45%]">
+        <div className="h-full w-full rounded-t-[18px] border-t-[3px] border-l-[3px] border-r-[3px] border-[#5A8A50] sm:rounded-t-[22px]" />
       </div>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[12px] sm:h-[16px]">
-        <div className="h-full w-full rounded-b-[18px] border-b-[3px] border-[#5A8A50] sm:rounded-b-[22px] sm:border-b-[4px]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[45%]">
+        <div className="h-full w-full rounded-b-[18px] border-b-[3px] border-l-[3px] border-r-[3px] border-[#5A8A50] sm:rounded-b-[22px]" />
       </div>
 
-      <div className="text-[#4F7B44] sm:pt-1">
+      <div className="relative text-[#4F7B44] sm:pt-1">
         <Icon size={22} strokeWidth={1.8} className="sm:h-[30px] sm:w-[30px]" />
       </div>
 
@@ -127,10 +128,10 @@ function StatCard({ icon: Icon, title, description, isCountActive }) {
         as="h2"
         value={title}
         isActive={isCountActive}
-        className="text-[22px] font-semibold leading-[1.05] text-[#111827] sm:text-[32px] sm:leading-[1.1]"
+        className="relative text-[22px] font-semibold leading-[1.05] text-[#111827] sm:text-[32px] sm:leading-[1.1]"
       />
 
-      <p className="text-[12px] leading-[1.4] text-[#4B5563] sm:text-[15px] sm:leading-[1.45]">
+      <p className="relative text-[12px] leading-[1.4] text-[#4B5563] sm:text-[15px] sm:leading-[1.45]">
         {description}
       </p>
     </div>
@@ -174,8 +175,6 @@ function ImpactHighlight({
     </div>
   );
 }
-
-import SEO from "@/components/SEO";
 
 export default function ImpactPage() {
   const growthSectionRef = useRef(null);
