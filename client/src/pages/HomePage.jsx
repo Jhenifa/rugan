@@ -94,7 +94,7 @@ export default function HomePage() {
 
   function StatCard({ icon: Icon, title, description }) {
     return (
-      <div className="rounded-[28px] bg-white px-5 py-7 flex flex-col items-center text-center gap-4">
+      <div className="rounded-[20px] bg-[#F9FAFB] px-5 py-7 flex flex-col items-center text-center gap-4">
         <div className="w-14 h-14 rounded-2xl bg-[#E6F0EA] flex items-center justify-center">
           <Icon size={26} className="text-[#4F7B44]" />
         </div>
