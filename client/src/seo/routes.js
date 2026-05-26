@@ -6,10 +6,11 @@ import { VOLUNTEER_FAQS } from "../data/volunteer.js";
 const STATIC_PAGE_ROUTES = [
   {
     path: "/",
-    title: "RUGAN \u2013 Empowering Rural Girl-Children in Nigeria",
+    title: "RUGAN – Empowering Rural Girl-Children in Nigeria",
     description:
       "RUGAN (The Rural Girl-Child Advancement Network) empowers rural girl-children in Nigeria through education, mentorship, menstrual health support, and leadership development.",
     image: "/images/homepage/Hero.jpg",
+    keywords: "RUGAN, The Rural Girl-Child Advancement Network, RUGAN Nigeria, rural girl empowerment, girls education Nigeria, menstrual health education, girl-child mentorship, nonprofit Nigeria, rural girls advocacy NGO",
     pageType: "AboutPage",
     shell: {
       intro:
