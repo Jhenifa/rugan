@@ -119,16 +119,18 @@ export default function DonationSuccessPage() {
                   title: "Impact",
                   description:
                     "Your donation directly funds menstrual hygiene kits, scholarships, and mentorship programs.",
-                  gradient: "linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%)",
-                  accentColor: "#1E40AF",
+                  gradient:
+                    "linear-gradient(135deg, var(--color-footer), #1F2937)",
+                  accentColor: "var(--color-footer)",
                 },
                 {
                   icon: Eye,
                   title: "Transparency",
                   description:
                     "We provide regular updates on how your contribution is making a difference.",
-                  gradient: "linear-gradient(135deg, #92400E 0%, #D97706 100%)",
-                  accentColor: "#92400E",
+                  gradient:
+                    "linear-gradient(135deg, var(--color-btn-orange), var(--color-btn-orange-dark))",
+                  accentColor: "var(--color-btn-orange)",
                 },
                 {
                   icon: Users,
@@ -150,8 +152,9 @@ export default function DonationSuccessPage() {
                       }
                     </>
                   ),
-                  gradient: "linear-gradient(135deg, #9F1239 0%, #DC2626 100%)",
-                  accentColor: "#9F1239",
+                  gradient:
+                    "linear-gradient(135deg, var(--color-cta-banner), var(--color-cta-banner-dark))",
+                  accentColor: "var(--color-cta-banner)",
                 },
                 {
                   icon: Mail,
@@ -173,8 +176,9 @@ export default function DonationSuccessPage() {
                       }
                     </>
                   ),
-                  gradient: "linear-gradient(135deg, #0F766E 0%, #0D9488 100%)",
-                  accentColor: "#0F766E",
+                  gradient:
+                    "linear-gradient(135deg, var(--color-teal), var(--color-teal-dark))",
+                  accentColor: "var(--color-teal)",
                 },
               ].map((item, i) => (
                 <motion.div
