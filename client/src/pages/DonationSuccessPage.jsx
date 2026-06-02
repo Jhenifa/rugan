@@ -106,9 +106,11 @@ export default function DonationSuccessPage() {
               variants={staggerContainer}
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-                gap: "1.5rem",
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gap: "2rem",
                 marginTop: "2rem",
+                maxWidth: "900px",
+                margin: "2rem auto 0",
               }}
             >
               {[
@@ -186,13 +188,6 @@ export default function DonationSuccessPage() {
                     border: "none",
                     boxShadow:
                       "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                    transition: "transform 200ms, box-shadow 200ms",
-                    cursor: "default",
-                  }}
-                  whileHover={{
-                    transform: "translateY(-4px)",
-                    boxShadow:
-                      "0 25px 35px -5px rgba(0, 0, 0, 0.15), 0 15px 15px -5px rgba(0, 0, 0, 0.06)",
                   }}
                 >
                   <div
