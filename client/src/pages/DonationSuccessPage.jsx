@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/lib/motion";
-import { CheckCircle, Heart } from "lucide-react";
+import { CheckCircle, Heart, Award, Eye, Users, Mail } from "lucide-react";
 import { Link } from "react-router";
 import SEO from "@/components/SEO";
 
@@ -113,55 +113,109 @@ export default function DonationSuccessPage() {
             >
               {[
                 {
-                  icon: Heart,
+                  icon: Award,
                   title: "Impact",
                   description:
                     "Your donation directly funds menstrual hygiene kits, scholarships, and mentorship programs.",
+                  gradient: "linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%)",
+                  accentColor: "#1E40AF",
                 },
                 {
-                  icon: CheckCircle,
+                  icon: Eye,
                   title: "Transparency",
                   description:
                     "We provide regular updates on how your contribution is making a difference.",
+                  gradient: "linear-gradient(135deg, #92400E 0%, #D97706 100%)",
+                  accentColor: "#92400E",
                 },
                 {
-                  icon: Heart,
+                  icon: Users,
                   title: "Community",
-                  description:
-                    "Join thousands of donors who are creating lasting change in Nigeria.",
+                  description: (
+                    <>
+                      <Link
+                        to="/volunteers"
+                        style={{
+                          color: "white",
+                          textDecoration: "none",
+                          fontWeight: 600,
+                        }}
+                      >
+                        Join
+                      </Link>
+                      {
+                        " thousands of volunteers who are creating lasting change in Nigeria."
+                      }
+                    </>
+                  ),
+                  gradient: "linear-gradient(135deg, #9F1239 0%, #DC2626 100%)",
+                  accentColor: "#9F1239",
+                },
+                {
+                  icon: Mail,
+                  title: "Stay Connected",
+                  description: (
+                    <>
+                      <Link
+                        to="/blog"
+                        style={{
+                          color: "white",
+                          textDecoration: "none",
+                          fontWeight: 600,
+                        }}
+                      >
+                        Subscribe
+                      </Link>
+                      {
+                        " to our newsletter for updates on programs, stories, and the impact of your donation."
+                      }
+                    </>
+                  ),
+                  gradient: "linear-gradient(135deg, #0F766E 0%, #0D9488 100%)",
+                  accentColor: "#0F766E",
                 },
               ].map((item, i) => (
                 <motion.div
                   key={i}
                   variants={fadeUp}
                   style={{
-                    background: "#F0FDF4",
-                    borderRadius: "1rem",
-                    padding: "2rem 1.5rem",
+                    background: item.gradient,
+                    borderRadius: "1.25rem",
+                    padding: "2.5rem 1.5rem",
                     textAlign: "center",
-                    border: "1px solid #4F7B4433",
+                    border: "none",
+                    boxShadow:
+                      "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                    transition: "transform 200ms, box-shadow 200ms",
+                    cursor: "default",
+                  }}
+                  whileHover={{
+                    transform: "translateY(-4px)",
+                    boxShadow:
+                      "0 25px 35px -5px rgba(0, 0, 0, 0.15), 0 15px 15px -5px rgba(0, 0, 0, 0.06)",
                   }}
                 >
                   <div
                     style={{
-                      width: "3rem",
-                      height: "3rem",
-                      borderRadius: "0.75rem",
-                      background: "var(--color-primary)",
+                      width: "3.5rem",
+                      height: "3.5rem",
+                      borderRadius: "0.875rem",
+                      background: "rgba(255,255,255,0.2)",
                       display: "inline-flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      marginBottom: "1rem",
+                      marginBottom: "1.25rem",
+                      backdropFilter: "blur(10px)",
                     }}
                   >
-                    <item.icon size={20} color="white" />
+                    <item.icon size={24} color="white" />
                   </div>
                   <h3
                     style={{
-                      fontSize: "1.125rem",
+                      fontSize: "1.25rem",
                       fontWeight: 700,
-                      color: "#111827",
-                      marginBottom: "0.5rem",
+                      color: "white",
+                      marginBottom: "0.75rem",
                     }}
                   >
                     {item.title}
@@ -169,7 +223,7 @@ export default function DonationSuccessPage() {
                   <p
                     style={{
                       fontSize: "0.875rem",
-                      color: "#6B7280",
+                      color: "rgba(255,255,255,0.9)",
                       lineHeight: 1.6,
                     }}
                   >
