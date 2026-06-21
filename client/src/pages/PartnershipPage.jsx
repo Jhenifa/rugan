@@ -146,7 +146,7 @@ function PartnershipItems({
 }
 
 export default function PartnershipPage() {
-  const [openPartnershipIndex, setOpenPartnershipIndex] = useState(null);
+  const [openPartnerships, setOpenPartnerships] = useState(new Set());
 
   const partners = [
     {
@@ -432,10 +432,16 @@ export default function PartnershipPage() {
               <PartnershipItems
                 key={i}
                 {...item}
-                open={openPartnershipIndex === i}
-                onToggle={() =>
-                  setOpenPartnershipIndex(openPartnershipIndex === i ? null : i)
-                }
+                open={openPartnerships.has(i)}
+                onToggle={() => {
+                  const newOpenPartnerships = new Set(openPartnerships);
+                  if (newOpenPartnerships.has(i)) {
+                    newOpenPartnerships.delete(i);
+                  } else {
+                    newOpenPartnerships.add(i);
+                  }
+                  setOpenPartnerships(newOpenPartnerships);
+                }}
               />
             ))}
           </div>
