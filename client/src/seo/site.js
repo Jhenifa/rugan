@@ -13,7 +13,7 @@ export const ORGANIZATION_DESCRIPTION =
 export const ORGANIZATION_FOUNDING_DATE = "2022-11-01";
 export const ORGANIZATION_EMAIL = "info@rugan.org";
 export const ORGANIZATION_TELEPHONE = "+2348143158700";
-export const ORGANIZATION_LOGO_PATH = "/icons/favicon.jpg";
+export const ORGANIZATION_LOGO_PATH = "/icons/favicon-v3.png";
 export const ORGANIZATION_SLOGAN =
   "Empowering rural girl-children through education, mentorship, and advocacy";
 export const ORGANIZATION_ALTERNATE_NAMES = [

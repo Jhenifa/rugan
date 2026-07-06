@@ -57,14 +57,14 @@ function SocialLink({ href, icon: Icon, label, onClick }) {
       style={{
         width: "2.125rem",
         height: "2.125rem",
-        borderRadius: "0.5rem",
+        borderRadius: "50px",
         border: "1px solid #E5E7EB",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        color: "#6B7280",
+        color: "#474", // I need to change this color
         transition: "border-color 200ms, color 200ms",
-        background: "transparent",
+        background: "#Dcfce7",
         cursor: "pointer",
       }}
       onMouseEnter={(e) => {
@@ -188,8 +188,8 @@ function MemberCard({ name, role, bio, image, linkedin, email }) {
         </p>
         <p
           style={{
-            fontSize: "0.8125rem",
-            color: "#6B7280",
+            fontSize: "16px",
+            color: "#474B52",
             lineHeight: 1.65,
             flex: 1,
           }}
@@ -216,7 +216,7 @@ function MemberCard({ name, role, bio, image, linkedin, email }) {
               />
             )}
             {email && (
-              <div style={{ position: "relative" }}>
+              <div style={{ position: "relative", background: "#4F7B44", borderRadius: "50px"}}>
                 <SocialLink
                   href={email}
                   icon={Mail}

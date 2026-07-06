@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/lib/motion";
-import { CheckCircle, Heart } from "lucide-react";
+import { CheckCircle, Heart, Award, Eye, Users, Mail } from "lucide-react";
 import { Link } from "react-router";
 import SEO from "@/components/SEO";
 
@@ -106,62 +106,115 @@ export default function DonationSuccessPage() {
               variants={staggerContainer}
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-                gap: "1.5rem",
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gap: "2rem",
                 marginTop: "2rem",
+                maxWidth: "900px",
+                margin: "2rem auto 0",
               }}
             >
               {[
                 {
-                  icon: Heart,
+                  icon: Award,
                   title: "Impact",
                   description:
                     "Your donation directly funds menstrual hygiene kits, scholarships, and mentorship programs.",
+                  gradient:
+                    "linear-gradient(135deg, var(--color-footer), #1F2937)",
+                  accentColor: "var(--color-footer)",
                 },
                 {
-                  icon: CheckCircle,
+                  icon: Eye,
                   title: "Transparency",
                   description:
                     "We provide regular updates on how your contribution is making a difference.",
+                  gradient:
+                    "linear-gradient(135deg, var(--color-btn-orange), var(--color-btn-orange-dark))",
+                  accentColor: "var(--color-btn-orange)",
                 },
                 {
-                  icon: Heart,
+                  icon: Users,
                   title: "Community",
-                  description:
-                    "Join thousands of donors who are creating lasting change in Nigeria.",
+                  description: (
+                    <>
+                      <Link
+                        to="/volunteers"
+                        style={{
+                          color: "white",
+                          textDecoration: "none",
+                          fontWeight: 600,
+                        }}
+                      >
+                        Join
+                      </Link>
+                      {
+                        " thousands of volunteers who are creating lasting change in Nigeria."
+                      }
+                    </>
+                  ),
+                  gradient:
+                    "linear-gradient(135deg, var(--color-cta-banner), var(--color-cta-banner-dark))",
+                  accentColor: "var(--color-cta-banner)",
+                },
+                {
+                  icon: Mail,
+                  title: "Stay Connected",
+                  description: (
+                    <>
+                      <Link
+                        to="/blog"
+                        style={{
+                          color: "white",
+                          textDecoration: "none",
+                          fontWeight: 600,
+                        }}
+                      >
+                        Subscribe
+                      </Link>
+                      {
+                        " to our newsletter for updates on programs, stories, and the impact of your donation."
+                      }
+                    </>
+                  ),
+                  gradient:
+                    "linear-gradient(135deg, var(--color-teal), var(--color-teal-dark))",
+                  accentColor: "var(--color-teal)",
                 },
               ].map((item, i) => (
                 <motion.div
                   key={i}
                   variants={fadeUp}
                   style={{
-                    background: "#F0FDF4",
-                    borderRadius: "1rem",
-                    padding: "2rem 1.5rem",
+                    background: item.gradient,
+                    borderRadius: "1.25rem",
+                    padding: "2.5rem 1.5rem",
                     textAlign: "center",
-                    border: "1px solid #4F7B4433",
+                    border: "none",
+                    boxShadow:
+                      "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
                   }}
                 >
                   <div
                     style={{
-                      width: "3rem",
-                      height: "3rem",
-                      borderRadius: "0.75rem",
-                      background: "var(--color-primary)",
+                      width: "3.5rem",
+                      height: "3.5rem",
+                      borderRadius: "0.875rem",
+                      background: "rgba(255,255,255,0.2)",
                       display: "inline-flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      marginBottom: "1rem",
+                      marginBottom: "1.25rem",
+                      backdropFilter: "blur(10px)",
                     }}
                   >
-                    <item.icon size={20} color="white" />
+                    <item.icon size={24} color="white" />
                   </div>
                   <h3
                     style={{
-                      fontSize: "1.125rem",
+                      fontSize: "1.25rem",
                       fontWeight: 700,
-                      color: "#111827",
-                      marginBottom: "0.5rem",
+                      color: "white",
+                      marginBottom: "0.75rem",
                     }}
                   >
                     {item.title}
@@ -169,7 +222,7 @@ export default function DonationSuccessPage() {
                   <p
                     style={{
                       fontSize: "0.875rem",
-                      color: "#6B7280",
+                      color: "rgba(255,255,255,0.9)",
                       lineHeight: 1.6,
                     }}
                   >

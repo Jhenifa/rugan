@@ -6,6 +6,7 @@ import SuccessStoryCard from "../components/common/SuccessStoryCard";
 import AnimatedCount from "../components/common/AnimatedCount";
 import PageHeroBanner from "../components/common/PageHeroBanner";
 import SectionHeader from "../components/ui/SectionHeader";
+import SEO from "@/components/SEO";
 import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
 const IMAGES = [
@@ -111,26 +112,29 @@ const impactGlanceCard = {
 
 function StatCard({ icon: Icon, title, description, isCountActive }) {
   return (
-    <div className="relative flex h-full w-full min-h-[142px] flex-col items-center justify-center gap-2.5 overflow-hidden rounded-[18px] bg-white px-4 py-5 text-center shadow-[0_8px_22px_rgba(17,24,39,0.06)] sm:min-h-[168px] sm:gap-3 sm:rounded-[22px] sm:px-7 sm:py-6">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[12px] sm:h-[16px]">
-        <div className="h-full w-full rounded-t-[18px] border-t-[3px] border-[#5A8A50] sm:rounded-t-[22px] sm:border-t-[4px]" />
-      </div>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[12px] sm:h-[16px]">
-        <div className="h-full w-full rounded-b-[18px] border-b-[3px] border-[#5A8A50] sm:rounded-b-[22px] sm:border-b-[4px]" />
+    <div className="relative flex h-full w-full min-h-[160px] flex-col items-center justify-center gap-3 overflow-hidden rounded-[22px] bg-[#F5FAF3] border border-[#E3EFE0] px-5 py-6 text-center shadow-[0_4px_18px_rgba(79,123,68,0.02)] sm:min-h-[190px] sm:gap-4 sm:px-8 sm:py-7">
+      {/* Decorative clean background accent curves for depth */}
+      <div className="absolute right-0 top-0 h-16 w-16 bg-gradient-to-br from-[#EAF4E6] to-[#F5FAF3] rounded-bl-full opacity-60" />
+      <div className="absolute left-0 bottom-0 h-16 w-16 bg-gradient-to-tr from-[#EAF4E6] to-[#F5FAF3] rounded-tr-full opacity-60" />
+
+      {/* Modern High-Contrast Icon Badge */}
+      <div className="relative flex items-center justify-center w-12 h-12 rounded-full bg-[#5A8A50] text-white shadow-[0_4px_12px_rgba(90,138,80,0.22)]">
+        <Icon size={24} strokeWidth={2.2} className="sm:h-[26px] sm:w-[26px]" />
       </div>
 
-      <div className="text-[#4F7B44] sm:pt-1">
-        <Icon size={22} strokeWidth={1.8} className="sm:h-[30px] sm:w-[30px]" />
-      </div>
-
+      {/* Bold Green Count Title */}
       <AnimatedCount
         as="h2"
         value={title}
         isActive={isCountActive}
-        className="text-[22px] font-semibold leading-[1.05] text-[#111827] sm:text-[32px] sm:leading-[1.1]"
+        className="relative text-[28px] font-black leading-[1.05] text-[#4F7B44] mt-1 sm:text-[36px] sm:leading-[1.1]"
       />
 
-      <p className="text-[12px] leading-[1.4] text-[#4B5563] sm:text-[15px] sm:leading-[1.45]">
+      {/* Tiny decorative divider bar */}
+      <div className="w-8 h-[3px] bg-[#5A8A50]/25 rounded-full" />
+
+      {/* Crisp Dark Description */}
+      <p className="relative text-[13px] font-semibold leading-[1.4] text-[#374151] sm:text-[15px] sm:leading-[1.45]">
         {description}
       </p>
     </div>
@@ -174,8 +178,6 @@ function ImpactHighlight({
     </div>
   );
 }
-
-import SEO from "@/components/SEO";
 
 export default function ImpactPage() {
   const growthSectionRef = useRef(null);

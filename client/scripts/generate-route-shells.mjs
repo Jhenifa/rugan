@@ -71,6 +71,7 @@ function renderManagedHead(entry) {
     faq: entry.faq,
     service: entry.service,
     article: entry.article,
+    keywords: entry.keywords,
   });
 
   return `

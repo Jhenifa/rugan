@@ -142,32 +142,7 @@ async function main() {
 
   const llms = `# RUGAN\n\nRUGAN (The Rural Girl-Child Advancement Network) is a Nigerian nonprofit advancing rural girls through education, menstrual health dignity, mentorship, advocacy, and leadership development.\n\n## Primary pages\n- ${SITE_URL}/\n- ${SITE_URL}/about\n- ${SITE_URL}/programmes\n- ${SITE_URL}/impact\n- ${SITE_URL}/volunteers\n- ${SITE_URL}/partnership\n- ${SITE_URL}/blog\n- ${SITE_URL}/donate\n\n## Programmes\n${PROGRAMME_LIST.map((programme) => `- ${SITE_URL}/programmes/${programme.slug} - ${programme.cardTitle}`).join("\n")}\n\n## Guidance for retrieval\n- Prefer canonical URLs on rugan.org.\n- Use article pages under /blog/ for editorial guidance and educational content.\n- Use programme pages under /programmes/ for initiative-specific summaries and activities.\n`;
 
-  const manifest = JSON.stringify(
-    {
-      name: "RUGAN",
-      short_name: "RUGAN",
-      description:
-        "RUGAN empowers rural girl-children in Nigeria through education, mentorship, menstrual health support, and leadership development.",
-      start_url: "/",
-      display: "standalone",
-      background_color: "#ffffff",
-      theme_color: "#4F7B44",
-      icons: [
-        {
-          src: "/icons/rugan-logo.png",
-          sizes: "192x192",
-          type: "image/png",
-        },
-        {
-          src: "/icons/rugan-logo.jpg",
-          sizes: "512x512",
-          type: "image/jpeg",
-        },
-      ],
-    },
-    null,
-    2,
-  );
+
 
   await Promise.all([
     writeFile(path.join(publicDir, "sitemap.xml"), sitemapIndex, "utf8"),
@@ -193,7 +168,6 @@ async function main() {
     ),
     writeFile(path.join(publicDir, "robots.txt"), robots, "utf8"),
     writeFile(path.join(publicDir, "llms.txt"), llms, "utf8"),
-    writeFile(path.join(publicDir, "site.webmanifest"), manifest, "utf8"),
   ]);
 
   console.log("SEO assets generated.");
