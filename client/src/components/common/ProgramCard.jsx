@@ -63,11 +63,15 @@ export default function ProgramCard({
         <OptimizedImage src={image} alt={title} aspectRatio="4/3" />
         </div>
       <div className="p-6 flex flex-col flex-1">
-        <h3 className="text-heading-md font-semibold text-neutral-900 mb-2">
+        <h3 
+        className="text-heading-md font-semibold text-neutral-900 mb-2" 
+        >
           {title}
         </h3>
         {description && (
-          <p className="text-body-sm text-neutral-500 mb-4 flex-1">
+          <p className="text-body-md text-neutral-500 mb-4 flex-1"
+            style={{ color: "#474B52" }}
+          >
             {description}
           </p>
         )}

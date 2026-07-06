@@ -36,6 +36,7 @@
   --color-border:         #E5E7EB;   /* gray-200 equivalent */
   --color-bg-light:       #F9FAFB;   /* subtle section background */
   --color-bg-green-tint:  #f0f7ee;   /* very light green section bg */
+  --color-body-text-mobile:      #474B52     /* c */
 
   /* Typography */
   --font-sans:   'Inter', system-ui, sans-serif;
@@ -161,6 +162,8 @@ input, textarea, select, button {
     line-height: 1.6;
   }
 }
+
+
 
 
 /* ─── 4. Typography Helpers ─────────────────────────────────────────────── */

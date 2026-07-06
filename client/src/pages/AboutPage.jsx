@@ -230,23 +230,26 @@ function PrincipleCard({ icon: Icon, title, description, color }) {
 
   return (
     <div className="rounded-2xl p-6" style={{ background: "white" }}>
-      <div
-        className="inline-flex items-center justify-center w-10 h-10 rounded-xl mb-4"
-        style={{ background: iconBg }}
-      >
-        <Icon size={19} style={{ color: iconColor }} />
+      <div className="flex items-center  gap-3">
+        <div
+          className="inline-flex items-center justify-center w-15 h-15 rounded-xl mb-4 p-3"
+          style={{ background: iconBg }}
+        >
+          <Icon size={19} style={{ color: iconColor }} />
+        </div>
+        <h3 
+          className="inline-flex items-center justify-center"
+          style={{
+            fontSize: "18px",
+            fontWeight: 700,
+            color: "#111827",
+            marginBottom: "0.5rem",
+          }}
+        >
+          {title}
+        </h3>
       </div>
-      <h3
-        style={{
-          fontSize: "1rem",
-          fontWeight: 600,
-          color: "#111827",
-          marginBottom: "0.5rem",
-        }}
-      >
-        {title}
-      </h3>
-      <p style={{ fontSize: "0.875rem", color: "#6B7280", lineHeight: 1.65 }}>
+      <p style={{ fontSize: "16px", color: "#474B52", lineHeight: 1.65 }}>
         {description}
       </p>
     </div>
@@ -356,8 +359,8 @@ function AnimatedTimeline({ items }) {
               </h3>
               <p
                 style={{
-                  fontSize: "0.8125rem",
-                  color: "#6B7280",
+                  fontSize: "18px",
+                  color: "#474B52",
                   lineHeight: 1.6,
                 }}
               >

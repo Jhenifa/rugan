@@ -54,7 +54,7 @@ const SOCIALS = [
   },
 ];
 
-const mutedWhite = { color: "rgba(255,255,255,0.6)", fontSize: "0.875rem" };
+const mutedWhite = { color: "white", fontSize: "0.875rem" };
 const contactIconStyle = { color: "var(--color-primary)", flexShrink: 0 };
 
 function WhatsAppIcon({ size = 15 }) {
