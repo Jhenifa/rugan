@@ -144,14 +144,14 @@ function OpportunityCard({
           {commitment}
         </span>
       </div>
-      <p style={{ fontSize: "0.8125rem", color: "#6B7280", lineHeight: 1.6 }}>
+      <p style={{ fontSize: "1rem", color: "#474B52", lineHeight: 1.6 }}>
         {description}
       </p>
-      <p style={{ fontSize: "0.8125rem", color: "#6B7280" }}>
+      <p style={{ fontSize: "1rem", color: "#474B52" }}>
         Location: {location}
       </p>
       <div style={{ marginTop: "0.25rem" }}>
-        <p
+        <h4
           style={{
             fontSize: "0.75rem",
             fontWeight: 600,
@@ -162,7 +162,7 @@ function OpportunityCard({
           }}
         >
           Responsibilities:
-        </p>
+        </h4>
         <ul style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
           {responsibilities.map((responsibility, index) => (
             <li
@@ -171,8 +171,8 @@ function OpportunityCard({
                 display: "flex",
                 alignItems: "center",
                 gap: "0.5rem",
-                fontSize: "0.8125rem",
-                color: "#374151",
+                fontSize: "1rem",
+                color: "#474B52",
               }}
             >
               <CheckCircle
@@ -249,7 +249,7 @@ function FAQItem({ question, answer, open, onToggle }) {
           style={{
             marginTop: "0.75rem",
             fontSize: "0.875rem",
-            color: "#6B7280",
+            color: "#474B52",
             lineHeight: 1.65,
           }}
         >

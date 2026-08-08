@@ -71,7 +71,7 @@ function WhyCard({ icon: Icon, title, description }) {
       >
         {title}
       </p>
-      <p style={{ fontSize: "0.875rem", color: "#6B7280", lineHeight: 1.6 }}>
+      <p style={{ fontSize: "0.957rem", color: "#474B52", lineHeight: 1.6 }}>
         {description}
       </p>
     </div>
@@ -229,7 +229,7 @@ export default function DonationPage() {
                 <p
                   style={{
                     fontSize: "0.75rem",
-                    color: "#9CA3AF",
+                    color: "#474B52",
                     marginBottom: "0.25rem",
                   }}
                 >
@@ -256,7 +256,7 @@ export default function DonationPage() {
                 <p
                   style={{
                     fontSize: "0.75rem",
-                    color: "#9CA3AF",
+                    color: "#474B52",
                     marginBottom: "0.25rem",
                   }}
                 >
@@ -287,7 +287,7 @@ export default function DonationPage() {
               <p
                 style={{
                   fontSize: "0.75rem",
-                  color: "#9CA3AF",
+                  color: "#474B52",
                   marginBottom: "0.25rem",
                 }}
               >
@@ -314,7 +314,7 @@ export default function DonationPage() {
                 border: "1px solid #E5E7EB",
               }}
             >
-              <p style={{ fontSize: "0.875rem", color: "#6B7280" }}>
+              <p style={{ fontSize: "0.875rem", color: "#474B52" }}>
                 Please send proof of payment to{" "}
                 <a
                   href="mailto:info@rugan.org"

@@ -135,7 +135,7 @@ export default function DonationForm() {
               <p
                 style={{
                   fontSize: "0.75rem",
-                  color: "#9CA3AF",
+                  color: "#474B52",
                   marginTop: "0.125rem",
                 }}
               >
@@ -221,7 +221,7 @@ export default function DonationForm() {
           style={{
             fontSize: "0.8125rem",
             fontWeight: 500,
-            color: "#374151",
+            color: "rgb(55, 65, 81)",
             marginBottom: "0.625rem",
           }}
         >
@@ -269,7 +269,7 @@ export default function DonationForm() {
                 >
                   {label}
                 </p>
-                <p style={{ fontSize: "0.75rem", color: "#9CA3AF" }}>{sub}</p>
+                <p style={{ fontSize: "0.80rem", color: "#474B52" }}>{sub}</p>
               </div>
             </button>
           ))}

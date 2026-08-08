@@ -35,7 +35,7 @@ export default function SuccessStoryCard({
       <div className="p-5 flex flex-col flex-1">
         <h4 className="text-heading-sm font-semibold text-neutral-900">{name}</h4>
         {description && (
-          <p className="text-xs text-neutral-400 mt-0.5 mb-3">{description}</p>
+          <p className="text-xs text-[#474B52] mt-0.5 mb-3">{description}</p>
         )}
         {quote && (
           <blockquote className="text-body-sm text-neutral-600 italic flex-1 border-l-2 border-primary-300 pl-3">
