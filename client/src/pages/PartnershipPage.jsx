@@ -67,7 +67,7 @@ function DetailGroup({
         {items.map((item, i) => (
           <p
             key={i}
-            style={{ fontSize: "0.875rem", color: "#4B5563", lineHeight: 1.65 }}
+            style={{ fontSize: "0.875rem", color: "#474B52", lineHeight: 1.65 }}
           >
             {item}
           </p>
@@ -106,7 +106,7 @@ function PartnershipItems({
             <h3 className="m-0 self-center pr-2 text-[1rem] font-semibold leading-6 text-[#111827]">
               {title}
             </h3>
-            <p className="col-span-2 text-[14px] leading-6 text-[#6B7280] sm:col-start-2 sm:col-end-3 sm:mt-2">
+            <p className="col-span-2 text-[16px] leading-6 text-[#474B52] sm:col-start-2 sm:col-end-3 sm:mt-2">
               {description}
             </p>
           </div>

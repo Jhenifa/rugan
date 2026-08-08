@@ -166,7 +166,7 @@ function ImpactHighlight({
           {title}
         </h3>
 
-        <p className="text-[14px] leading-[1.55] text-[#4B5563] sm:text-[15px]">
+        <p className="text-[14px] leading-[1.55] text-[#474B52] sm:text-[15px]">
           <AnimatedCount
             value={stat}
             isActive={isCountActive}
